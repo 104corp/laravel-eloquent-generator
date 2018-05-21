@@ -30,3 +30,8 @@ Thumbs.db
 
 # SVN files
 .svn
+
+# Composer files
+/vendor
+/composer.lock
+/composer.phar

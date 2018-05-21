@@ -9,5 +9,14 @@ branches:
   - master
   - /^\d+\.\d+\.\d+$/
 
+install:
+- composer install --prefer-dist
+
 script:
 - exit 0;
+
+cache:
+  directories:
+  # See https://blog.wyrihaximus.net/2015/07/composer-cache-on-travis/
+  - $HOME/.composer/cache/files
+  - vendor
