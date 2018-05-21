@@ -16,6 +16,14 @@
         "phpunit/phpunit": ">=4.8 <6",
         "squizlabs/php_codesniffer": "^3.2"
     },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    },
+    "bin": [
+        "bin/orm-model-generator"
+    ],
     "config": {
         "sort-packages": true
     }

@@ -13,7 +13,7 @@ install:
 - composer install --prefer-dist
 
 script:
-- exit 0;
+- php bin/orm-model-generator
 
 cache:
   directories:
