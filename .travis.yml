@@ -1,0 +1,13 @@
+sudo: false
+os: linux
+dist: trusty
+language: php
+php: 7.1
+
+branches:
+  only:
+  - master
+  - /^\d+\.\d+\.\d+$/
+
+script:
+- exit 0;
