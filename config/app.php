@@ -10,8 +10,11 @@ return [
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Database\MigrationServiceProvider::class,
         Illuminate\Filesystem\FilesystemServiceProvider::class,
+        App\Providers\EngineProvider::class,
     ],
 
     'aliases' => [
+        'DB' => Illuminate\Support\Facades\DB::class,
+        'Eloquent' => Illuminate\Database\Eloquent\Model::class,
     ],
 ];

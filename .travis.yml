@@ -13,6 +13,7 @@ install:
 - composer install --prefer-dist
 
 script:
+- php vendor/bin/phpcs
 - php bin/orm-model-generator
 
 cache:

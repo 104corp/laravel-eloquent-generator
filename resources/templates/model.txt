@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Model;
+
+{{ comment }}
+class {{ name }} extends Model
+{
+    protected $connection = '{{ connection }}';
+
+    protected $table = '{{ table }}';
+
+    protected $guarded = [];
+
+    protected $primaryKey = null;
+
+    public $timestamps = false;
+
+    public $incrementing = false;
+}
