@@ -4,17 +4,31 @@ dist: trusty
 language: php
 php: 7.1
 
+services:
+- mysql
+
+env:
+  global:
+    DB_DATABASE: default
+    DB_USERNAME: root
+    DB_PASSWORD: password
+
 branches:
   only:
   - master
   - /^\d+\.\d+\.\d+$/
+
+before_install:
+- mysql -e "CREATE DATABASE \`${DB_DATABASE}\` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;"
+- mysql ${DB_DATABASE} < ./tests/Fixture/db.sql
+- mysql -e "SET PASSWORD = PASSWORD('${DB_PASSWORD}');"
 
 install:
 - composer install --prefer-dist
 
 script:
 - php vendor/bin/phpcs
-- php bin/eloquent-generator
+- php bin/eloquent-generator build
 
 cache:
   directories:
