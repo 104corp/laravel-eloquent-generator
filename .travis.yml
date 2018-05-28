@@ -14,7 +14,7 @@ install:
 
 script:
 - php vendor/bin/phpcs
-- php bin/orm-model-generator
+- php bin/eloquent-generator
 
 cache:
   directories:

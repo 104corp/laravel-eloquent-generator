@@ -6,12 +6,12 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    App\Kernel::class
+    Corp104\Eloquent\Generator\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    Corp104\Eloquent\Generator\Exceptions\Handler::class
 );
 
 return $app;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace Corp104\Eloquent\Generator\Providers;
 
-use App\Engines\TemplateEngine;
-use App\Generators\PropertyTypeGenerator;
+use Corp104\Eloquent\Generator\Engines\TemplateEngine;
+use Corp104\Eloquent\Generator\Generators\PropertyTypeGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory;

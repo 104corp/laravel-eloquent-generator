@@ -10,7 +10,7 @@ return [
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Database\MigrationServiceProvider::class,
         Illuminate\Filesystem\FilesystemServiceProvider::class,
-        App\Providers\EngineProvider::class,
+        Corp104\Eloquent\Generator\Providers\EngineProvider::class,
     ],
 
     'aliases' => [

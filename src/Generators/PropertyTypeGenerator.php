@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Generators;
+namespace Corp104\Eloquent\Generator\Generators;
 
 class PropertyTypeGenerator
 {

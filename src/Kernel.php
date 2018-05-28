@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace Corp104\Eloquent\Generator;
 
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        \App\Commands\Build::class,
+        Commands\Build::class,
     ];
 }

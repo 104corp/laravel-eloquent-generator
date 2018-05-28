@@ -1,2 +1,3 @@
-# laravel-omg
-Laravel ORM Model Generator
+# Laravel Eloquent Generator
+
+Laravel Eloquent Generator

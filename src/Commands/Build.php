@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Commands;
+namespace Corp104\Eloquent\Generator\Commands;
 
-use App\Writers\CodeWriter;
+use Corp104\Eloquent\Generator\Writers\CodeWriter;
 use Illuminate\Console\Command;
 
 class Build extends Command

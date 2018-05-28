@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Engines;
+namespace Corp104\Eloquent\Generator\Engines;
 
-use App\Generators\PropertyTypeGenerator;
+use Corp104\Eloquent\Generator\Generators\PropertyTypeGenerator;
 use Illuminate\Contracts\View\Engine;
 
 class TemplateEngine implements Engine

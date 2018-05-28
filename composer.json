@@ -1,11 +1,11 @@
 {
-    "name": "104corp/laravel-omg",
-    "description": "Laravel ORM Model Generator",
+    "name": "104corp/eloquent-generator",
+    "description": "Laravel Eloquent Generator",
     "type": "library",
-    "license": "104 Corporation. All rights reserved.",
-    "homepage": "https://github.com/104corp/laravel-omg",
+    "license": "BSD-3-Clause",
+    "homepage": "https://github.com/104corp/laravel-eloquent-generator",
     "support": {
-        "issues": "https://github.com/104corp/laravel-omg/issues"
+        "issues": "https://github.com/104corp/laravel-eloquent-generator/issues"
     },
     "require": {
         "illuminate/database": "~5.1",
@@ -18,11 +18,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\": "app"
+            "Corp104\\Eloquent\\Generator\\": "src"
         }
     },
     "bin": [
-        "bin/orm-model-generator"
+        "bin/eloquent-generator"
     ],
     "config": {
         "sort-packages": true
