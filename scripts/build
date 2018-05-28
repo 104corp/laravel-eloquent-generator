@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+
+$extensions = ['php', 'txt'];
+$dir = __DIR__ . '/../';
+$filename = 'eloquent-generator.phar';
+$path = dirname(__DIR__) . '/' . $filename;
+
+$phar = new Phar($path, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, $filename);
+$phar->setSignatureAlgorithm(Phar::SHA1);
+$phar->startBuffering();
+
+foreach ($extensions as $ext) {
+    $phar->buildFromDirectory($dir, '/\.' . $ext . '$/');
+}
+
+$stubTemplate = <<<EOF
+#!/usr/bin/env php
+<?php
+Phar::mapPhar();
+%s
+__HALT_COMPILER();
+EOF;
+
+$source = Phar::createDefaultStub('bin/eloquent-generator.php');
+
+if (strpos($source, '#!/usr/bin/env php') === 0) {
+    $source = substr($source, strpos($source, '<?php') + 5);
+} elseif (strpos($source, '<?php') === 0) {
+    $source = str_replace('<?php' , '', $source);
+}
+
+$phar->setStub(sprintf($stubTemplate, $source));
+$phar->stopBuffering();
+
+if (in_array('GZ', Phar::getSupportedCompression(), true)) {
+    $phar->compressFiles(Phar::GZ);
+}
+
+echo "Build phar finished {$path}\n";

@@ -35,3 +35,7 @@ Thumbs.db
 /vendor
 /composer.lock
 /composer.phar
+
+# Build files
+/build
+eloquent-generator.phar
