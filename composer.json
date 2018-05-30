@@ -21,7 +21,7 @@
         }
     },
     "bin": [
-        "eg"
+        "eloquent-generator"
     ],
     "config": {
         "sort-packages": true
