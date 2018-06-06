@@ -2,7 +2,15 @@ sudo: false
 os: linux
 dist: trusty
 language: php
-php: 7.1
+
+php:
+- 7.1
+- 7.2
+- nightly
+
+matrix:
+  allow_failures:
+  - php: nightly
 
 services:
 - mysql
