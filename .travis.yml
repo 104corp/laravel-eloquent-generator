@@ -27,8 +27,8 @@ install:
 - composer install --prefer-dist
 
 script:
-- php vendor/bin/phpcs
-- php bin/eloquent-generator.php generate
+- make
+- php eloquent-generator.phar generate
 
 cache:
   directories:

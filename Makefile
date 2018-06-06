@@ -1,6 +1,8 @@
 #!/usr/bin/make -f
 
-.PHONY: all clean clean-all image
+INSTALL_PATH := /usr/local/bin/eloquent-generator
+
+.PHONY: all clean clean-all image test install
 .DEFAULT_GOAL := all
 
 # ------------------------------------------------------------------------------
@@ -8,17 +10,28 @@
 all: clean eloquent-generator.phar
 
 clean:
-	rm -f eloquent-generator.phar
+	@echo ">>> Clean artifacts ..."
+	@rm -f eloquent-generator.phar
 
 clean-all: clean
-	rm -f ./composer.lock
-	rm -f ./composer.phar
-	rm -rf ./vendor
+	@echo ">>> Clean all of build files ..."
+	@rm -f ./composer.lock
+	@rm -f ./composer.phar
+	@rm -rf ./vendor
 
-eloquent-generator.phar: vendor
-	@php composer.phar install --no-dev --optimize-autoloader
+test: composer.phar
+	@echo ">>> Run tests ..."
+	@php composer.phar install --quiet
+	@php vendor/bin/phpcs
+
+eloquent-generator.phar: vendor test
+	@echo ">>> Building phar ..."
+	@php composer.phar install --quiet --no-dev --optimize-autoloader
 	@php -d phar.readonly=off ./scripts/build
 	@chmod +x eloquent-generator.phar
+
+install:
+	mv eloquent-generator.phar ${INSTALL_PATH}
 
 image: eloquent-generator.phar
 	docker build -t eloquent-generator .
