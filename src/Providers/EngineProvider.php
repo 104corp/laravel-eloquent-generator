@@ -16,7 +16,9 @@ class EngineProvider extends ServiceProvider
         $this->app->singleton('view', function ($app) {
             $factory = new Factory(
                 new EngineResolver(),
-                new FileViewFinder($app['files'], $app['config']['view.paths']),
+                new FileViewFinder($app['files'], [
+                    __DIR__ . '/../../resources/templates'
+                ]),
                 $app['events']
             );
 
@@ -29,5 +31,7 @@ class EngineProvider extends ServiceProvider
 
             return $factory;
         });
+
+        $this->app->bind(\Illuminate\Contracts\View\Factory::class, 'view');
     }
 }

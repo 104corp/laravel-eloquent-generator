@@ -17,9 +17,9 @@ class CodeWriter
      */
     protected $isMultiDatabase;
 
-    public function __construct()
+    public function __construct($connections)
     {
-        $this->connections = config('database.connections');
+        $this->connections = $connections;
         $this->isMultiDatabase = count($this->connections) > 1;
     }
 
