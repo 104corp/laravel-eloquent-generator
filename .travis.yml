@@ -28,7 +28,7 @@ install:
 
 script:
 - php vendor/bin/phpcs
-- php bin/eloquent-generator.php
+- php bin/eloquent-generator.php generate
 
 cache:
   directories:
