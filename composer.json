@@ -9,6 +9,7 @@
     },
     "require": {
         "laravel/framework": "~5.1",
+        "symfony/console": "^4.1",
         "xethron/migrations-generator": "^2.0"
     },
     "require-dev": {
