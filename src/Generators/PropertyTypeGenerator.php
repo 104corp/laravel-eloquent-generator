@@ -4,6 +4,9 @@ namespace Corp104\Eloquent\Generator\Generators;
 
 class PropertyTypeGenerator
 {
+    /**
+     * @var array
+     */
     protected $mapping = [
         'boolean' => 'bool',
         'dateTime' => '\\Carbon\\Carbon',
@@ -19,9 +22,9 @@ class PropertyTypeGenerator
      * @param bool $nullable
      * @return string
      */
-    public function generate($type, $nullable = false)
+    public function generate($type, $nullable = false): string
     {
-        $property = isset($this->mapping[$type]) ? $this->mapping[$type] : 'mixed';
+        $property = $this->mapping[$type] ?? 'mixed';
 
         if ($nullable) {
             $property = 'null|' . $property;
@@ -33,7 +36,7 @@ class PropertyTypeGenerator
     /**
      * @return array
      */
-    public function getMapping()
+    public function getMapping(): array
     {
         return $this->mapping;
     }
@@ -42,7 +45,7 @@ class PropertyTypeGenerator
      * @param string $type
      * @param string $propertyType
      */
-    public function setMapping($type, $propertyType)
+    public function setMapping($type, $propertyType): void
     {
         $this->mapping[$type] = $propertyType;
     }
