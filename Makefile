@@ -1,9 +1,9 @@
 #!/usr/bin/make -f
 
-INSTALL_PATH := /usr/local/bin/eloquent-generator
+INSTALL_PATH:=/usr/local/bin/eloquent-generator
+TARGETS:=ci coverage
 
 .PHONY: all clean clean-all image test install
-.DEFAULT_GOAL := all
 
 # ------------------------------------------------------------------------------
 
@@ -42,3 +42,13 @@ vendor: composer.phar
 
 composer.phar:
 	@curl -sS https://getcomposer.org/installer | php
+
+$(TARGETS): .dapper
+	./.dapper $@
+
+.dapper:
+	@echo ">>> Downloading dapper ..."
+	@curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > .dapper.tmp
+	@@chmod +x .dapper.tmp
+	@./.dapper.tmp -v
+	@mv .dapper.tmp .dapper

@@ -37,4 +37,5 @@ Thumbs.db
 
 # Build files
 /build
+.dapper
 eloquent-generator.phar
