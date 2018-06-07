@@ -29,6 +29,7 @@ eloquent-generator.phar: vendor test
 	@php composer.phar install --quiet --no-dev --optimize-autoloader
 	@php -d phar.readonly=off ./scripts/build
 	@chmod +x eloquent-generator.phar
+	@echo ">>> Build phar finished."
 
 install:
 	mv eloquent-generator.phar ${INSTALL_PATH}

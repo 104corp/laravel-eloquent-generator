@@ -36,5 +36,3 @@ $phar->stopBuffering();
 if (in_array('GZ', Phar::getSupportedCompression(), true)) {
     $phar->compressFiles(Phar::GZ);
 }
-
-echo "Build phar finished {$path}\n";
