@@ -11,7 +11,8 @@ all: clean eloquent-generator.phar
 
 clean:
 	@echo ">>> Clean artifacts ..."
-	@rm -f eloquent-generator.phar
+	@rm -f ./eloquent-generator.phar
+	@rm -rf ./build
 
 clean-all: clean
 	@echo ">>> Clean all of build files ..."
