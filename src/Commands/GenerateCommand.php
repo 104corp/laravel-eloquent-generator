@@ -60,21 +60,4 @@ class GenerateCommand extends Command
 
         return $path;
     }
-
-    /**
-     * @param string $alias
-     * @param string $file
-     */
-    public function setFile($alias, $file)
-    {
-        if ($file{0} !== '/') {
-            $file = getcwd() . '/' . $file;
-        }
-
-        if (!is_file($file)) {
-            throw new FileNotFoundException("$file is not found.");
-        }
-
-        $this->files[$alias] = $file;
-    }
 }
