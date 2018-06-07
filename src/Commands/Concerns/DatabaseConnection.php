@@ -2,7 +2,7 @@
 
 namespace Corp104\Eloquent\Generator\Commands\Concerns;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Noodlehaus\Config;
 
 trait DatabaseConnection
@@ -13,13 +13,13 @@ trait DatabaseConnection
     protected $connections;
 
     /**
+     * @param Container $container
      * @param string $configFile
      */
-    protected function prepareConnection($configFile)
+    protected function prepareConnection(Container $container, $configFile): void
     {
         $this->connections = $this->normalizeConnectionConfig($configFile);
 
-        $container = Container::getInstance();
         $container->singleton('db', function () {
             $capsule = new \Illuminate\Database\Capsule\Manager;
 

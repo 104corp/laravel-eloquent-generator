@@ -5,6 +5,8 @@ namespace Corp104\Eloquent\Generator\Writers;
 use Illuminate\Support\Str;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
+use function count;
+
 class CodeWriter
 {
     /**

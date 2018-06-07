@@ -3,6 +3,7 @@
 namespace Corp104\Eloquent\Generator\Commands;
 
 use Corp104\Eloquent\Generator\Writers\CodeWriter;
+use Illuminate\Container\Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -37,6 +38,7 @@ class GenerateCommand extends Command
         );
 
         $this->prepareConnection(
+            Container::getInstance(),
             $this->normalizePath($configFile)
         );
 

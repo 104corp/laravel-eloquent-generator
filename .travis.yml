@@ -36,7 +36,7 @@ install:
 
 script:
 - make
-- php eloquent-generator.phar generate
+- php eloquent-generator.phar generate --config-file=tests/Fixture/database.php
 
 cache:
   directories:

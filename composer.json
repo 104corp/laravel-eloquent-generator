@@ -24,6 +24,11 @@
             "Corp104\\Eloquent\\Generator\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
     "bin": [
         "eloquent-generator"
     ],

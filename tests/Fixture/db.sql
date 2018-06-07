@@ -1,14 +1,10 @@
 USE `default`;
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `test_basic`;
 
-CREATE TABLE `users` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(45) NOT NULL,
-  `last_name` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) DEFAULT NULL,
-  `birthday` TIMESTAMP NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NOT NULL DEFAULT '1970-01-01 01:01:01',
-  `updated_at` TIMESTAMP NOT NULL DEFAULT '1970-01-01 01:01:01',
-  PRIMARY KEY (`id`)
+CREATE TABLE `test_basic` (
+  `incrementShouldCallAssertPropertyTypeContainsInt` INT(11) NOT NULL AUTO_INCREMENT,
+  `varcharShouldCallAssertPropertyTypeContainsString` VARCHAR(255) NOT NULL,
+  `timestampShouldCallAssertPropertyTypeContainsCarbon` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`incrementShouldCallAssertPropertyTypeContainsInt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
