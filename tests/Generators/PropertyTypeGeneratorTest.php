@@ -31,7 +31,7 @@ class PropertyTypeGeneratorTest extends TestCase
     {
         $this->createContainer();
 
-        $schemaGenerator = new SchemaGenerator('default', false, false);
+        $schemaGenerator = new SchemaGenerator('test_mysql', false, false);
         $fields = $schemaGenerator->getFields('test_basic');
 
         foreach ($fields as $name => $property) {

@@ -1,4 +1,6 @@
-USE `default`;
+CREATE DATABASE test_mysql DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+USE `test_mysql`;
 
 DROP TABLE IF EXISTS `test_basic`;
 

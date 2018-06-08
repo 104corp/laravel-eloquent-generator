@@ -2,11 +2,11 @@
 
 return [
     'connections' => [
-        'default' => [
+        'test_mysql' => [
             'driver' => 'mysql',
             'host' => '127.0.0.1',
             'port' => '3306',
-            'database' => 'default',
+            'database' => 'test_mysql',
             'username' => 'root',
             'password' => 'password',
             'charset' => 'utf8mb4',
