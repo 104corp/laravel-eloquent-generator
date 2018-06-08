@@ -16,6 +16,8 @@ class App extends Application
         $this->addCommands([
             new Commands\GenerateCommand(),
         ]);
+
+        $this->setDefaultCommand('eloquent-generator', true);
     }
 
     public function bootstrap(): void

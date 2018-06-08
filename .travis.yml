@@ -30,7 +30,7 @@ install:
 script:
 - php vendor/bin/phpcs
 - php vendor/bin/phpunit
-- php eloquent-generator generate --config-file=tests/Fixture/database.php
+- php eloquent-generator --config-file=tests/Fixture/database.php
 
 before_deploy:
 - make
