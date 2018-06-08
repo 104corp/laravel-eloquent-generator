@@ -28,8 +28,12 @@ install:
 - composer install --prefer-dist
 
 script:
+- php vendor/bin/phpcs
+- php vendor/bin/phpunit
+- php eloquent-generator generate --config-file=tests/Fixture/database.php
+
+before_deploy:
 - make
-- php eloquent-generator.phar generate --config-file=tests/Fixture/database.php
 
 cache:
   directories:
