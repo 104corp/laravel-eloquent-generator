@@ -8,12 +8,25 @@ class PropertyTypeGenerator
      * @var array
      */
     protected $mapping = [
+        // boolean fields
         'boolean' => 'bool',
-        'dateTime' => '\\Carbon\\Carbon',
-        'float' => 'float',
+
+        // int fields
+        'smallInteger' => 'int',
         'integer' => 'int',
+        'bigInteger' => 'int',
+
+        // float fields
+        'decimal' => 'float',
+        'float' => 'float',
+
+        // string fields
+        'char' => 'string',
         'string' => 'string',
         'text' => 'string',
+
+        // date and time fields
+        'dateTime' => '\\Carbon\\Carbon',
         'timestamps' => '\\Carbon\\Carbon',
     ];
 
