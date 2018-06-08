@@ -2,11 +2,10 @@ CREATE DATABASE test_mysql DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4
 
 USE `test_mysql`;
 
-DROP TABLE IF EXISTS `test_basic`;
+DROP TABLE IF EXISTS `should_return_int`;
 
-CREATE TABLE `test_basic` (
-  `incrementShouldCallAssertPropertyTypeContainsInt` INT(11) NOT NULL AUTO_INCREMENT,
-  `varcharShouldCallAssertPropertyTypeContainsString` VARCHAR(255) NOT NULL,
-  `timestampShouldCallAssertPropertyTypeContainsCarbon` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY (`incrementShouldCallAssertPropertyTypeContainsInt`)
+CREATE TABLE `should_return_int` (
+  `increment_field` INT(11) NOT NULL AUTO_INCREMENT,
+  `int_field` INT(11) NOT NULL,
+  PRIMARY KEY (`increment_field`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
