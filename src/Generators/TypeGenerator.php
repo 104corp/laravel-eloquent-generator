@@ -2,7 +2,7 @@
 
 namespace Corp104\Eloquent\Generator\Generators;
 
-class PropertyTypeGenerator
+class TypeGenerator
 {
     /**
      * @var array

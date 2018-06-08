@@ -2,19 +2,19 @@
 
 namespace Corp104\Eloquent\Generator\Engines;
 
-use Corp104\Eloquent\Generator\Generators\PropertyTypeGenerator;
+use Corp104\Eloquent\Generator\Generators\CommentGenerator;
 use Illuminate\Contracts\View\Engine;
 
 class TemplateEngine implements Engine
 {
     /**
-     * @var PropertyTypeGenerator
+     * @var CommentGenerator
      */
-    private $propertyTypeGenerator;
+    private $commentGenerator;
 
-    public function __construct(PropertyTypeGenerator $propertyTypeGenerator)
+    public function __construct(CommentGenerator $commentGenerator)
     {
-        $this->propertyTypeGenerator = $propertyTypeGenerator;
+        $this->commentGenerator = $commentGenerator;
     }
 
     public function get($path, array $data = [])
@@ -42,26 +42,9 @@ class TemplateEngine implements Engine
     {
         $data = $this->filterData($data);
 
-        $data['comment'] = $this->buildComment($data['fields']);
+        $data['comment'] = $this->commentGenerator->generate($data['fields']);
         unset($data['fields']);
 
         return $data;
-    }
-
-    private function buildComment($fields)
-    {
-        $comment = '';
-
-        $comment .= '/**' . PHP_EOL;
-
-        foreach ($fields as $field => $detail) {
-            $nullable = isset($detail['decorators']) && in_array('nullable', $detail['decorators'], true);
-            $propertyType = $this->propertyTypeGenerator->generate($detail['type'], $nullable);
-            $comment .= " * @property ${propertyType} " . $field . PHP_EOL;
-        }
-
-        $comment .= ' */';
-
-        return $comment;
     }
 }

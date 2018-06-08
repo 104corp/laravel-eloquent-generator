@@ -2,14 +2,14 @@
 
 namespace Tests\Generators;
 
-use Corp104\Eloquent\Generator\Generators\PropertyTypeGenerator;
+use Corp104\Eloquent\Generator\Generators\TypeGenerator;
 use Tests\TestCase;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
 class PropertyTypeGeneratorIntegrationMysqlTest extends TestCase
 {
     /**
-     * @var PropertyTypeGenerator
+     * @var TypeGenerator
      */
     private $target;
 
@@ -17,7 +17,7 @@ class PropertyTypeGeneratorIntegrationMysqlTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = new PropertyTypeGenerator();
+        $this->target = new TypeGenerator();
     }
 
     protected function tearDown()

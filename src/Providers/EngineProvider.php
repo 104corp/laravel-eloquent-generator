@@ -3,7 +3,6 @@
 namespace Corp104\Eloquent\Generator\Providers;
 
 use Corp104\Eloquent\Generator\Engines\TemplateEngine;
-use Corp104\Eloquent\Generator\Generators\PropertyTypeGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory;
@@ -26,7 +25,7 @@ class EngineProvider extends ServiceProvider
             $factory->share('app', $app);
 
             $factory->addExtension('txt', 'text', function () {
-                return new TemplateEngine($this->app->make(PropertyTypeGenerator::class));
+                return $this->app->make(TemplateEngine::class);
             });
 
             return $factory;
