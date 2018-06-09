@@ -2,7 +2,7 @@
 
 namespace Corp104\Eloquent\Generator\Commands;
 
-use Corp104\Eloquent\Generator\Generators\CodeGenerator;
+use Corp104\Eloquent\Generator\Generators\ModelGenerator;
 use Corp104\Eloquent\Generator\Writers\CodeWriter;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Command\Command;
@@ -46,7 +46,7 @@ class GenerateCommand extends Command
         );
 
         $codeWriter = new CodeWriter(
-            $container->make(CodeGenerator::class),
+            $container->make(ModelGenerator::class),
             $this->connections
         );
 

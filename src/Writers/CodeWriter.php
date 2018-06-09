@@ -2,12 +2,7 @@
 
 namespace Corp104\Eloquent\Generator\Writers;
 
-use Corp104\Eloquent\Generator\Generators\CodeGenerator;
-use Corp104\Eloquent\Generator\Generators\CommentGenerator;
-use Illuminate\Support\Str;
-use PHP_CodeSniffer\Reports\Code;
-use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
-
+use Corp104\Eloquent\Generator\Generators\ModelGenerator;
 use function count;
 
 class CodeWriter
@@ -23,15 +18,15 @@ class CodeWriter
     protected $isMultiDatabase;
 
     /**
-     * @var CodeGenerator
+     * @var ModelGenerator
      */
-    private $codeGenerator;
+    private $modelGenerator;
 
-    public function __construct(CodeGenerator $codeGenerator, $connections)
+    public function __construct(ModelGenerator $modelGenerator, $connections)
     {
         $this->connections = $connections;
         $this->isMultiDatabase = count($this->connections) > 1;
-        $this->codeGenerator = $codeGenerator;
+        $this->modelGenerator = $modelGenerator;
     }
 
     /**
@@ -40,37 +35,21 @@ class CodeWriter
      */
     public function generate($namespacePrefix, $pathPrefix)
     {
-        collect($this->connections)->each(function ($config, $connection) use ($namespacePrefix, $pathPrefix) {
-            $schemaGenerator = new SchemaGenerator($connection, false, false);
+        $modelCode = $this->modelGenerator->generate($namespacePrefix, $this->connections);
 
-            $tables = $schemaGenerator->getTables();
-
-            foreach ($tables as $table) {
-                $code = $this->codeGenerator->generate(
-                    $namespacePrefix,
-                    $connection,
-                    $table,
-                    $this->isMultiDatabase
-                );
-
-                $this->writeCode($code, $table, $connection, $pathPrefix);
-            }
+        collect($modelCode)->each(function ($code, $filePath) use ($pathPrefix) {
+            $this->writeCode($code, $filePath, $pathPrefix);
         });
     }
 
     /**
      * @param string $code
-     * @param string $table
-     * @param string $connection
+     * @param string $filePath
      * @param string $pathPrefix
      */
-    private function writeCode($code, $table, $connection, $pathPrefix)
+    private function writeCode($code, $filePath, $pathPrefix)
     {
-        if ($this->isMultiDatabase) {
-            $fullPath = $pathPrefix . '/' . Str::studly($connection) . '/' . Str::studly($table) . '.php';
-        } else {
-            $fullPath = $pathPrefix . '/' . Str::studly($table) . '.php';
-        }
+        $fullPath = $pathPrefix . '/' . $filePath;
 
         $dir = dirname($fullPath);
 
