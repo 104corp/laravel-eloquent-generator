@@ -1,6 +1,6 @@
 <?php
 
-namespace Corp104\Eloquent\Generator\Writers;
+namespace Corp104\Eloquent\Generator;
 
 use function dirname;
 use function file_put_contents;

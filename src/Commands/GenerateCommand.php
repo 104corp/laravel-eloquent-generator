@@ -2,8 +2,8 @@
 
 namespace Corp104\Eloquent\Generator\Commands;
 
-use Corp104\Eloquent\Generator\Generators\ModelGenerator;
-use Corp104\Eloquent\Generator\Writers\CodeWriter;
+use Corp104\Eloquent\Generator\CodeBuilder;
+use Corp104\Eloquent\Generator\CodeWriter;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,9 +49,9 @@ class GenerateCommand extends Command
 
         $codeWriter->generate(
             function () use ($container, $namespace) {
-                $modelGenerator = $container->make(ModelGenerator::class);
+                $codeBuilder = $container->make(CodeBuilder::class);
 
-                return $modelGenerator->generate($namespace, $this->connections);
+                return $codeBuilder->generate($namespace, $this->connections);
             },
             $this->normalizePath($outputDir)
         );
