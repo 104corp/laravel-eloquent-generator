@@ -18,7 +18,7 @@ class EngineProvider extends ServiceProvider
             $factory = new Factory(
                 new EngineResolver(),
                 new FileViewFinder($app['files'], [
-                    __DIR__ . '/../../resources/templates'
+                    __DIR__ . '/../templates'
                 ]),
                 $app['events']
             );
