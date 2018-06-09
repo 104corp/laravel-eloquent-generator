@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Corp104\Eloquent\Generator\Commands;
 
 use Corp104\Eloquent\Generator\CodeBuilders\MultiDatabase;
+use Corp104\Eloquent\Generator\CodeBuilders\SingleDatabase;
 use Corp104\Eloquent\Generator\CodeWriter;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Command\Command;
@@ -51,9 +52,15 @@ class GenerateCommand extends Command
 
         $codeWriter->generate(
             function () use ($container, $namespace) {
+                if (count($this->connections) === 1) {
+                    $codeBuilder = $container->make(SingleDatabase::class);
+
+                    return $codeBuilder->build($namespace, array_keys($this->connections)[0]);
+                }
+
                 $codeBuilder = $container->make(MultiDatabase::class);
 
-                return $codeBuilder->generate($namespace, $this->connections);
+                return $codeBuilder->build($namespace, $this->connections);
             },
             $this->normalizePath($outputDir)
         );

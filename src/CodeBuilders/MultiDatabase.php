@@ -11,21 +11,16 @@ use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 class MultiDatabase
 {
     /**
-     * @var CodeGenerator
+     * @var SingleDatabase
      */
-    private $codeGenerator;
+    private $singleDatabase;
 
     /**
-     * @var bool
+     * @param SingleDatabase $singleDatabase
      */
-    private $isMultiDatabase;
-
-    /**
-     * @param CodeGenerator $codeGenerator
-     */
-    public function __construct(CodeGenerator $codeGenerator)
+    public function __construct(SingleDatabase $singleDatabase)
     {
-        $this->codeGenerator = $codeGenerator;
+        $this->singleDatabase = $singleDatabase;
     }
 
     /**
@@ -33,61 +28,10 @@ class MultiDatabase
      * @param array $connections
      * @return array [filepath => code]
      */
-    public function generate($namespace, $connections)
+    public function build($namespace, $connections): array
     {
-        $this->isMultiDatabase = count($connections) > 1;
-
         return collect($connections)->keys()->flatMap(function ($connection) use ($namespace) {
-            $schemaGenerator = new SchemaGenerator($connection, false, false);
-
-            return $this->reduceTablesToArray(
-                $schemaGenerator->getTables(),
-                $namespace,
-                $connection,
-                $schemaGenerator
-            );
+            return $this->singleDatabase->build($namespace, $connection, true);
         })->toArray();
-    }
-
-    /**
-     * @param string $connection
-     * @param string $table
-     * @param bool $isMultiDatabase
-     * @return string
-     */
-    private function createRelativePath(string $connection, string $table, bool $isMultiDatabase): string
-    {
-        if ($isMultiDatabase) {
-            return '/' . Str::studly($connection) . '/' . Str::studly($table) . '.php';
-        }
-
-        return '/' . Str::studly($table) . '.php';
-    }
-
-    /**
-     * @param array $tables
-     * @param $namespace
-     * @param $connection
-     * @param $schemaGenerator
-     * @return mixed
-     */
-    private function reduceTablesToArray(array $tables, $namespace, $connection, $schemaGenerator)
-    {
-        return collect($tables)
-            ->reduce(function ($carry, $table) use ($namespace, $connection, $schemaGenerator) {
-                $relativePath = $this->createRelativePath($connection, $table, $this->isMultiDatabase);
-
-                $code = $this->codeGenerator->generate(
-                    $schemaGenerator,
-                    $namespace,
-                    $connection,
-                    $table,
-                    $this->isMultiDatabase
-                );
-
-                $carry[$relativePath] = $code;
-
-                return $carry;
-            }, []);
     }
 }

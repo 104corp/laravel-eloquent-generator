@@ -27,17 +27,17 @@ class CodeGenerator
      * @param string $namespace
      * @param string $connection
      * @param string $table
-     * @param bool $isMultiDatabase
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param bool $withConnectionNamespace
+     * @return string
      */
     public function generate(
         SchemaGenerator $schemaGenerator,
         string $namespace,
         string $connection,
         string $table,
-        bool $isMultiDatabase = false
+        bool $withConnectionNamespace = false
     ) {
-        if ($isMultiDatabase) {
+        if ($withConnectionNamespace) {
             $namespace = $namespace . '\\' . ucfirst($connection);
         }
 
@@ -47,7 +47,7 @@ class CodeGenerator
             'name' => Str::studly($table),
             'namespace' => $namespace,
             'table' => $table,
-        ]);
+        ])->render();
     }
 
     /**
