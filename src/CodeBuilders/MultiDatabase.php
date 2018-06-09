@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Corp104\Eloquent\Generator;
+namespace Corp104\Eloquent\Generator\CodeBuilders;
 
 use Corp104\Eloquent\Generator\Generators\CodeGenerator;
 use Illuminate\Support\Str;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
-class CodeBuilder
+class MultiDatabase
 {
     /**
      * @var CodeGenerator
