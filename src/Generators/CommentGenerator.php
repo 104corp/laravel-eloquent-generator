@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator\Generators;
 
 use function in_array;
@@ -19,7 +21,11 @@ class CommentGenerator
         $this->typeGenerator = $typeGenerator;
     }
 
-    public function generate($fields)
+    /**
+     * @param array $fields
+     * @return string
+     */
+    public function generate(array $fields): string
     {
         $comment = '/**' . PHP_EOL;
 
@@ -37,7 +43,11 @@ class CommentGenerator
         return $comment;
     }
 
-    private function isNullable(array $property)
+    /**
+     * @param array $property
+     * @return bool
+     */
+    private function isNullable(array $property): bool
     {
         return isset($property['decorators']) && in_array('nullable', $property['decorators'], true);
     }

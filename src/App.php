@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator;
 
 use Illuminate\Container\Container;

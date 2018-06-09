@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator\Engines;
 
 use Illuminate\Contracts\View\Engine;
@@ -11,7 +13,12 @@ class TemplateEngine implements Engine
         return $this->compile(file_get_contents($path), $this->filterData($data));
     }
 
-    private function compile($content, $data)
+    /**
+     * @param string $content
+     * @param array $data
+     * @return string
+     */
+    private function compile(string $content, array $data): string
     {
         foreach ($data as $key => $value) {
             $content = str_replace("{{ ${key} }}", $value, $content);
@@ -20,6 +27,10 @@ class TemplateEngine implements Engine
         return $content;
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     private function filterData(array $data): array
     {
         unset($data['__env'], $data['app']);

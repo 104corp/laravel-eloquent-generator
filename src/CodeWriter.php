@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator;
 
 use function dirname;
@@ -22,11 +24,11 @@ class CodeWriter
     }
 
     /**
-     * @param string $code
+     * @param mixed $code
      * @param string $filePath
      * @param string $pathPrefix
      */
-    private function writeCode($code, $filePath, $pathPrefix)
+    private function writeCode($code, string $filePath, string $pathPrefix): void
     {
         $fullPath = $pathPrefix . '/' . $filePath;
 

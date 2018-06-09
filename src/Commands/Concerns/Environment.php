@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator\Commands\Concerns;
 
 use function basename;
@@ -11,7 +13,7 @@ trait Environment
     /**
      * @param string $envFile
      */
-    protected function loadDotEnv($envFile): void
+    protected function loadDotEnv(string $envFile): void
     {
         if (is_file($envFile)) {
             $file = basename($envFile);

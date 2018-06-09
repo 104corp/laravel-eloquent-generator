@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator\Commands\Concerns;
 
 use Illuminate\Contracts\Container\Container;
 use Noodlehaus\Config;
+use RuntimeException;
+use function is_array;
 
 trait DatabaseConnection
 {
@@ -16,7 +20,7 @@ trait DatabaseConnection
      * @param Container $container
      * @param string $configFile
      */
-    protected function prepareConnection(Container $container, $configFile): void
+    protected function prepareConnection(Container $container, string $configFile): void
     {
         $this->connections = $this->normalizeConnectionConfig($configFile);
 
@@ -44,13 +48,13 @@ trait DatabaseConnection
         ]);
 
         if (!$config->has('connections')) {
-            throw new \RuntimeException("The key 'connections' is not set in config file");
+            throw new RuntimeException("The key 'connections' is not set in config file");
         }
 
         $connections = $config->get('connections');
 
-        if (!\is_array($connections)) {
-            throw new \RuntimeException('Connections config is not an array');
+        if (!is_array($connections)) {
+            throw new RuntimeException('Connections config is not an array');
         }
 
         return $connections;

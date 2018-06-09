@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator\Generators;
 
 use Illuminate\Support\Str;
@@ -30,10 +32,10 @@ class CodeGenerator
      */
     public function generate(
         SchemaGenerator $schemaGenerator,
-        $namespace,
-        $connection,
-        $table,
-        $isMultiDatabase = false
+        string $namespace,
+        string $connection,
+        string $table,
+        bool $isMultiDatabase = false
     ) {
         if ($isMultiDatabase) {
             $namespace = $namespace . '\\' . ucfirst($connection);
@@ -53,7 +55,7 @@ class CodeGenerator
      * @param string $table
      * @return string
      */
-    private function buildCommentOfFields(SchemaGenerator $schemaGenerator, $table): string
+    private function buildCommentOfFields(SchemaGenerator $schemaGenerator, string $table): string
     {
         $fields = $schemaGenerator->getFields($table);
 

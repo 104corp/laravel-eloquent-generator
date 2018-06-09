@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Eloquent\Generator\Generators;
 
 class TypeGenerator
@@ -35,7 +37,7 @@ class TypeGenerator
      * @param bool $nullable
      * @return string
      */
-    public function generate($type, $nullable = false): string
+    public function generate(string $type, bool $nullable = false): string
     {
         $property = $this->mapping[$type] ?? 'mixed';
 
@@ -58,7 +60,7 @@ class TypeGenerator
      * @param string $type
      * @param string $propertyType
      */
-    public function setMapping($type, $propertyType): void
+    public function setMapping(string $type, string $propertyType): void
     {
         $this->mapping[$type] = $propertyType;
     }
