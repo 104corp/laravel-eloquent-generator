@@ -2,7 +2,10 @@
 
 namespace Corp104\Eloquent\Generator\Writers;
 
+use Corp104\Eloquent\Generator\Generators\CodeGenerator;
+use Corp104\Eloquent\Generator\Generators\CommentGenerator;
 use Illuminate\Support\Str;
+use PHP_CodeSniffer\Reports\Code;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
 use function count;
@@ -19,10 +22,16 @@ class CodeWriter
      */
     protected $isMultiDatabase;
 
-    public function __construct($connections)
+    /**
+     * @var CodeGenerator
+     */
+    private $codeGenerator;
+
+    public function __construct(CodeGenerator $codeGenerator, $connections)
     {
         $this->connections = $connections;
         $this->isMultiDatabase = count($this->connections) > 1;
+        $this->codeGenerator = $codeGenerator;
     }
 
     /**
@@ -36,18 +45,13 @@ class CodeWriter
 
             $tables = $schemaGenerator->getTables();
 
-            if ($this->isMultiDatabase) {
-                $namespacePrefix = $namespacePrefix . '\\' . ucfirst($connection);
-            }
-
             foreach ($tables as $table) {
-                $code = view('model', [
-                    'connection' => $connection,
-                    'fields' => $schemaGenerator->getFields($table),
-                    'name' => Str::studly($table),
-                    'namespace' => $namespacePrefix,
-                    'table' => $table,
-                ]);
+                $code = $this->codeGenerator->generate(
+                    $namespacePrefix,
+                    $connection,
+                    $table,
+                    $this->isMultiDatabase
+                );
 
                 $this->writeCode($code, $table, $connection, $pathPrefix);
             }

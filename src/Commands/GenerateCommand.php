@@ -2,6 +2,7 @@
 
 namespace Corp104\Eloquent\Generator\Commands;
 
+use Corp104\Eloquent\Generator\Generators\CodeGenerator;
 use Corp104\Eloquent\Generator\Writers\CodeWriter;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Command\Command;
@@ -37,12 +38,17 @@ class GenerateCommand extends Command
             $this->normalizePath($env)
         );
 
+        $container = Container::getInstance();
+
         $this->prepareConnection(
-            Container::getInstance(),
+            $container,
             $this->normalizePath($configFile)
         );
 
-        $codeWriter = new CodeWriter($this->connections);
+        $codeWriter = new CodeWriter(
+            $container->make(CodeGenerator::class),
+            $this->connections
+        );
 
         $codeWriter->generate(
             $namespace,

@@ -40,11 +40,6 @@ class TemplateEngine implements Engine
 
     private function prepareData(array $data)
     {
-        $data = $this->filterData($data);
-
-        $data['comment'] = $this->commentGenerator->generate($data['fields']);
-        unset($data['fields']);
-
-        return $data;
+        return $this->filterData($data);
     }
 }

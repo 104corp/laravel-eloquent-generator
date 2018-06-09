@@ -19,12 +19,7 @@ class CommentGenerator
         $this->typeGenerator = $typeGenerator;
     }
 
-    public function generate($field)
-    {
-        return $this->buildComment($field);
-    }
-
-    private function buildComment($fields)
+    public function generate($fields)
     {
         $comment = '/**' . PHP_EOL;
 
