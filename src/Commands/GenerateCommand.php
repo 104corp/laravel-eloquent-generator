@@ -45,13 +45,14 @@ class GenerateCommand extends Command
             $this->normalizePath($configFile)
         );
 
-        $codeWriter = new CodeWriter(
-            $container->make(ModelGenerator::class),
-            $this->connections
-        );
+        $codeWriter = $container->make(CodeWriter::class);
 
         $codeWriter->generate(
-            $namespace,
+            function () use ($container, $namespace) {
+                $modelGenerator = $container->make(ModelGenerator::class);
+
+                return $modelGenerator->generate($namespace, $this->connections);
+            },
             $this->normalizePath($outputDir)
         );
     }

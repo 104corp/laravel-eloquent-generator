@@ -2,40 +2,19 @@
 
 namespace Corp104\Eloquent\Generator\Writers;
 
-use Corp104\Eloquent\Generator\Generators\ModelGenerator;
-use function count;
+use function dirname;
+use function file_put_contents;
+use function mkdir;
 
 class CodeWriter
 {
     /**
-     * @var array
-     */
-    protected $connections;
-
-    /**
-     * @var bool
-     */
-    protected $isMultiDatabase;
-
-    /**
-     * @var ModelGenerator
-     */
-    private $modelGenerator;
-
-    public function __construct(ModelGenerator $modelGenerator, $connections)
-    {
-        $this->connections = $connections;
-        $this->isMultiDatabase = count($this->connections) > 1;
-        $this->modelGenerator = $modelGenerator;
-    }
-
-    /**
-     * @param string $namespacePrefix
+     * @param callable $callable Should return array like [filePath => code]
      * @param string $pathPrefix
      */
-    public function generate($namespacePrefix, $pathPrefix)
+    public function generate(callable $callable, $pathPrefix): void
     {
-        $modelCode = $this->modelGenerator->generate($namespacePrefix, $this->connections);
+        $modelCode = $callable();
 
         collect($modelCode)->each(function ($code, $filePath) use ($pathPrefix) {
             $this->writeCode($code, $filePath, $pathPrefix);
