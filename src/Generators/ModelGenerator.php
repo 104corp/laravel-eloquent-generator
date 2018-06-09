@@ -35,15 +35,15 @@ class ModelGenerator
         $this->isMultiDatabase = count($connections) > 1;
 
         return collect($connections)->keys()->flatMap(function ($connection) use ($namespace) {
-            return collect($this->createTables($connection))
-                ->reduce(function ($carry, $table) use ($namespace, $connection) {
-                    if ($this->isMultiDatabase) {
-                        $relativePath = '/' . Str::studly($connection) . '/' . Str::studly($table) . '.php';
-                    } else {
-                        $relativePath = '/' . Str::studly($table) . '.php';
-                    }
+            $schemaGenerator = new SchemaGenerator($connection, false, false);
 
+            $tables = $schemaGenerator->getTables();
+
+            return collect($tables)
+                ->reduce(function ($carry, $table) use ($namespace, $connection, $schemaGenerator) {
+                    $relativePath = $this->createRelativePath($connection, $table, $this->isMultiDatabase);
                     $code = $this->codeGenerator->generate(
+                        $schemaGenerator,
                         $namespace,
                         $connection,
                         $table,
@@ -59,11 +59,16 @@ class ModelGenerator
 
     /**
      * @param string $connection
-     * @return array
+     * @param string $table
+     * @param bool $isMultiDatabase
+     * @return string
      */
-    private function createTables(string $connection): array
+    private function createRelativePath(string $connection, string $table, bool $isMultiDatabase): string
     {
-        return (new SchemaGenerator($connection, false, false))
-            ->getTables();
+        if ($isMultiDatabase) {
+            return '/' . Str::studly($connection) . '/' . Str::studly($table) . '.php';
+        } else {
+            return '/' . Str::studly($table) . '.php';
+        }
     }
 }

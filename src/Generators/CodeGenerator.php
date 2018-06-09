@@ -21,20 +21,26 @@ class CodeGenerator
     }
 
     /**
+     * @param SchemaGenerator $schemaGenerator
      * @param string $namespace
      * @param string $connection
      * @param string $table
      * @param bool $isMultiDatabase
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function generate($namespace, $connection, $table, $isMultiDatabase = false)
-    {
+    public function generate(
+        SchemaGenerator $schemaGenerator,
+        $namespace,
+        $connection,
+        $table,
+        $isMultiDatabase = false
+    ) {
         if ($isMultiDatabase) {
             $namespace = $namespace . '\\' . ucfirst($connection);
         }
 
         return view('model', [
-            'comment' => $this->buildCommentOfFields($connection, $table),
+            'comment' => $this->buildCommentOfFields($schemaGenerator, $table),
             'connection' => $connection,
             'name' => Str::studly($table),
             'namespace' => $namespace,
@@ -43,14 +49,12 @@ class CodeGenerator
     }
 
     /**
-     * @param string $connection
+     * @param SchemaGenerator $schemaGenerator
      * @param string $table
      * @return string
      */
-    private function buildCommentOfFields($connection, $table): string
+    private function buildCommentOfFields(SchemaGenerator $schemaGenerator, $table): string
     {
-        $schemaGenerator = new SchemaGenerator($connection, false, false);
-
         $fields = $schemaGenerator->getFields($table);
 
         return $this->commentGenerator->generate($fields);
