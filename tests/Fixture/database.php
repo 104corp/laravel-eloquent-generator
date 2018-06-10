@@ -15,10 +15,24 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+
         'test_sqlite' => [
             'driver' => 'sqlite',
             'database' => __DIR__ . '/sqlite.db',
             'prefix' => '',
+        ],
+
+        'test_pgsql' => [
+            'driver' => 'pgsql',
+            'host' => '127.0.0.1',
+            'port' => '5432',
+            'database' => 'postgres',
+            'username' => 'postgres',
+            'password' => 'password',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ],
     ],
 

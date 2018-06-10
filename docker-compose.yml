@@ -9,5 +9,15 @@ services:
     ports:
     - 3306:3306
     environment:
-      MYSQL_DATABASE: default
       MYSQL_ROOT_PASSWORD: password
+
+  postgres:
+    image: postgres:10-alpine
+    container_name: postgres
+    hostname: postgres
+    volumes:
+    - ./tests/Fixture/postgres.sql:/docker-entrypoint-initdb.d/postgres.sql
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password

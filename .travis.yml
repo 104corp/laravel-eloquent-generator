@@ -14,11 +14,16 @@ matrix:
 
 services:
 - mysql
+- postgresql
 
 branches:
   only:
   - master
   - /^\d+\.\d+\.\d+$/
+
+env:
+  global:
+    POSTGRES_USERNAME: travis
 
 before_install:
 # Prepare MySQL schema
@@ -26,6 +31,9 @@ before_install:
 - mysql -e "SET PASSWORD = PASSWORD('password');"
 # Prepare Sqlite schema
 - sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
+# Prepare postgresql
+- psql -U postgres -d postgres -f tests/Fixture/postgres.sql
+
 
 install:
 - composer install --prefer-dist
