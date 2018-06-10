@@ -2,6 +2,12 @@ CREATE DATABASE test_mysql DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4
 
 USE `test_mysql`;
 
+DROP TABLE IF EXISTS `test_basic`;
+
+CREATE TABLE `test_basic` (
+  `comment_field` VARCHAR(255) NOT NULL COMMENT 'some_comment'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 DROP TABLE IF EXISTS `should_return_int`;
 
 CREATE TABLE `should_return_int` (

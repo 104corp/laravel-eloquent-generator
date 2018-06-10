@@ -35,14 +35,19 @@ class TypeGenerator
     /**
      * @param string $type
      * @param bool $nullable
+     * @param string|null $comment
      * @return string
      */
-    public function generate(string $type, bool $nullable = false): string
+    public function generate(string $type, bool $nullable = false, string $comment = null): string
     {
         $property = $this->mapping[$type] ?? 'mixed';
 
         if ($nullable) {
             $property = 'null|' . $property;
+        }
+
+        if (null !== $comment) {
+            $property .= ' ' . $comment;
         }
 
         return $property;
