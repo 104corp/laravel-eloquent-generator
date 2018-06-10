@@ -6,7 +6,7 @@ use Corp104\Eloquent\Generator\Generators\TypeGenerator;
 use Tests\TestCase;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
-class PropertyTypeGeneratorIntegrationMysqlTest extends TestCase
+class TypeGeneratorIntegrationMysqlTest extends TestCase
 {
     /**
      * @var TypeGenerator
