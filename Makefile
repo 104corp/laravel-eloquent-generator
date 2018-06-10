@@ -3,7 +3,7 @@
 INSTALL_PATH:=/usr/local/bin/eloquent-generator
 TARGETS:=ci coverage
 
-.PHONY: all clean clean-all image test install
+.PHONY: all clean clean-all image test install sqlite
 
 # ------------------------------------------------------------------------------
 
@@ -19,6 +19,9 @@ clean-all: clean
 	@rm -f ./composer.lock
 	@rm -f ./composer.phar
 	@rm -rf ./vendor
+
+sqlite:
+	@sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
 
 test: composer.phar
 	@echo ">>> Run tests ..."

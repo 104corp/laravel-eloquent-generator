@@ -15,6 +15,11 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+        'test_sqlite' => [
+            'driver' => 'sqlite',
+            'database' => __DIR__ . '/sqlite.db',
+            'prefix' => '',
+        ],
     ],
 
     'migrations' => 'migrations',

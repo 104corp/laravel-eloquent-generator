@@ -21,8 +21,11 @@ branches:
   - /^\d+\.\d+\.\d+$/
 
 before_install:
-- mysql < ./tests/Fixture/db.sql
+# Prepare MySQL schema
+- mysql < ./tests/Fixture/mysql.sql
 - mysql -e "SET PASSWORD = PASSWORD('password');"
+# Prepare Sqlite schema
+- sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
 
 install:
 - composer install --prefer-dist
