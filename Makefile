@@ -3,7 +3,7 @@
 INSTALL_PATH:=/usr/local/bin/eloquent-generator
 TARGETS:=ci coverage
 
-.PHONY: all clean clean-all image test install sqlite
+.PHONY: all clean clean-all image test install sqlite container
 
 # ------------------------------------------------------------------------------
 
@@ -22,6 +22,11 @@ clean-all: clean
 
 sqlite:
 	@sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
+
+container:
+	@docker-compose down -v
+	@docker-compose up -d
+	@docker-compose logs -f
 
 test: composer.phar
 	@echo ">>> Run tests ..."
