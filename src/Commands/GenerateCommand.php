@@ -26,6 +26,7 @@ class GenerateCommand extends Command
             ->setDescription('Generate model')
             ->addOption('--env', null, InputOption::VALUE_REQUIRED, '.env file', '.env')
             ->addOption('--config-file', null, InputOption::VALUE_REQUIRED, 'Config file', 'config/database.php')
+            ->addOption('--connection', null, InputOption::VALUE_REQUIRED, 'Connection name will only build', null)
             ->addOption('--output-dir', null, InputOption::VALUE_REQUIRED, 'Relative path with getcwd()', 'build')
             ->addOption('--namespace', null, InputOption::VALUE_REQUIRED, 'Namespace prefix', 'App');
     }
@@ -34,6 +35,7 @@ class GenerateCommand extends Command
     {
         $env = $input->getOption('env');
         $configFile = $input->getOption('config-file');
+        $connection = $input->getOption('connection');
         $outputDir = $input->getOption('output-dir');
         $namespace = $input->getOption('namespace');
 
@@ -51,7 +53,13 @@ class GenerateCommand extends Command
         $codeWriter = $container->make(CodeWriter::class);
 
         $codeWriter->generate(
-            function () use ($container, $namespace) {
+            function () use ($container, $namespace, $connection) {
+                if (null !== $connection) {
+                    $codeBuilder = $container->make(SingleDatabase::class);
+
+                    return $codeBuilder->build($namespace, $connection);
+                }
+
                 if (count($this->connections) === 1) {
                     $codeBuilder = $container->make(SingleDatabase::class);
 
