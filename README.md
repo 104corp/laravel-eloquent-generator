@@ -47,3 +47,11 @@ It's will generate model code into `build` directory. Use the `--output-dir` opt
 In the other framework but using Eloquent ORM library, you must provide config file like laravel project.
 
 This command using [`hassankhan/config`](https://github.com/hassankhan/config) to load config file like PHP, JSON, YAML, etc. Use `--config-file` option to specify custom config.
+
+## Using PHAR
+
+Coming soon.
+
+## Using Docker
+
+Coming soon.
