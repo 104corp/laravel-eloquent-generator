@@ -1,6 +1,6 @@
 # Laravel Eloquent Generator
 
-[![Build Status](https://travis-ci.org/104corp/laravel-eloquent-generator.svg?branch=master)](https://travis-ci.org/104corp/laravel-eloquent-generator)
+[![Build Status](https://travis-ci.com/104corp/laravel-eloquent-generator.svg?branch=master)](https://travis-ci.com/104corp/laravel-eloquent-generator)
 [![codecov](https://codecov.io/gh/104corp/laravel-eloquent-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/104corp/laravel-eloquent-generator)
 [![](https://img.shields.io/docker/stars/104corp/eloquent-generator.svg)](https://hub.docker.com/r/104corp/eloquent-generator/)
 [![](https://img.shields.io/docker/pulls/104corp/eloquent-generator.svg)](https://hub.docker.com/r/104corp/eloquent-generator/)
