@@ -1,8 +1,10 @@
 FROM php:7.1-alpine
 
-RUN mkdir -p /source
-WORKDIR /source
-COPY ./eloquent-generator.phar .
+RUN docker-php-ext-install -j $(getconf _NPROCESSORS_ONLN) pdo_mysql
 
-ENTRYPOINT ["php", "eloquent-generator.phar"]
+COPY ./eloquent-generator.phar /usr/local/bin/
+
+WORKDIR /source
+
+ENTRYPOINT ["php", "/usr/local/bin/eloquent-generator.phar"]
 CMD ["--"]
