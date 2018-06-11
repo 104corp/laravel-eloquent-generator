@@ -34,7 +34,6 @@ before_install:
 # Prepare postgresql
 - psql -U postgres -d postgres -f tests/Fixture/postgres.sql
 
-
 install:
 - composer install --prefer-dist
 
@@ -54,3 +53,13 @@ cache:
   - $HOME/.composer/cache/files
   - vendor
   - composer.phar
+
+deploy:
+  provider: releases
+  api_key:
+    secure: LwGRgw9rYapw/9Tes+pSueIbSuzITvlG86bB8fCz+aasfFiylYxbgulSPd5MpwNqTUUSHYsgi4fqIYA34v4UatljJHwkAV+sYVSZ68FIjALR8wWTyhKZRfXJ4/0FFjIKzSTiPLz7yM0GN2zhoPTNtt7gyJky4B9zMBEtv8CbD0UwmoXZrBC9mSmbUOrOL/6qYX9W/74oAUWHP0cMtb4+CsDz5vpSdqMeTXGYT8SUpqMFWF9bROG7xc5KYsdDjlu5EtzEIeWmuQgFGaqudthYWPzj0wGDCqDbrHi0y3To0t6PquHZE+8TW4RMPbOUjbChGTvATobACYlEBLCoaWmjgM/HxhwlkIZvU2hO9qMnD/A5xXEj4hQDDiOJpsF8iVU5c4q4/MfD7NBARUEZW0Sxa1Tt7mpHBPRJNvNw7WxCgJoD6GCoFa9gbbWBLjb9hiUdKXNCsJjN54L2jsjS1GCoBcTMod5OVHGEn8zV1AzYeRoPA1+3XrMmVOJqqJkzqwEJPq/XUC9+CgWr9wyWHnnAd3dzPRDGU0+BQaOtQAvNLHVa/GAAucloTVViEBVyPZxpTXA8OoPL5VrwVJvXJtdumbIQSSRMsct0yxHVghbNutimz+cJgOmX5fAWs29C8S3EJ/tZxR2K2ETnwEbWlpQoymKCjUt2sO2+MwbuUUhc0lg=
+  file: eloquent-generator.phar
+  skip_cleanup: true
+  on:
+    tags: true
+    php: 7.1
