@@ -13,6 +13,8 @@ Laravel Eloquent Generator
 ## Support Database
 
 * MySQL
+* SQLite
+* PostgreSQL
 
 ## Installation
 
