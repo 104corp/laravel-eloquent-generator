@@ -21,37 +21,68 @@ Laravel Eloquent Generator
 
 ## Installation
 
-Clone this repository and execute command:
+Download the [Release](https://github.com/104corp/laravel-eloquent-generator/releases) phar file and execute it:
 
 ```bash
-make
+chmod +x eloquent-generator.phar
+./eloquent-generator.phar
 ```
 
-The `make` command will generate `eloquent-generator.phar` file which is executable. You can use this file or move into `/usr/local/bin`:
+Or move into `/usr/local/bin`:
 
 ```bash
-sudo mv eloquent-generator.phar /usr/local/bin
+mv eloquent-generator.phar /usr/local/bin/eloquent-generator
+eloquent-generator
 ```
 
 ## Usage
 
-In the Laravel Project, you can run this command directly:
+In the Laravel project, you can run this command directly:
 
 ```bash
 cd /path/to/your-laravel-project
 eloquent-generator
 ```
 
-It's will generate model code into `build` directory. Use the `--output-dir` option can change output dir. If want to change namespace, Use the `--namespace` option.
+It's will generate model code into `build` directory, use the `--output-dir` option can change output dir. If want to change namespace, use the `--namespace` option.
 
 In the other framework but using Eloquent ORM library, you must provide config file like laravel project.
 
 This command using [`hassankhan/config`](https://github.com/hassankhan/config) to load config file like PHP, JSON, YAML, etc. Use `--config-file` option to specify custom config.
 
-## Using PHAR
-
-Coming soon.
+If only want build one connection, use the `--connection` option to specify.
 
 ## Using Docker
 
-Coming soon.
+> See the info about Docker at [DockerHub](https://hub.docker.com/r/104corp/eloquent-generator/).
+
+Just like using phar, you can run this command in the Laravel project:
+
+```bash
+cd /path/to/your-laravel-project
+docker run -it --rm -v `pwd`:/source 104corp/eloquent-generator
+```
+
+Or set the alias will more like phar:
+
+```bash
+alias eloquent-generator='docker run -it --rm -v $PWD:/source 104corp/eloquent-generator'
+eloquent-generator
+```
+
+See more info about option at [Usage](#Usage) section.
+
+## Build Yourself
+
+Clone this repository and execute command:
+
+```bash
+make
+```
+
+The `make` command will generate `eloquent-generator.phar` file which is executable. You can execute this file or move into `/usr/local/bin`:
+
+```bash
+sudo mv eloquent-generator.phar /usr/local/bin/eloquent-generator
+eloquent-generator
+```
