@@ -27,9 +27,8 @@ EOL;
     {
         parent::configure();
 
-        $default = 'dev-' . $this->branchName();
         $this->setName('bump')
-            ->addArgument('version', InputArgument::OPTIONAL, 'version', $default);
+            ->addArgument('version', InputArgument::OPTIONAL, 'version', $this->branchName());
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -42,6 +42,8 @@ script:
 - php vendor/bin/phpcs
 - php vendor/bin/phpunit --coverage-clover=coverage.xml
 - php eloquent-generator --config-file=tests/Fixture/database.php
+- rm -rf tests
+- make eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
 - make image
 
 after_success:
@@ -54,7 +56,8 @@ after_success:
 
 before_deploy:
 - rm -rf tests
-- make VERSION=${TRAVIS_BRANCH}
+- docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
+- docker push ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
 
 cache:
   directories:

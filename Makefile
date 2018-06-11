@@ -2,7 +2,7 @@
 
 INSTALL_PATH:=/usr/local/bin/eloquent-generator
 DOCKER_IMAGE:=104corp/eloquent-generator
-VERSION:=dev-master
+VERSION:=master
 TARGETS:=ci coverage
 
 .PHONY: all clean clean-all image test install sqlite container
