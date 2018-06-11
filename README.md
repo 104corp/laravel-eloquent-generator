@@ -1,6 +1,7 @@
 # Laravel Eloquent Generator
 
 [![Build Status](https://travis-ci.org/104corp/laravel-eloquent-generator.svg?branch=master)](https://travis-ci.org/104corp/laravel-eloquent-generator)
+[![codecov](https://codecov.io/gh/104corp/laravel-eloquent-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/104corp/laravel-eloquent-generator)
 
 Laravel Eloquent Generator
 

@@ -40,8 +40,11 @@ install:
 
 script:
 - php vendor/bin/phpcs
-- php vendor/bin/phpunit
+- php vendor/bin/phpunit --coverage-clover=coverage.xml
 - php eloquent-generator --config-file=tests/Fixture/database.php
+
+after_success:
+- if [[ "$TRAVIS_PHP_VERSION" == '7.1' ]]; then bash <(curl -s https://codecov.io/bash) ; fi
 
 before_deploy:
 - make
