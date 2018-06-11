@@ -43,7 +43,7 @@ script:
 - php vendor/bin/phpunit --coverage-clover=coverage.xml
 - php eloquent-generator --config-file=tests/Fixture/database.php
 - rm -rf tests
-- make eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
+- make clean eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
 - make image
 
 after_success:
@@ -55,7 +55,6 @@ after_success:
   fi
 
 before_deploy:
-- rm -rf tests
 - docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
 - docker push ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
 
@@ -67,8 +66,7 @@ cache:
 
 deploy:
   provider: releases
-  api_key:
-    secure: LwGRgw9rYapw/9Tes+pSueIbSuzITvlG86bB8fCz+aasfFiylYxbgulSPd5MpwNqTUUSHYsgi4fqIYA34v4UatljJHwkAV+sYVSZ68FIjALR8wWTyhKZRfXJ4/0FFjIKzSTiPLz7yM0GN2zhoPTNtt7gyJky4B9zMBEtv8CbD0UwmoXZrBC9mSmbUOrOL/6qYX9W/74oAUWHP0cMtb4+CsDz5vpSdqMeTXGYT8SUpqMFWF9bROG7xc5KYsdDjlu5EtzEIeWmuQgFGaqudthYWPzj0wGDCqDbrHi0y3To0t6PquHZE+8TW4RMPbOUjbChGTvATobACYlEBLCoaWmjgM/HxhwlkIZvU2hO9qMnD/A5xXEj4hQDDiOJpsF8iVU5c4q4/MfD7NBARUEZW0Sxa1Tt7mpHBPRJNvNw7WxCgJoD6GCoFa9gbbWBLjb9hiUdKXNCsJjN54L2jsjS1GCoBcTMod5OVHGEn8zV1AzYeRoPA1+3XrMmVOJqqJkzqwEJPq/XUC9+CgWr9wyWHnnAd3dzPRDGU0+BQaOtQAvNLHVa/GAAucloTVViEBVyPZxpTXA8OoPL5VrwVJvXJtdumbIQSSRMsct0yxHVghbNutimz+cJgOmX5fAWs29C8S3EJ/tZxR2K2ETnwEbWlpQoymKCjUt2sO2+MwbuUUhc0lg=
+  api_key: ${GITHUB_ACCESS_TOKEN}
   file: eloquent-generator.phar
   skip_cleanup: true
   on:
