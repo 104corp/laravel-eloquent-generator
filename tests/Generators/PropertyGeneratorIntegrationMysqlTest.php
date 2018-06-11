@@ -2,14 +2,14 @@
 
 namespace Tests\Generators;
 
-use Corp104\Eloquent\Generator\Generators\TypeGenerator;
+use Corp104\Eloquent\Generator\Generators\PropertyGenerator;
 use Tests\TestCase;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
-class TypeGeneratorIntegrationMysqlTest extends TestCase
+class PropertyGeneratorIntegrationMysqlTest extends TestCase
 {
     /**
-     * @var TypeGenerator
+     * @var PropertyGenerator
      */
     private $target;
 
@@ -17,7 +17,7 @@ class TypeGeneratorIntegrationMysqlTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = new TypeGenerator();
+        $this->target = new PropertyGenerator();
     }
 
     protected function tearDown()
@@ -38,9 +38,9 @@ class TypeGeneratorIntegrationMysqlTest extends TestCase
      * @test
      * @dataProvider intFieldsWithMysql
      */
-    public function shouldReturnIntWithMysqlTable($field, $type)
+    public function shouldReturnIntWithMysqlTable($field, $property)
     {
-        $this->assertContains('int', $this->target->generate($type), "Field '${field}' cannot trans to int");
+        $this->assertContains('int', $this->target->generate($property), "Field '${field}' cannot trans to int");
     }
 
     public function floatFieldsWithMysql()
@@ -54,9 +54,9 @@ class TypeGeneratorIntegrationMysqlTest extends TestCase
      * @test
      * @dataProvider floatFieldsWithMysql
      */
-    public function shouldReturnFloatWithMysqlTable($field, $type)
+    public function shouldReturnFloatWithMysqlTable($field, $property)
     {
-        $this->assertContains('float', $this->target->generate($type), "Field '${field}' cannot trans to float");
+        $this->assertContains('float', $this->target->generate($property), "Field '${field}' cannot trans to float");
     }
 
     public function stringFieldsWithMysql()
@@ -70,9 +70,9 @@ class TypeGeneratorIntegrationMysqlTest extends TestCase
      * @test
      * @dataProvider stringFieldsWithMysql
      */
-    public function shouldReturnStringWithMysqlTable($field, $type)
+    public function shouldReturnStringWithMysqlTable($field, $property)
     {
-        $this->assertContains('string', $this->target->generate($type), "Field '${field}' cannot trans to string");
+        $this->assertContains('string', $this->target->generate($property), "Field '${field}' cannot trans to string");
     }
 
     /**
@@ -87,7 +87,7 @@ class TypeGeneratorIntegrationMysqlTest extends TestCase
         return array_map(function ($property) {
             return [
                 $property['field'],
-                $property['type'],
+                $property,
             ];
         }, $fields);
     }

@@ -11,14 +11,14 @@ use function strpos;
 class CommentGenerator
 {
     /**
-     * @var TypeGenerator
+     * @var PropertyGenerator
      */
     private $typeGenerator;
 
     /**
-     * @param TypeGenerator $typeGenerator
+     * @param PropertyGenerator $typeGenerator
      */
-    public function __construct(TypeGenerator $typeGenerator)
+    public function __construct(PropertyGenerator $typeGenerator)
     {
         $this->typeGenerator = $typeGenerator;
     }
@@ -32,13 +32,9 @@ class CommentGenerator
         $comment = '/**' . PHP_EOL;
 
         foreach ($fields as $field => $property) {
-            $propertyType = $this->typeGenerator->generate(
-                $property['type'],
-                $this->isNullable($property),
-                $this->resolveComment($property)
-            );
+            $modelProperty = $this->typeGenerator->generate($property);
 
-            $comment .= " * @property ${propertyType} " . $property['field'] . PHP_EOL;
+            $comment .= " * @property {$modelProperty} " . PHP_EOL;
         }
 
         $comment .= ' */';
