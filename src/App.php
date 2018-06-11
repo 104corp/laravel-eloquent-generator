@@ -11,7 +11,13 @@ class App extends Application
 {
     public function __construct()
     {
-        parent::__construct('Laravel Eloquent Generator', 'dev-master');
+        $version = 'dev-master';
+
+        if (class_exists(Version::class)) {
+            $version = Version::VERSION;
+        }
+
+        parent::__construct('Laravel Eloquent Generator', $version);
 
         $this->bootstrap();
 

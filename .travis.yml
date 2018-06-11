@@ -53,7 +53,8 @@ after_success:
   fi
 
 before_deploy:
-- make
+- rm -rf tests
+- make VERSION=${TRAVIS_BRANCH}
 
 cache:
   directories:

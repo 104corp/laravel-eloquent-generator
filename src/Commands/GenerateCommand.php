@@ -23,7 +23,7 @@ class GenerateCommand extends Command
         parent::configure();
 
         $this->setName('eloquent-generator')
-            ->setDescription('Generate model')
+            ->setDescription('Generate Eloquent models')
             ->addOption('--env', null, InputOption::VALUE_REQUIRED, '.env file', '.env')
             ->addOption('--config-file', null, InputOption::VALUE_REQUIRED, 'Config file', 'config/database.php')
             ->addOption('--connection', null, InputOption::VALUE_REQUIRED, 'Connection name will only build', null)

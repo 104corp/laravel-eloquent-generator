@@ -37,6 +37,11 @@ Thumbs.db
 
 # Build files
 /build
-/tests/Fixture/sqlite.db
 .dapper
 eloquent-generator.phar
+
+# Tesing files
+/tests/Fixture/sqlite.db
+
+# Version files
+/src/Version.php
