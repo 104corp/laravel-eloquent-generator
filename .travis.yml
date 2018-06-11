@@ -9,6 +9,8 @@ php:
 - nightly
 
 matrix:
+  global:
+    DOCKER_IMAGE: 104corp/eloquent-generator
   allow_failures:
   - php: nightly
 
@@ -43,7 +45,12 @@ script:
 - php eloquent-generator --config-file=tests/Fixture/database.php
 
 after_success:
-- if [[ "$TRAVIS_PHP_VERSION" == '7.1' ]]; then bash <(curl -s https://codecov.io/bash) ; fi
+- if [ "7.1" == "${TRAVIS_PHP_VERSION}" ]; then bash <(curl -s https://codecov.io/bash) ; fi
+- |
+  if [ "7.1" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]; then
+    docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+    docker push ${DOCKER_IMAGE}
+  fi
 
 before_deploy:
 - make
