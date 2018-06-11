@@ -8,13 +8,17 @@ php:
 - 7.2
 - nightly
 
-matrix:
+env:
   global:
     DOCKER_IMAGE: 104corp/eloquent-generator
+    POSTGRES_USERNAME: travis
+
+matrix:
   allow_failures:
   - php: nightly
 
 services:
+- docker
 - mysql
 - postgresql
 
@@ -22,10 +26,6 @@ branches:
   only:
   - master
   - /^\d+\.\d+\.\d+$/
-
-env:
-  global:
-    POSTGRES_USERNAME: travis
 
 before_install:
 # Prepare MySQL schema
@@ -43,11 +43,12 @@ script:
 - php vendor/bin/phpcs
 - php vendor/bin/phpunit --coverage-clover=coverage.xml
 - php eloquent-generator --config-file=tests/Fixture/database.php
+- make image
 
 after_success:
-- if [ "7.1" == "${TRAVIS_PHP_VERSION}" ]; then bash <(curl -s https://codecov.io/bash) ; fi
+- if [[ "7.1" == "${TRAVIS_PHP_VERSION}" ]]; then bash <(curl -s https://codecov.io/bash) ; fi
 - |
-  if [ "7.1" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]; then
+  if [[ "7.1" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]]; then
     docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
     docker push ${DOCKER_IMAGE}
   fi
