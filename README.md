@@ -1,5 +1,7 @@
 # Laravel Eloquent Generator
 
+[![Build Status](https://travis-ci.org/104corp/laravel-eloquent-generator.svg?branch=master)](https://travis-ci.org/104corp/laravel-eloquent-generator)
+
 Laravel Eloquent Generator
 
 ## System Requirement
