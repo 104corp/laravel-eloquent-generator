@@ -4,6 +4,9 @@ dist: trusty
 language: php
 
 php:
+- 5.5
+- 5.6
+- 7.0
 - 7.1
 - 7.2
 - nightly
@@ -36,7 +39,7 @@ before_install:
 - psql -U postgres -d postgres -f tests/Fixture/postgres.sql
 
 install:
-- composer install --prefer-dist
+- COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist
 
 script:
 - php vendor/bin/phpcs
@@ -47,9 +50,9 @@ script:
 - make image
 
 after_success:
-- if [[ "7.1" == "${TRAVIS_PHP_VERSION}" ]]; then bash <(curl -s https://codecov.io/bash) ; fi
+- if [[ "5.5" == "${TRAVIS_PHP_VERSION}" ]]; then bash <(curl -s https://codecov.io/bash) ; fi
 - |
-  if [[ "7.1" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]]; then
+  if [[ "5.5" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]]; then
     docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
     docker push ${DOCKER_IMAGE}
   fi
@@ -71,4 +74,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    php: 7.1
+    php: 5.5

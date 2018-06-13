@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator\Commands\Concerns;
 
 use Illuminate\Contracts\Container\Container;
 use Noodlehaus\Config;
 use RuntimeException;
-use function is_array;
 
 trait DatabaseConnection
 {
@@ -20,7 +17,7 @@ trait DatabaseConnection
      * @param Container $container
      * @param string $configFile
      */
-    protected function prepareConnection(Container $container, string $configFile): void
+    protected function prepareConnection(Container $container, $configFile)
     {
         $this->connections = $this->normalizeConnectionConfig($configFile);
 
@@ -41,7 +38,7 @@ trait DatabaseConnection
      * @param string $configFile
      * @return array
      */
-    protected function normalizeConnectionConfig(string $configFile): array
+    protected function normalizeConnectionConfig($configFile)
     {
         $config = Config::load([
             $configFile,

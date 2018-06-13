@@ -1,10 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator\Generators;
-
-use function in_array;
 
 class PropertyGenerator
 {
@@ -38,9 +34,10 @@ class PropertyGenerator
      * @param array $columnProperties
      * @return string
      */
-    public function generate(array $columnProperties): string
+    public function generate(array $columnProperties)
     {
-        $type = $this->mapping[$columnProperties['type']] ?? 'mixed';
+        $type = isset($this->mapping[$columnProperties['type']]) ?
+            $this->mapping[$columnProperties['type']] : 'mixed';
         $field = $columnProperties['field'];
 
         $modelProperty = "{$type} {$field}";
@@ -52,7 +49,7 @@ class PropertyGenerator
     /**
      * @return array
      */
-    public function getMapping(): array
+    public function getMapping()
     {
         return $this->mapping;
     }
@@ -61,7 +58,7 @@ class PropertyGenerator
      * @param string $type
      * @param string $propertyType
      */
-    public function setMapping(string $type, string $propertyType): void
+    public function setMapping($type, $propertyType)
     {
         $this->mapping[$type] = $propertyType;
     }
@@ -70,7 +67,7 @@ class PropertyGenerator
      * @param array $decorators
      * @return bool
      */
-    private function resolveNullable(array $decorators): bool
+    private function resolveNullable(array $decorators)
     {
         return in_array('nullable', $decorators, true);
     }
@@ -79,7 +76,7 @@ class PropertyGenerator
      * @param array $decorators
      * @return null|string
      */
-    private function resolveComment(array $decorators): ?string
+    private function resolveComment(array $decorators)
     {
         $key = collect($decorators)->search(function ($item) {
             return false !== strpos($item, 'comment');
@@ -101,9 +98,9 @@ class PropertyGenerator
      * @param string $modelProperty
      * @return string
      */
-    private function resolveDecorators(array $property, string $modelProperty): string
+    private function resolveDecorators(array $property, $modelProperty)
     {
-        $decorators = $property['decorators'] ?? null;
+        $decorators = isset($property['decorators']) ? $property['decorators'] : null;
 
         if (empty($decorators)) {
             return $modelProperty;

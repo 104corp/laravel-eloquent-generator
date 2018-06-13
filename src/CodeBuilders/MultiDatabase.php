@@ -1,12 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator\CodeBuilders;
-
-use Corp104\Eloquent\Generator\Generators\CodeGenerator;
-use Illuminate\Support\Str;
-use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
 class MultiDatabase
 {
@@ -28,7 +22,7 @@ class MultiDatabase
      * @param array $connections
      * @return array [filepath => code]
      */
-    public function build($namespace, $connections): array
+    public function build($namespace, $connections)
     {
         return collect($connections)->keys()->flatMap(function ($connection) use ($namespace) {
             return $this->singleDatabase->build($namespace, $connection, true);

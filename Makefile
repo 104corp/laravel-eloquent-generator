@@ -37,7 +37,7 @@ test: composer.phar
 
 eloquent-generator.phar: vendor
 	@echo ">>> Building phar ..."
-	@./scripts/bump-version ${VERSION}
+	@./scripts/bump-version bump ${VERSION}
 	@php composer.phar install --quiet --no-dev --optimize-autoloader
 	@php -d phar.readonly=off ./scripts/build
 	@chmod +x eloquent-generator.phar
@@ -56,11 +56,11 @@ composer.phar:
 	@curl -sS https://getcomposer.org/installer | php
 
 $(TARGETS): .dapper
-	./.dapper $@
+	@./.dapper $@
 
 .dapper:
 	@echo ">>> Downloading dapper ..."
 	@curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > .dapper.tmp
-	@@chmod +x .dapper.tmp
+	@chmod +x .dapper.tmp
 	@./.dapper.tmp -v
 	@mv .dapper.tmp .dapper

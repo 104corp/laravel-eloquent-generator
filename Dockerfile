@@ -1,4 +1,4 @@
-FROM php:7.1-alpine
+FROM php:5.5-alpine
 
 RUN docker-php-ext-install -j $(getconf _NPROCESSORS_ONLN) pdo_mysql
 

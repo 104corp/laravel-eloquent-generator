@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator\Providers;
 
 use Corp104\Eloquent\Generator\Engines\TemplateEngine;
@@ -12,7 +10,7 @@ use Illuminate\View\FileViewFinder;
 
 class EngineProvider extends ServiceProvider
 {
-    public function register(): void
+    public function register()
     {
         $this->app->singleton('view', function ($app) {
             $factory = new Factory(

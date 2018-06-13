@@ -18,7 +18,7 @@ namespace Corp104\Eloquent\Generator;
 
 class Version
 {
-    public const VERSION = 'VERSION_PLACEHOLDER';
+    const VERSION = 'VERSION_PLACEHOLDER';
 }
 
 EOL;
@@ -58,5 +58,4 @@ EOL;
 
 $app = new Application();
 $app->add(new Bump());
-$app->setDefaultCommand('bump', true);
 $app->run();

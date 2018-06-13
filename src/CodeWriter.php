@@ -1,12 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator;
-
-use function dirname;
-use function file_put_contents;
-use function mkdir;
 
 class CodeWriter
 {
@@ -14,7 +8,7 @@ class CodeWriter
      * @param callable $callable Should return array like [filePath => code]
      * @param string $pathPrefix
      */
-    public function generate(callable $callable, $pathPrefix): void
+    public function generate(callable $callable, $pathPrefix)
     {
         $modelCode = $callable();
 
@@ -28,7 +22,7 @@ class CodeWriter
      * @param string $filePath
      * @param string $pathPrefix
      */
-    private function writeCode($code, string $filePath, string $pathPrefix): void
+    private function writeCode($code, $filePath, $pathPrefix)
     {
         $fullPath = $pathPrefix . '/' . $filePath;
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator;
 
 use Illuminate\Container\Container;
@@ -28,7 +26,7 @@ class App extends Application
         $this->setDefaultCommand('eloquent-generator', true);
     }
 
-    public function bootstrap(): void
+    public function bootstrap()
     {
         (new Bootstrapper())->bootstrap(Container::getInstance());
     }

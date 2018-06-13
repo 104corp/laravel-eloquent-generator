@@ -1,4 +1,4 @@
-FROM 104corp/php-testing:7.1
+FROM 104corp/php-testing:5.5
 
 ENV SOURCE_ROOT /source
 
@@ -8,7 +8,6 @@ WORKDIR ${SOURCE_ROOT}
 
 # Copy composer.json
 COPY composer.json .
-COPY composer.lock .
 
 # Install packages without cache
 RUN set -xe && \
@@ -17,7 +16,7 @@ RUN set -xe && \
 
 # Dapper env
 ENV DAPPER_SOURCE ${SOURCE_ROOT}
-ENV DAPPER_OUTPUT ./build
+ENV DAPPER_OUTPUT ./build ./vendor ./composer.lock
 
 ENTRYPOINT ["./scripts/entry"]
 CMD ["ci"]

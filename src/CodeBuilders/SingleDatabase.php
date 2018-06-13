@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator\CodeBuilders;
 
 use Corp104\Eloquent\Generator\Generators\CodeGenerator;
@@ -29,7 +27,7 @@ class SingleDatabase
      * @param bool $withConnectionNamespace
      * @return array [filepath => code]
      */
-    public function build(string $namespace, string $connection, $withConnectionNamespace = false): array
+    public function build($namespace, $connection, $withConnectionNamespace = false)
     {
         $schemaGenerator = new SchemaGenerator($connection, false, false);
 
@@ -65,7 +63,7 @@ class SingleDatabase
      * @param bool $withConnectionNamespace
      * @return string
      */
-    private function createRelativePath(string $connection, string $table, bool $withConnectionNamespace): string
+    private function createRelativePath($connection, $table, $withConnectionNamespace)
     {
         if ($withConnectionNamespace) {
             return '/' . Str::studly($connection) . '/' . Str::studly($table) . '.php';
