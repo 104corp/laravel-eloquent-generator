@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator;
 
 use Corp104\Eloquent\Generator\Providers\EngineProvider;
@@ -11,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
 
 class Bootstrapper
 {
-    public function bootstrap(Container $container): void
+    public function bootstrap(Container $container)
     {
         Facade::setFacadeApplication($container);
 

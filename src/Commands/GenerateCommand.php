@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator\Commands;
 
 use Corp104\Eloquent\Generator\CodeBuilders\MultiDatabase;
@@ -78,7 +76,7 @@ class GenerateCommand extends Command
      * @param string $path
      * @return string
      */
-    private function normalizePath($path): string
+    private function normalizePath($path)
     {
         if ($path{0} !== '/') {
             $path = getcwd() . '/' . $path;

@@ -1,12 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Corp104\Eloquent\Generator\Generators;
-
-use function in_array;
-use function preg_match;
-use function strpos;
 
 class CommentGenerator
 {
@@ -27,7 +21,7 @@ class CommentGenerator
      * @param array $fields
      * @return string
      */
-    public function generate(array $fields): string
+    public function generate(array $fields)
     {
         $comment = '/**' . PHP_EOL;
 
@@ -46,7 +40,7 @@ class CommentGenerator
      * @param array $property
      * @return bool
      */
-    private function isNullable(array $property): bool
+    private function isNullable(array $property)
     {
         return isset($property['decorators']) && in_array('nullable', $property['decorators'], true);
     }
@@ -55,7 +49,7 @@ class CommentGenerator
      * @param array $property
      * @return null|string
      */
-    private function resolveComment(array $property): ?string
+    private function resolveComment(array $property)
     {
         if (empty($property['decorators'])) {
             return null;
