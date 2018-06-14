@@ -8,5 +8,4 @@ else
   cd `dirname ${CWD}`
 fi
 
-./scripts/style
-./scripts/test
+php vendor/bin/phpunit --coverage-html=build

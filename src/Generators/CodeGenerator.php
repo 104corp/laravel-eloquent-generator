@@ -2,6 +2,7 @@
 
 namespace Corp104\Eloquent\Generator\Generators;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\Str;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
@@ -13,11 +14,18 @@ class CodeGenerator
     private $commentGenerator;
 
     /**
-     * @param CommentGenerator $commentGenerator
+     * @var ViewFactory
      */
-    public function __construct(CommentGenerator $commentGenerator)
+    private $view;
+
+    /**
+     * @param CommentGenerator $commentGenerator
+     * @param ViewFactory $view
+     */
+    public function __construct(CommentGenerator $commentGenerator, ViewFactory $view)
     {
         $this->commentGenerator = $commentGenerator;
+        $this->view = $view;
     }
 
     /**
@@ -39,7 +47,7 @@ class CodeGenerator
             $namespace = $namespace . '\\' . ucfirst($connection);
         }
 
-        return view('model', [
+        return $this->view->make('model', [
             'comment' => $this->buildCommentOfFields($schemaGenerator, $table),
             'connection' => $connection,
             'name' => Str::studly($table),

@@ -23,9 +23,13 @@ class CommentGenerator
      */
     public function generate(array $fields)
     {
+        if (empty($fields)) {
+            return '';
+        }
+
         $comment = '/**' . PHP_EOL;
 
-        foreach ($fields as $field => $property) {
+        foreach ($fields as $property) {
             $modelProperty = $this->typeGenerator->generate($property);
 
             $comment .= " * @property {$modelProperty} " . PHP_EOL;
@@ -34,37 +38,5 @@ class CommentGenerator
         $comment .= ' */';
 
         return $comment;
-    }
-
-    /**
-     * @param array $property
-     * @return bool
-     */
-    private function isNullable(array $property)
-    {
-        return isset($property['decorators']) && in_array('nullable', $property['decorators'], true);
-    }
-
-    /**
-     * @param array $property
-     * @return null|string
-     */
-    private function resolveComment(array $property)
-    {
-        if (empty($property['decorators'])) {
-            return null;
-        }
-
-        $key = collect($property['decorators'])->search(function ($item) {
-            return false !== strpos($item, 'comment');
-        });
-
-        if (false === $key) {
-            return null;
-        }
-
-        preg_match('/comment\(\'(.*)\'\)/', $property['decorators'][$key], $matches);
-
-        return $matches[1];
     }
 }
