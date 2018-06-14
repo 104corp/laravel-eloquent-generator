@@ -3,13 +3,13 @@
 INSTALL_PATH:=/usr/local/bin/eloquent-generator
 DOCKER_IMAGE:=104corp/eloquent-generator
 VERSION:=master
-TARGETS:=ci coverage
+TARGETS:=ci style test coverage
 
-.PHONY: all clean clean-all image test install sqlite container
+.PHONY: all clean clean-all image install sqlite container
 
 # ------------------------------------------------------------------------------
 
-all: clean test eloquent-generator.phar
+all: clean ci eloquent-generator.phar
 
 clean:
 	@echo ">>> Clean artifacts ..."
@@ -29,11 +29,6 @@ container:
 	@docker-compose down -v
 	@docker-compose up -d
 	@docker-compose logs -f
-
-test: composer.phar
-	@echo ">>> Run tests ..."
-	@php composer.phar install --quiet
-	@php vendor/bin/phpcs
 
 eloquent-generator.phar: vendor
 	@echo ">>> Building phar ..."

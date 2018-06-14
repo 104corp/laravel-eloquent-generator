@@ -16,6 +16,7 @@
         "xethron/migrations-generator": "^2.0"
     },
     "require-dev": {
+        "mockery/mockery": "^0.9",
         "phpunit/phpunit": ">4.8 <6",
         "squizlabs/php_codesniffer": "^3.3"
     },
