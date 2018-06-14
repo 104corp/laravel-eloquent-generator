@@ -9,8 +9,8 @@ Laravel Eloquent Generator
 
 ## System Requirement
 
-* PHP 7.1+
-* [Laravel 5.6 requirement](https://laravel.com/docs/5.6/installation#server-requirements)
+* PHP 5.5+
+* Laravel 5.2 ~ 5.4 ,see [Requirement](https://laravel.com/docs/5.2/installation#server-requirements)
 * PDO driver
 
 ## Support Database
