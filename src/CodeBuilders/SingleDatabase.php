@@ -22,15 +22,18 @@ class SingleDatabase
     }
 
     /**
+     * @param SchemaGenerator $schemaGenerator
      * @param string $namespace
      * @param string $connection
      * @param bool $withConnectionNamespace
      * @return array [filepath => code]
      */
-    public function build($namespace, $connection, $withConnectionNamespace = false)
-    {
-        $schemaGenerator = new SchemaGenerator($connection, false, false);
-
+    public function build(
+        $schemaGenerator,
+        $namespace,
+        $connection,
+        $withConnectionNamespace = false
+    ) {
         return collect($schemaGenerator->getTables())
             ->reduce(function (
                 $carry,
