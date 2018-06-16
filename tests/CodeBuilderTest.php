@@ -9,23 +9,6 @@ use Mockery;
 class CodeBuilderTest extends TestCase
 {
     /**
-     * @var CodeBuilder
-     */
-    private $target;
-
-    protected function setUp()
-    {
-        parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        $this->target = null;
-
-        parent::tearDown();
-    }
-
-    /**
      * @test
      */
     public function shouldReturnKeyIsOnlyTableNameWithSingleDatabase()
