@@ -2,10 +2,15 @@
 
 namespace Corp104\Eloquent\Generator\CodeBuilders;
 
-use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
+use Corp104\Eloquent\Generator\ConnectionTransform;
 
 class MultiDatabase
 {
+    /**
+     * @var ConnectionTransform
+     */
+    private $connectionTransform;
+
     /**
      * @var SingleDatabase
      */
@@ -13,10 +18,12 @@ class MultiDatabase
 
     /**
      * @param SingleDatabase $singleDatabase
+     * @param ConnectionTransform $connectionTransform
      */
-    public function __construct(SingleDatabase $singleDatabase)
+    public function __construct(SingleDatabase $singleDatabase, ConnectionTransform $connectionTransform)
     {
         $this->singleDatabase = $singleDatabase;
+        $this->connectionTransform = $connectionTransform;
     }
 
     /**
@@ -26,9 +33,9 @@ class MultiDatabase
      */
     public function build($namespace, $connections)
     {
-        return collect($connections)->keys()->flatMap(function ($connection) use ($namespace) {
-            $schemaGenerator = new SchemaGenerator($connection, false, false);
+        $schemaGenerators = $this->connectionTransform->transform($connections);
 
+        return collect($schemaGenerators)->flatMap(function ($schemaGenerator, $connection) use ($namespace) {
             return $this->singleDatabase->build(
                 $schemaGenerator,
                 $namespace,
