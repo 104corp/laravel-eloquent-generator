@@ -77,7 +77,7 @@ class GenerateCommand extends Command
     private function normalizePath($path)
     {
         if ($path{0} !== '/') {
-            $path = getcwd() . '/' . $path;
+            $path = $this->basePath() . '/' . $path;
         }
 
         return $path;
