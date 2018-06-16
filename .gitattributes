@@ -4,7 +4,7 @@
 # Exclude unused files
 /scripts                   export-ignore
 /tests                     export-ignore
-/.dockerignore            export-ignore
+/.dockerignore             export-ignore
 /.gitattributes            export-ignore
 /.gitignore                export-ignore
 /.travis.yml               export-ignore
@@ -13,4 +13,5 @@
 /Dockerfile.dapper         export-ignore
 /Makefile                  export-ignore
 /phpcs.xml                 export-ignore
+/phpunit.xml.dist          export-ignore
 /README.md                 export-ignore
