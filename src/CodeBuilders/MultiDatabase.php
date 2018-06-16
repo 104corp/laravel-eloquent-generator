@@ -2,6 +2,8 @@
 
 namespace Corp104\Eloquent\Generator\CodeBuilders;
 
+use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
+
 class MultiDatabase
 {
     /**
@@ -25,7 +27,14 @@ class MultiDatabase
     public function build($namespace, $connections)
     {
         return collect($connections)->keys()->flatMap(function ($connection) use ($namespace) {
-            return $this->singleDatabase->build($namespace, $connection, true);
+            $schemaGenerator = new SchemaGenerator($connection, false, false);
+
+            return $this->singleDatabase->build(
+                $schemaGenerator,
+                $namespace,
+                $connection,
+                true
+            );
         })->toArray();
     }
 }

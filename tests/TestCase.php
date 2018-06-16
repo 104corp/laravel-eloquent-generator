@@ -53,13 +53,17 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     /**
      * @param array $fields [field_name => $type]
+     * @param array $tables
      * @return SchemaGenerator
      */
-    protected function createSchemaGeneratorMock(array $fields = [])
+    protected function createSchemaGeneratorMock(array $fields = [], array $tables = [])
     {
         $mock = Mockery::mock(SchemaGenerator::class);
         $mock->shouldReceive('getFields')
             ->andReturn($this->createFieldsStub($fields));
+
+        $mock->shouldReceive('getTables')
+            ->andReturn($tables);
 
         return $mock;
     }
