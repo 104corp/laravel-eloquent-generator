@@ -12,6 +12,7 @@
         "doctrine/dbal": "^2.5.13",
         "hassankhan/config": "^1.0",
         "laravel/framework": ">5.2 <=5.4",
+        "mikey179/vfsStream": "^1.6",
         "symfony/console": "^2.7 | ^3.3 | ^4.1",
         "xethron/migrations-generator": "^2.0"
     },

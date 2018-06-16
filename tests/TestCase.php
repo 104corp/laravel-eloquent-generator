@@ -6,11 +6,32 @@ use Corp104\Eloquent\Generator\Bootstrapper;
 use Corp104\Eloquent\Generator\Commands\Concerns\DatabaseConnection;
 use Illuminate\Container\Container;
 use Mockery;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     use DatabaseConnection;
+
+    /**
+     * @var vfsStreamDirectory
+     */
+    protected $root;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->root = vfsStream::setup();
+    }
+
+    protected function tearDown()
+    {
+        $this->root = null;
+
+        parent::tearDown();
+    }
 
     protected function createContainer()
     {
