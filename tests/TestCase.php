@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Corp104\Eloquent\Generator\Bootstrapper;
+use Corp104\Eloquent\Generator\CodeWriter;
 use Corp104\Eloquent\Generator\Commands\Concerns\DatabaseConnection;
 use Illuminate\Container\Container;
 use Mockery;
@@ -24,6 +25,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $this->root = vfsStream::setup();
+
+        $this->putConfigFile();
     }
 
     protected function tearDown()
@@ -43,6 +46,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             $container,
             __DIR__ . '/Fixture/database.php'
         );
+
+        Container::setInstance($container);
 
         return $container;
     }
@@ -87,5 +92,22 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->andReturn($tables);
 
         return $mock;
+    }
+
+    /**
+     * @param string $path
+     * @param array $config
+     */
+    protected function putConfigFile(array $config = [], $path = '/config/database.php')
+    {
+        if (!array_key_exists('connections', $config)) {
+            $config = ['connections' => $config];
+        }
+
+        $code = '<?php return ' . var_export($config, true) . ';';
+
+        (new CodeWriter)->generate([
+            $path => $code,
+        ], $this->root->url());
     }
 }

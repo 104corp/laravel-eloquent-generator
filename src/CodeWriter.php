@@ -5,12 +5,14 @@ namespace Corp104\Eloquent\Generator;
 class CodeWriter
 {
     /**
-     * @param callable $callable Should return array like [filePath => code]
+     * @param array|callable $modelCode Array or callable which should return array like [filePath => code]
      * @param string $pathPrefix
      */
-    public function generate(callable $callable, $pathPrefix)
+    public function generate($modelCode, $pathPrefix)
     {
-        $modelCode = $callable();
+        if (is_callable($modelCode)) {
+            $modelCode = $modelCode();
+        }
 
         collect($modelCode)->each(function ($code, $filePath) use ($pathPrefix) {
             $this->writeCode($code, $filePath, $pathPrefix);
