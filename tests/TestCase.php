@@ -16,6 +16,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
     use DatabaseConnection;
 
     /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * @var vfsStreamDirectory
      */
     protected $root;
@@ -27,6 +32,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->root = vfsStream::setup();
 
         $this->putConfigFile();
+
+        $this->container = $this->createContainer();
     }
 
     protected function tearDown()

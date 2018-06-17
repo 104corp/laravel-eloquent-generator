@@ -17,17 +17,19 @@ class App extends Application
 
         parent::__construct('Laravel Eloquent Generator', $version);
 
-        $this->bootstrap();
+        $container = Container::getInstance();
+
+        $this->bootstrap($container);
 
         $this->addCommands([
-            new Commands\GenerateCommand(),
+            $container->make(Commands\GenerateCommand::class),
         ]);
 
         $this->setDefaultCommand('eloquent-generator', true);
     }
 
-    public function bootstrap()
+    public function bootstrap(Container $container)
     {
-        (new Bootstrapper())->bootstrap(Container::getInstance());
+        (new Bootstrapper())->bootstrap($container);
     }
 }
