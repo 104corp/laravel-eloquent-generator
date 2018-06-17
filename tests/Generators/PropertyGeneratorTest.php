@@ -5,6 +5,9 @@ namespace Tests\Generators;
 use Corp104\Eloquent\Generator\Generators\PropertyGenerator;
 use Tests\TestCase;
 
+/**
+ * @covers \Corp104\Eloquent\Generator\Generators\PropertyGenerator
+ */
 class PropertyGeneratorTest extends TestCase
 {
     /**

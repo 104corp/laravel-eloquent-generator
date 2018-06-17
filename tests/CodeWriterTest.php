@@ -4,6 +4,9 @@ namespace Tests;
 
 use Corp104\Eloquent\Generator\CodeWriter;
 
+/**
+ * @covers \Corp104\Eloquent\Generator\CodeWriter
+ */
 class CodeWriterTest extends TestCase
 {
     /**

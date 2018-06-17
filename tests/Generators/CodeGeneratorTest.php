@@ -5,6 +5,9 @@ namespace Tests\Generators;
 use Corp104\Eloquent\Generator\Generators\CodeGenerator;
 use Tests\TestCase;
 
+/**
+ * @covers \Corp104\Eloquent\Generator\Generators\CodeGenerator
+ */
 class CodeGeneratorTest extends TestCase
 {
     /**

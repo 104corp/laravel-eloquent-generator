@@ -5,6 +5,9 @@ namespace Tests\Generators;
 use Corp104\Eloquent\Generator\Generators\CommentGenerator;
 use Tests\TestCase;
 
+/**
+ * @covers \Corp104\Eloquent\Generator\Generators\CommentGenerator
+ */
 class CommentGeneratorTest extends TestCase
 {
     /**
