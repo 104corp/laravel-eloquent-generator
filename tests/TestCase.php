@@ -16,6 +16,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
     use DatabaseConnection;
 
     /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * @var vfsStreamDirectory
      */
     protected $root;
@@ -27,6 +32,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->root = vfsStream::setup();
 
         $this->putConfigFile();
+
+        $this->container = $this->createContainer();
     }
 
     protected function tearDown()
@@ -36,7 +43,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    protected function createContainer()
+    protected function createContainer($config = '/config/database.php')
     {
         $container = new Container();
 
@@ -44,7 +51,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->prepareConnection(
             $container,
-            __DIR__ . '/Fixture/database.php'
+            $this->root->url() . $config
         );
 
         Container::setInstance($container);

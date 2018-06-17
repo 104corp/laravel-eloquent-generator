@@ -1,14 +1,17 @@
 <?php
 
-namespace Tests;
+namespace Tests\Commands;
 
 use Corp104\Eloquent\Generator\CodeWriter;
 use Corp104\Eloquent\Generator\Commands\GenerateCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Tests\TestCase;
 
 /**
- * @coversDefaultClass GenerateCommand
+ * @covers \Corp104\Eloquent\Generator\Commands\Concerns\DatabaseConnection
+ * @covers \Corp104\Eloquent\Generator\Commands\Concerns\Environment
+ * @covers \Corp104\Eloquent\Generator\Commands\GenerateCommand
  */
 class GenerateCommandTest extends TestCase
 {
@@ -81,6 +84,28 @@ class GenerateCommandTest extends TestCase
         $this->target->run(new ArrayInput($argWithSqliteConnection), $output);
 
         $this->assertSame('', $output->fetch());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldLoadEnvWhenEnvIsExist()
+    {
+        // Clean env before test
+        putenv('TEST_FOR_DOT_ENV');
+
+        $excepted = 'bar';
+
+        (new CodeWriter)->generate([
+            '/.env' => 'TEST_FOR_DOT_ENV=bar',
+        ], $this->root->url());
+
+        $this->target->run(new ArrayInput([]), new BufferedOutput());
+
+        $this->assertSame($excepted, getenv('TEST_FOR_DOT_ENV'));
+
+        // Tear down env after test
+        putenv('TEST_FOR_DOT_ENV');
     }
 
     /**
