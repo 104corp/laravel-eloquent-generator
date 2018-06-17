@@ -19,7 +19,7 @@ class CodeBuilder
     private $connections;
 
     /**
-     * @var ConnectionTransform
+     * @var ConnectionTransformer
      */
     private $connectionTransform;
 
@@ -40,9 +40,9 @@ class CodeBuilder
 
     /**
      * @param CodeGenerator $codeGenerator
-     * @param ConnectionTransform $connectionTransform
+     * @param ConnectionTransformer $connectionTransform
      */
-    public function __construct(CodeGenerator $codeGenerator, ConnectionTransform $connectionTransform)
+    public function __construct(CodeGenerator $codeGenerator, ConnectionTransformer $connectionTransform)
     {
         $this->codeGenerator = $codeGenerator;
         $this->connectionTransform = $connectionTransform;

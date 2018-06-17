@@ -4,7 +4,7 @@ namespace Corp104\Eloquent\Generator;
 
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
-class ConnectionTransform
+class ConnectionTransformer
 {
     /**
      * Transform connections to SchemaGenerator

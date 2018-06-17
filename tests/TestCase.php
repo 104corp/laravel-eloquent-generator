@@ -36,7 +36,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    protected function createContainer()
+    protected function createContainer($config = '/config/database.php')
     {
         $container = new Container();
 
@@ -44,7 +44,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->prepareConnection(
             $container,
-            __DIR__ . '/Fixture/database.php'
+            $this->root->url() . $config
         );
 
         Container::setInstance($container);

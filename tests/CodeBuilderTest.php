@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Corp104\Eloquent\Generator\CodeBuilder;
-use Corp104\Eloquent\Generator\ConnectionTransform;
+use Corp104\Eloquent\Generator\ConnectionTransformer;
 use Mockery;
 
 class CodeBuilderTest extends TestCase
@@ -62,12 +62,12 @@ class CodeBuilderTest extends TestCase
 
     private function createContainerWithSchemaGenerators(array $schemaGenerators)
     {
-        $connectionTransformMock = Mockery::mock(ConnectionTransform::class);
+        $connectionTransformMock = Mockery::mock(ConnectionTransformer::class);
         $connectionTransformMock->shouldReceive('transform')
             ->andReturn($schemaGenerators);
 
         $container = $this->createContainer();
-        $container->instance(ConnectionTransform::class, $connectionTransformMock);
+        $container->instance(ConnectionTransformer::class, $connectionTransformMock);
 
         return $container;
     }
