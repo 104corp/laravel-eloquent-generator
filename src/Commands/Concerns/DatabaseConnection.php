@@ -35,6 +35,24 @@ trait DatabaseConnection
     }
 
     /**
+     * @param null|string $connection
+     */
+    protected function filterConnection($connection = null)
+    {
+        if (null === $connection) {
+            return;
+        }
+
+        if (empty($this->connections[$connection])) {
+            throw new \RuntimeException("Connection '{$connection}' is not found in config file");
+        }
+
+        $this->connections = [
+            $connection => $this->connections[$connection],
+        ];
+    }
+
+    /**
      * @param string $configFile
      * @return array
      */

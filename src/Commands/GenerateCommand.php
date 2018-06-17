@@ -47,27 +47,25 @@ class GenerateCommand extends Command
             $this->normalizePath($configFile)
         );
 
+        $this->filterConnection($connection);
+
+        /** @var CodeBuilder $codeBuilder */
+        $codeBuilder = $container->make(CodeBuilder::class);
+
+        /** @var CodeWriter $codeWriter */
         $codeWriter = $container->make(CodeWriter::class);
 
         $codeWriter->generate(
-            function () use ($container, $namespace, $connection) {
-                $connections = $this->connections;
-
-                if (null !== $connection) {
-                    $connections = [
-                        $connection => $this->connections[$connection],
-                    ];
-                }
-
-                /** @var CodeBuilder $codeBuilder */
-                $codeBuilder = $container->make(CodeBuilder::class);
-
-                return $codeBuilder->setConnections($connections)
-                    ->setNamespace($namespace)
-                    ->build();
-            },
+            $this->buildCode($codeBuilder, $namespace),
             $this->normalizePath($outputDir)
         );
+    }
+
+    private function buildCode(CodeBuilder $codeBuilder, $namespace)
+    {
+        return $codeBuilder->setConnections($this->connections)
+            ->setNamespace($namespace)
+            ->build();
     }
 
     /**
