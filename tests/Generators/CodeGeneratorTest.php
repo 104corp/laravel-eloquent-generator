@@ -19,7 +19,7 @@ class CodeGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->createContainer()->make(CodeGenerator::class);
+        $this->target = $this->container->make(CodeGenerator::class);
     }
 
     protected function tearDown()

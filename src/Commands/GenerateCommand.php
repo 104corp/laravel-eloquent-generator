@@ -6,6 +6,7 @@ use Corp104\Eloquent\Generator\CodeBuilder;
 use Corp104\Eloquent\Generator\CodeWriter;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,7 +27,8 @@ class GenerateCommand extends Command
             ->addOption('--connection', null, InputOption::VALUE_REQUIRED, 'Connection name will only build', null)
             ->addOption('--output-dir', null, InputOption::VALUE_REQUIRED, 'Relative path with getcwd()', 'build')
             ->addOption('--namespace', null, InputOption::VALUE_REQUIRED, 'Namespace prefix', 'App')
-            ->addOption('--overwrite', null, InputOption::VALUE_NONE, 'Overwrite the exist file');
+            ->addOption('--overwrite', null, InputOption::VALUE_NONE, 'Overwrite the exist file')
+            ->addOption('--progress', null, InputOption::VALUE_NONE, 'Use progress bar');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -54,13 +56,16 @@ class GenerateCommand extends Command
         /** @var CodeBuilder $codeBuilder */
         $codeBuilder = $container->make(CodeBuilder::class);
 
+        $buildCode = $this->buildCode($codeBuilder, $namespace);
+
         /** @var CodeWriter $codeWriter */
         $codeWriter = $container->make(CodeWriter::class);
 
         $codeWriter->setOverwrite($overwrite)
             ->generate(
-                $this->buildCode($codeBuilder, $namespace),
-                $this->normalizePath($outputDir)
+                $buildCode,
+                $this->normalizePath($outputDir),
+                $this->createProgressCallback($input, $output, $buildCode)
             );
     }
 
@@ -69,6 +74,46 @@ class GenerateCommand extends Command
         return $codeBuilder->setConnections($this->connections)
             ->setNamespace($namespace)
             ->build();
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param array $buildCode
+     * @return null
+     */
+    private function createProgressCallback(InputInterface $input, OutputInterface $output, $buildCode)
+    {
+        $progress = $input->getOption('progress');
+
+        return $progress
+            ? $this->createProgressBarCallback($output, count($buildCode))
+            : $this->createProgressRawCallback($output);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param int $count
+     * @return \Closure
+     */
+    private function createProgressBarCallback(OutputInterface $output, $count)
+    {
+        $progressBar = new ProgressBar($output, $count);
+
+        return function () use ($progressBar) {
+            $progressBar->advance();
+        };
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @return \Closure
+     */
+    private function createProgressRawCallback(OutputInterface $output)
+    {
+        return function ($filePath) use ($output) {
+            $output->writeln("Writing {$filePath} ...");
+        };
     }
 
     /**
