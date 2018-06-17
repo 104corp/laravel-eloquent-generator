@@ -34,7 +34,7 @@ class ConnectionTransformerTest extends TestCase
      */
     public function shouldBeOkayWhenUsingSqliteConnection()
     {
-        $this->putConfigFile([
+        $this->putConfigFileWithVfs([
             'test_sqlite' => [
                 'driver' => 'sqlite',
                 'database' => ':memory:',

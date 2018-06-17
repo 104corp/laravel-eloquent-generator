@@ -53,6 +53,8 @@ This command using [`hassankhan/config`](https://github.com/hassankhan/config) t
 
 If only want build one connection, use the `--connection` option to specify.
 
+Use the `--overwrite` option if you want to overwrite exist code.
+
 ## Using Docker
 
 > See the info about Docker at [DockerHub](https://hub.docker.com/r/104corp/eloquent-generator/).
