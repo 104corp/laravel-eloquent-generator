@@ -40,6 +40,8 @@ before_install:
 
 install:
 - COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist
+# Bump the version
+- ./scripts/bump-version bump ${TRAVIS_BRANCH}
 
 script:
 - php vendor/bin/phpcs
