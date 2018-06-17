@@ -25,7 +25,8 @@ class GenerateCommand extends Command
             ->addOption('--config-file', null, InputOption::VALUE_REQUIRED, 'Config file', 'config/database.php')
             ->addOption('--connection', null, InputOption::VALUE_REQUIRED, 'Connection name will only build', null)
             ->addOption('--output-dir', null, InputOption::VALUE_REQUIRED, 'Relative path with getcwd()', 'build')
-            ->addOption('--namespace', null, InputOption::VALUE_REQUIRED, 'Namespace prefix', 'App');
+            ->addOption('--namespace', null, InputOption::VALUE_REQUIRED, 'Namespace prefix', 'App')
+            ->addOption('--overwrite', null, InputOption::VALUE_NONE, 'Overwrite the exist file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -35,6 +36,7 @@ class GenerateCommand extends Command
         $connection = $input->getOption('connection');
         $outputDir = $input->getOption('output-dir');
         $namespace = $input->getOption('namespace');
+        $overwrite = $input->getOption('overwrite');
 
         $this->loadDotEnv(
             $this->normalizePath($env)
@@ -55,10 +57,11 @@ class GenerateCommand extends Command
         /** @var CodeWriter $codeWriter */
         $codeWriter = $container->make(CodeWriter::class);
 
-        $codeWriter->generate(
-            $this->buildCode($codeBuilder, $namespace),
-            $this->normalizePath($outputDir)
-        );
+        $codeWriter->setOverwrite($overwrite)
+            ->generate(
+                $this->buildCode($codeBuilder, $namespace),
+                $this->normalizePath($outputDir)
+            );
     }
 
     private function buildCode(CodeBuilder $codeBuilder, $namespace)

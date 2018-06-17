@@ -51,7 +51,7 @@ class GenerateCommandTest extends TestCase
      */
     public function shouldReturnEmptyStringWhenConfigIsEmptySqlite()
     {
-        $this->putConfigFile([
+        $this->putConfigFileWithVfs([
             'test_sqlite' => [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
@@ -69,7 +69,7 @@ class GenerateCommandTest extends TestCase
      */
     public function shouldReturnEmptyStringWhenConfigIsEmptySqliteAndSpecifyTheSqliteConnection()
     {
-        $this->putConfigFile([
+        $this->putConfigFileWithVfs([
             'test_sqlite' => [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
@@ -118,7 +118,7 @@ class GenerateCommandTest extends TestCase
             'Connections config is not an array'
         );
 
-        $this->putConfigFile([
+        $this->putConfigFileWithVfs([
             'connections' => 'notArray',
         ]);
 
@@ -135,11 +135,10 @@ class GenerateCommandTest extends TestCase
             "The key 'connections' is not set in config file"
         );
 
-        $code = '<?php return ' . var_export([], true) . ';';
-
-        (new CodeWriter)->generate([
-            '/config/database.php' => $code,
-        ], $this->root->url());
+        $this->putRawFileWithVfs(
+            '<?php return ' . var_export([], true) . ';',
+            '/config/database.php'
+        );
 
         $this->target->run(new ArrayInput([]), new BufferedOutput());
     }

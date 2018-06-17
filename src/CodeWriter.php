@@ -5,6 +5,11 @@ namespace Corp104\Eloquent\Generator;
 class CodeWriter
 {
     /**
+     * @var bool
+     */
+    private $overwrite = false;
+
+    /**
      * @param array|callable $modelCode Array or callable which should return array like [filePath => code]
      * @param string $pathPrefix
      */
@@ -20,6 +25,17 @@ class CodeWriter
     }
 
     /**
+     * @param bool $overwrite
+     * @return static
+     */
+    public function setOverwrite($overwrite)
+    {
+        $this->overwrite = (bool)$overwrite;
+
+        return $this;
+    }
+
+    /**
      * @param mixed $code
      * @param string $filePath
      * @param string $pathPrefix
@@ -27,6 +43,10 @@ class CodeWriter
     private function writeCode($code, $filePath, $pathPrefix)
     {
         $fullPath = $pathPrefix . '/' . $filePath;
+
+        if (!$this->overwrite && is_file($fullPath)) {
+            return;
+        }
 
         $dir = dirname($fullPath);
 

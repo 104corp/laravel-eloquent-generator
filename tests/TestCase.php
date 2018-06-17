@@ -31,7 +31,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->root = vfsStream::setup();
 
-        $this->putConfigFile();
+        $this->putConfigFileWithVfs();
 
         $this->container = $this->createContainer();
     }
@@ -105,7 +105,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $path
      * @param array $config
      */
-    protected function putConfigFile(array $config = [], $path = '/config/database.php')
+    protected function putConfigFileWithVfs(array $config = [], $path = '/config/database.php')
     {
         if (!array_key_exists('connections', $config)) {
             $config = ['connections' => $config];
@@ -113,8 +113,19 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $code = '<?php return ' . var_export($config, true) . ';';
 
-        (new CodeWriter)->generate([
-            $path => $code,
-        ], $this->root->url());
+        $this->putRawFileWithVfs($code, $path);
+    }
+
+    /**
+     * @param string $code
+     * @param string $path
+     */
+    protected function putRawFileWithVfs($code, $path)
+    {
+        (new CodeWriter())
+            ->setOverwrite(true)
+            ->generate([
+                $path => $code,
+            ], $this->root->url());
     }
 }
