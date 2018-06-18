@@ -4,6 +4,7 @@ namespace Tests\Commands;
 
 use Corp104\Eloquent\Generator\CodeWriter;
 use Corp104\Eloquent\Generator\Commands\GenerateCommand;
+use Illuminate\Database\Schema\Blueprint;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Tests\TestCase;
@@ -24,7 +25,7 @@ class GenerateCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->createContainer()->make(GenerateCommand::class);
+        $this->target = $this->container->make(GenerateCommand::class);
         $this->target->setBasePath($this->root->url());
     }
 
@@ -49,6 +50,89 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturnWhenConfigHasSqlite()
+    {
+        $sqliteDb = $this->createSqliteInBuildPath();
+
+        $this->putConfigFileWithVfs([
+            'test_sqlite_for_progress_raw' => [
+                'driver' => 'sqlite',
+                'database' => $sqliteDb,
+            ]
+        ]);
+
+        $this->createContainer();
+
+        $this->createSchemaBuilder('test_sqlite_for_progress_raw')->create('table_a', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+        });
+
+        $output = new BufferedOutput();
+        $this->target->run(new ArrayInput([]), $output);
+
+        $actual = $output->fetch();
+
+        $this->assertContains('Writing', $actual);
+        $this->assertContains('TableA.php', $actual);
+
+        // Tear down temp database
+        unlink($sqliteDb);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnWhenConfigHasSqliteWithProgressArg()
+    {
+        $sqliteDb = $this->createSqliteInBuildPath();
+
+        $this->putConfigFileWithVfs([
+            'test_sqlite_for_progress_bar' => [
+                'driver' => 'sqlite',
+                'database' => $sqliteDb,
+            ]
+        ]);
+
+        $this->createContainer();
+
+        $this->createSchemaBuilder('test_sqlite_for_progress_bar')->create('table_a', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+        });
+
+        $output = new BufferedOutput();
+        $this->target->run(new ArrayInput([
+            '--progress' => null,
+        ]), $output);
+
+        $actual = $output->fetch();
+
+        $this->assertContains('1/1', $actual);
+        $this->assertContains('100%', $actual);
+
+        // Tear down temp database
+        unlink($sqliteDb);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnEmptyStringWhenConfigIsEmptyArrayWithProgressBar()
+    {
+        $this->container->make('db');
+
+        $output = new BufferedOutput();
+        $this->target->run(new ArrayInput([
+            '--progress' => null,
+        ]), $output);
+
+        $this->assertSame('', $output->fetch());
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturnEmptyStringWhenConfigIsEmptySqlite()
     {
         $this->putConfigFileWithVfs([
@@ -57,6 +141,8 @@ class GenerateCommandTest extends TestCase
                 'database' => ':memory:',
             ]
         ]);
+
+        $this->container->make('db');
 
         $output = new BufferedOutput();
         $this->target->run(new ArrayInput([]), $output);
@@ -75,6 +161,8 @@ class GenerateCommandTest extends TestCase
                 'database' => ':memory:',
             ]
         ]);
+
+        $this->container->make('db');
 
         $argWithSqliteConnection = [
             '--connection' => 'test_sqlite',

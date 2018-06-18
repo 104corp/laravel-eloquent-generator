@@ -50,6 +50,25 @@ class CodeWriterTest extends TestCase
     /**
      * @test
      */
+    public function shouldReceiveFilePathWhenCallGenerateWithProgressCallback()
+    {
+        $url = $this->root->url() . '/whatever';
+        $filePath = 'whatever.php';
+
+        $exceptedCode = 'whatever-code';
+
+        $callback = function ($actualFilePath) use ($filePath) {
+            $this->assertSame($filePath, $actualFilePath);
+        };
+
+        $this->target->generate([
+            $filePath => $exceptedCode,
+        ], $url, $callback);
+    }
+
+    /**
+     * @test
+     */
     public function shouldWriteCodeWhenCallGenerateWithCallable()
     {
         $url = $this->root->url() . '/whatever';

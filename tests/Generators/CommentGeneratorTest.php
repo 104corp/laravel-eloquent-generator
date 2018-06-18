@@ -19,7 +19,7 @@ class CommentGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->createContainer()->make(CommentGenerator::class);
+        $this->target = $this->container->make(CommentGenerator::class);
     }
 
     protected function tearDown()

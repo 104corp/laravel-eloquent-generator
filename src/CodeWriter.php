@@ -2,6 +2,8 @@
 
 namespace Corp104\Eloquent\Generator;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
 class CodeWriter
 {
     /**
@@ -10,18 +12,32 @@ class CodeWriter
     private $overwrite = false;
 
     /**
-     * @param array|callable $modelCode Array or callable which should return array like [filePath => code]
-     * @param string $pathPrefix
+     * @var int
      */
-    public function generate($modelCode, $pathPrefix)
+    private $progress = 0;
+
+    /**
+     * @param array|callable $code Array or callable which should return array like [filePath => code]
+     * @param string $pathPrefix
+     * @param null|callable $progressCallback
+     */
+    public function generate($code, $pathPrefix, $progressCallback = null)
     {
-        if (is_callable($modelCode)) {
-            $modelCode = $modelCode();
+        if (is_callable($code)) {
+            $code = $code();
         }
 
-        collect($modelCode)->each(function ($code, $filePath) use ($pathPrefix) {
+        collect($code)->each(function ($code, $filePath) use ($pathPrefix, $progressCallback) {
+            if (null !== $progressCallback) {
+                $progressCallback($filePath, $this->progress);
+            }
+
+            $this->progress++;
+
             $this->writeCode($code, $filePath, $pathPrefix);
         });
+
+        $this->progress = 0;
     }
 
     /**

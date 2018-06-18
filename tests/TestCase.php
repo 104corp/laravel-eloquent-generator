@@ -38,6 +38,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function tearDown()
     {
+        $this->container = null;
         $this->root = null;
 
         parent::tearDown();
@@ -99,6 +100,36 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->andReturn($tables);
 
         return $mock;
+    }
+
+    /**
+     * @param string $connection
+     * @return \Illuminate\Database\Schema\Builder
+     */
+    protected function createSchemaBuilder($connection)
+    {
+        return $this->container->make('db')->connection($connection)->getSchemaBuilder();
+    }
+
+    /**
+     * @return string
+     */
+    protected function createSqliteInBuildPath()
+    {
+        $filename = getcwd() . '/build/sqlite/test.db';
+        $dirname = dirname($filename);
+
+        if (is_file($filename)) {
+            unlink($filename);
+        }
+
+        if (!is_dir($dirname)) {
+            mkdir($dirname, 0777, true);
+        }
+
+        touch($filename);
+
+        return $filename;
     }
 
     /**
