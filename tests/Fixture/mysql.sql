@@ -38,3 +38,10 @@ CREATE TABLE `should_return_string` (
   `mediumtext_field` MEDIUMTEXT NOT NULL,
   `longtext_field` LONGTEXT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `test_for_pk`;
+
+CREATE TABLE `test_for_pk` (
+  `varchar_field` VARCHAR(32) NOT NULL,
+  PRIMARY KEY (`varchar_field`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

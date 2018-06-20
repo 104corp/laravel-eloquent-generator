@@ -40,8 +40,11 @@ class CodeGeneratorTest extends TestCase
             'field_c' => 'decimal',
         ]);
 
+        $indexGeneratorMock = $this->createIndexGeneratorMock();
+
         $actual = $this->target->generate(
             $schemaGeneratorMock,
+            $indexGeneratorMock,
             'SomeNamespace',
             'someConnection',
             'some_table'
@@ -66,9 +69,11 @@ class CodeGeneratorTest extends TestCase
     public function shouldReturnCorrectContentWithConnectionNamespace()
     {
         $schemaGeneratorMock = $this->createSchemaGeneratorMock();
+        $indexGeneratorMock = $this->createIndexGeneratorMock();
 
         $actual = $this->target->generate(
             $schemaGeneratorMock,
+            $indexGeneratorMock,
             'SomeNamespace',
             'someConnection',
             'whatever',
@@ -84,9 +89,11 @@ class CodeGeneratorTest extends TestCase
     public function shouldReturnCorrectContentWithoutConnectionNamespace()
     {
         $schemaGeneratorMock = $this->createSchemaGeneratorMock();
+        $indexGeneratorMock = $this->createIndexGeneratorMock();
 
         $actual = $this->target->generate(
             $schemaGeneratorMock,
+            $indexGeneratorMock,
             'SomeNamespace',
             'whatever',
             'whatever',

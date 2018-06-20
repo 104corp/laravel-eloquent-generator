@@ -19,14 +19,14 @@ class CodeBuilder
     private $connections;
 
     /**
-     * @var ConnectionTransformer
-     */
-    private $connectionTransform;
-
-    /**
      * @var string
      */
     private $namespace;
+
+    /**
+     * @var Resolver
+     */
+    private $resolver;
 
     /**
      * @var SchemaGenerator[]
@@ -40,12 +40,12 @@ class CodeBuilder
 
     /**
      * @param CodeGenerator $codeGenerator
-     * @param ConnectionTransformer $connectionTransform
+     * @param Resolver $resolver
      */
-    public function __construct(CodeGenerator $codeGenerator, ConnectionTransformer $connectionTransform)
+    public function __construct(CodeGenerator $codeGenerator, Resolver $resolver)
     {
         $this->codeGenerator = $codeGenerator;
-        $this->connectionTransform = $connectionTransform;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -68,7 +68,7 @@ class CodeBuilder
     {
         $this->connections = $connections;
         $this->withConnectionNamespace = count($connections) > 1;
-        $this->schemaGenerators = $this->connectionTransform->transform($connections);
+        $this->schemaGenerators = $this->resolver->resolveSchemaGenerators($connections);
 
         return $this;
     }
@@ -110,8 +110,11 @@ class CodeBuilder
             ->reduce(function ($carry, $table) use ($connection, $schemaGenerator) {
                 $relativePath = $this->createRelativePath($connection, $table);
 
+                $indexGenerator = $this->resolver->resolveIndexGenerator($connection, $table);
+
                 $code = $this->codeGenerator->generate(
                     $schemaGenerator,
+                    $indexGenerator,
                     $this->namespace,
                     $connection,
                     $table,
