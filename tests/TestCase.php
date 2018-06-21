@@ -83,9 +83,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function createFieldsStub(array $fields)
     {
-        return array_map(function ($field, $type) {
+        return collect($fields)->map(function ($type, $field) {
             return $this->createFieldStub($field, $type);
-        }, array_keys($fields), array_values($fields));
+        })->toArray();
     }
 
     /**

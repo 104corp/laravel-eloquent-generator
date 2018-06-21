@@ -45,3 +45,13 @@ CREATE TABLE `test_for_pk` (
   `varchar_field` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`varchar_field`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `test_for_comment`;
+
+CREATE TABLE `test_for_comment` (
+  `some_char1` char(64) COLLATE utf8_bin DEFAULT NULL,
+  `some_char2` char(64) COLLATE utf8_bin NOT NULL COMMENT 'some_char2 comment ',
+  `some_varchar` varchar(4000) COLLATE utf8_bin DEFAULT NULL COMMENT 'some_varchar comment ',
+  KEY `test_for_comment_idx_01` (`some_char2`),
+  KEY `test_for_comment_idx_02` (`some_char2`,`some_char1`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='table_comment ';

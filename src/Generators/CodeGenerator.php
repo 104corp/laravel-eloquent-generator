@@ -60,12 +60,14 @@ class CodeGenerator
             $namespace = $namespace . '\\' . ucfirst($connection);
         }
 
+        $fields = $this->buildFields($schemaGenerator, $table);
+
         return $this->view->make('model', [
-            'comment' => $this->buildCommentOfFields($schemaGenerator, $table),
+            'comment' => $this->commentGenerator->generate($fields),
             'connection' => $connection,
             'name' => Str::studly($table),
             'namespace' => $namespace,
-            'pk' => $this->buildPrimaryKeyField($schemaGenerator, $indexGenerator, $table),
+            'pk' => $this->primaryKeyGenerator->generate($indexGenerator, $fields),
             'table' => $table,
         ])->render();
     }
@@ -73,25 +75,12 @@ class CodeGenerator
     /**
      * @param SchemaGenerator $schemaGenerator
      * @param string $table
-     * @return string
+     * @return array
      */
-    private function buildCommentOfFields(SchemaGenerator $schemaGenerator, $table)
+    private function buildFields(SchemaGenerator $schemaGenerator, $table)
     {
-        $fields = $schemaGenerator->getFields($table);
-
-        return $this->commentGenerator->generate($fields);
-    }
-
-    /**
-     * @param SchemaGenerator $schemaGenerator
-     * @param IndexGenerator $indexGenerator
-     * @param string $table
-     * @return string
-     */
-    private function buildPrimaryKeyField(SchemaGenerator $schemaGenerator, IndexGenerator $indexGenerator, $table)
-    {
-        $fields = $schemaGenerator->getFields($table);
-
-        return $this->primaryKeyGenerator->generate($indexGenerator, $fields);
+        return collect($schemaGenerator->getFields($table))->filter(function ($value, $key) {
+            return is_string($key);
+        })->toArray();
     }
 }
