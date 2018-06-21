@@ -103,6 +103,22 @@ class PropertyGeneratorTest extends TestCase
     /**
      * @test
      */
+    public function shouldRemoveTailSpace()
+    {
+        $property = $this->createFieldStub('whatever', 'unknown', [
+            'decorators' => [
+                "comment('some-comment     ')",
+            ],
+        ]);
+
+        $excepted = "mixed {$property['field']} some-comment";
+
+        $this->assertSame($excepted, $this->target->generate($property));
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturnCommentWordWhenDecoratorOfTypeHasAnotherComment()
     {
         $exceptedComment = 'comment-something';

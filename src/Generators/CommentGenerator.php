@@ -32,7 +32,7 @@ class CommentGenerator
         foreach ($fields as $property) {
             $modelProperty = $this->typeGenerator->generate($property);
 
-            $comment .= " * @property {$modelProperty} " . PHP_EOL;
+            $comment .= " * @property {$modelProperty}" . PHP_EOL;
         }
 
         $comment .= ' */';

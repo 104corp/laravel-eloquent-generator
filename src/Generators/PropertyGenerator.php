@@ -43,7 +43,8 @@ class PropertyGenerator
         $modelProperty = "{$type} {$field}";
         $modelProperty = $this->resolveDecorators($columnProperties, $modelProperty);
 
-        return $modelProperty;
+        // Should remove tail space
+        return trim($modelProperty);
     }
 
     /**
