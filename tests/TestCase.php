@@ -5,10 +5,12 @@ namespace Tests;
 use Corp104\Eloquent\Generator\Bootstrapper;
 use Corp104\Eloquent\Generator\CodeWriter;
 use Corp104\Eloquent\Generator\Commands\Concerns\DatabaseConnection;
+use Corp104\Eloquent\Generator\Generators\PrimaryKeyGenerator;
 use Illuminate\Container\Container;
 use Mockery;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use Xethron\MigrationsGenerator\Generators\IndexGenerator;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -55,6 +57,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             $this->root->url() . $config
         );
 
+        $container->instance(PrimaryKeyGenerator::class, $this->createPrimaryKeyGeneratorNullStub());
         Container::setInstance($container);
 
         return $container;
@@ -86,6 +89,25 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @param bool $returnPrimary
+     * @return IndexGenerator
+     */
+    protected function createIndexGeneratorMock($returnPrimary = false)
+    {
+        $obj = new \stdClass();
+
+        if ($returnPrimary) {
+            $obj->type = 'primary';
+        }
+
+        $mock = Mockery::mock(IndexGenerator::class);
+        $mock->shouldReceive('getIndex')
+            ->andReturn($obj);
+
+        return $mock;
+    }
+
+    /**
      * @param array $fields [field_name => $type]
      * @param array $tables
      * @return SchemaGenerator
@@ -98,6 +120,18 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $mock->shouldReceive('getTables')
             ->andReturn($tables);
+
+        return $mock;
+    }
+
+    /**
+     * @return PrimaryKeyGenerator
+     */
+    protected function createPrimaryKeyGeneratorNullStub()
+    {
+        $mock = Mockery::mock(PrimaryKeyGenerator::class);
+        $mock->shouldReceive('generate')
+            ->andReturn('null');
 
         return $mock;
     }

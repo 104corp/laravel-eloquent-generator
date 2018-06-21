@@ -13,7 +13,7 @@ class {{ name }} extends Model
 
     protected $guarded = [];
 
-    protected $primaryKey = null;
+    protected $primaryKey = {{ pk }};
 
     public $timestamps = false;
 

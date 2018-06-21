@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Corp104\Eloquent\Generator\CodeBuilder;
-use Corp104\Eloquent\Generator\ConnectionTransformer;
+use Corp104\Eloquent\Generator\Resolver;
 use Mockery;
 
 class CodeBuilderTest extends TestCase
@@ -18,7 +18,7 @@ class CodeBuilderTest extends TestCase
         ]);
 
         /** @var CodeBuilder $target */
-        $target = $this->createContainerWithSchemaGenerators([
+        $target = $this->createContainerWithResolverMock([
             'whatever' => $schemaGeneratorMock,
         ])->make(CodeBuilder::class);
 
@@ -43,7 +43,7 @@ class CodeBuilderTest extends TestCase
         ]);
 
         /** @var CodeBuilder $target */
-        $target = $this->createContainerWithSchemaGenerators([
+        $target = $this->createContainerWithResolverMock([
             'SomeConnection1' => $schemaGeneratorMock1,
             'SomeConnection2' => $schemaGeneratorMock2,
         ])->make(CodeBuilder::class);
@@ -60,14 +60,16 @@ class CodeBuilderTest extends TestCase
         $this->assertArrayHasKey('/SomeConnection2/SomeTable2.php', $actual);
     }
 
-    private function createContainerWithSchemaGenerators(array $schemaGenerators)
+    private function createContainerWithResolverMock(array $schemaGenerators)
     {
-        $connectionTransformMock = Mockery::mock(ConnectionTransformer::class);
-        $connectionTransformMock->shouldReceive('transform')
+        $resolverMock = Mockery::mock(Resolver::class);
+        $resolverMock->shouldReceive('resolveSchemaGenerators')
             ->andReturn($schemaGenerators);
+        $resolverMock->shouldReceive('resolveIndexGenerator')
+            ->andReturn($this->createIndexGeneratorMock());
 
         $container = $this->createContainer();
-        $container->instance(ConnectionTransformer::class, $connectionTransformMock);
+        $container->instance(Resolver::class, $resolverMock);
 
         return $container;
     }
