@@ -8,11 +8,17 @@
 
 Laravel Eloquent Generator
 
+* [中文](https://github.com/104corp/laravel-eloquent-generator/wiki/%E4%B8%AD%E6%96%87)
+
 ## System Requirement
 
 * PHP 5.5+
 * Laravel 5.2 ~ 5.4 ,see [Requirement](https://laravel.com/docs/5.2/installation#server-requirements)
 * PDO driver
+
+The code generated can use in following Laravel version:
+
+* Laravel 4.0 ~ 5.6
 
 ## Support Database
 
@@ -83,9 +89,4 @@ Clone this repository and execute command:
 make
 ```
 
-The `make` command will generate `eloquent-generator.phar` file which is executable. You can execute this file or move into `/usr/local/bin`:
-
-```bash
-sudo mv eloquent-generator.phar /usr/local/bin/eloquent-generator
-eloquent-generator
-```
+The `make` command will generate `eloquent-generator.phar` file which is executable.
