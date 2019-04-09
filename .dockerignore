@@ -1,5 +1,13 @@
+# Docker files
+/.dockerignore
+/Dockerfile
+
 # Git files
 /.git
 
 # Composer files
 /vendor
+/composer.lock
+
+# Build files
+/eloquent-generator.phar

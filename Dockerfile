@@ -1,8 +1,27 @@
-FROM php:5.5-alpine
+FROM 104corp/php-testing:7.1 AS builder
+
+ARG VERSION=dev-master
+
+RUN apk add --no-cache make
+
+RUN mkdir -p /source
+WORKDIR /source
+
+COPY composer.json .
+RUN composer install
+
+COPY . .
+
+RUN php vendor/bin/phpcs
+RUN php vendor/bin/phpunit
+
+RUN make eloquent-generator.phar VERSION=${VERSION}
+
+FROM php:7.1-alpine
 
 RUN docker-php-ext-install -j $(getconf _NPROCESSORS_ONLN) pdo_mysql
 
-COPY ./eloquent-generator.phar /usr/local/bin/
+COPY --from=builder /source/eloquent-generator.phar /usr/local/bin/
 
 WORKDIR /source
 

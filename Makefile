@@ -2,7 +2,7 @@
 
 INSTALL_PATH:=/usr/local/bin/eloquent-generator
 DOCKER_IMAGE:=104corp/eloquent-generator
-VERSION:=master
+VERSION:=dev-master
 TARGETS:=ci style test coverage
 
 .PHONY: all clean clean-all image install sqlite container
@@ -30,10 +30,10 @@ container:
 	@docker-compose up -d
 	@docker-compose logs -f
 
-eloquent-generator.phar: vendor
+eloquent-generator.phar: composer.phar
 	@echo ">>> Building phar ..."
+	@php composer.phar install --no-dev --optimize-autoloader
 	@./scripts/bump-version bump ${VERSION}
-	@php composer.phar install --quiet --no-dev --optimize-autoloader
 	@php -d phar.readonly=off ./scripts/build
 	@chmod +x eloquent-generator.phar
 	@echo ">>> Build phar finished."
@@ -41,8 +41,8 @@ eloquent-generator.phar: vendor
 install:
 	mv eloquent-generator.phar ${INSTALL_PATH}
 
-image: eloquent-generator.phar
-	docker build -t ${DOCKER_IMAGE} .
+image:
+	docker build --build-arg VERSION=${VERSION} --tag ${DOCKER_IMAGE} .
 
 vendor: composer.phar
 	@php composer.phar install --prefer-dist
