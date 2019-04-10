@@ -9,6 +9,7 @@ php:
 - 7.0
 - 7.1
 - 7.2
+- 7.3
 - nightly
 
 env:
@@ -47,7 +48,6 @@ script:
 - php vendor/bin/phpcs
 - php vendor/bin/phpunit --coverage-clover=coverage.xml
 - php eloquent-generator --config-file=tests/Fixture/database.php
-- rm -rf tests
 - make clean eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
 
 after_success:

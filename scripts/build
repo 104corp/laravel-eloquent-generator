@@ -2,7 +2,7 @@
 <?php
 
 $extensions = ['php', 'txt'];
-$dir = __DIR__ . '/../';
+$dir = dirname(__DIR__) . '/';
 $filename = 'eloquent-generator.phar';
 $path = dirname(__DIR__) . '/' . $filename;
 
@@ -10,8 +10,11 @@ $phar = new Phar($path, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIter
 $phar->setSignatureAlgorithm(Phar::SHA1);
 $phar->startBuffering();
 
+$dirPrefix = addcslashes($dir, '/');
 foreach ($extensions as $ext) {
-    $phar->buildFromDirectory($dir, '/\.' . $ext . '$/');
+    $phar->buildFromDirectory($dir, '/' . $dirPrefix . 'bin.*\.' . $ext . '$/');
+    $phar->buildFromDirectory($dir, '/' . $dirPrefix . 'src.*\.' . $ext . '$/');
+    $phar->buildFromDirectory($dir, '/' . $dirPrefix . 'vendor.*\.' . $ext . '$/');
 }
 
 $stubTemplate = <<<EOF
