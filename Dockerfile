@@ -1,4 +1,4 @@
-FROM 104corp/php-testing:7.1 AS builder
+FROM 104corp/php-testing:7.3 AS builder
 
 ARG VERSION=dev-master
 
@@ -17,7 +17,7 @@ RUN php vendor/bin/phpunit
 
 RUN make eloquent-generator.phar VERSION=${VERSION}
 
-FROM php:7.1-alpine
+FROM php:7.3-alpine
 
 RUN docker-php-ext-install -j $(getconf _NPROCESSORS_ONLN) pdo_mysql
 
