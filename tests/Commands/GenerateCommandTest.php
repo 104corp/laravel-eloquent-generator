@@ -184,7 +184,7 @@ class GenerateCommandTest extends TestCase
 
         $excepted = 'bar';
 
-        (new CodeWriter)->generate([
+        (new CodeWriter())->generate([
             '/.env' => 'TEST_FOR_DOT_ENV=bar',
         ], $this->root->url());
 

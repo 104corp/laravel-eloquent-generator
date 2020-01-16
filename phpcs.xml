@@ -7,8 +7,16 @@
     <!-- use colors in output -->
     <arg name="colors"/>
 
+    <!-- check the php syntax -->
+    <rule ref="Generic.PHP.Syntax"/>
+
     <!-- inherit rules from: -->
-    <rule ref="PSR2"/>
+    <rule ref="PSR12"/>
+
+    <!-- exclude because php version is set to 5.5 -->
+    <rule ref="PSR12.Properties.ConstantVisibility.NotFound">
+        <exclude-pattern>src</exclude-pattern>
+    </rule>
 
     <!-- Paths and file to check -->
     <file>src</file>

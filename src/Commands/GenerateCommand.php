@@ -13,8 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command
 {
-    use Concerns\DatabaseConnection,
-        Concerns\Environment;
+    use Concerns\DatabaseConnection;
+    use Concerns\Environment;
 
     protected function configure()
     {
