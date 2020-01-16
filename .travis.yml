@@ -1,70 +1,66 @@
-sudo: false
 os: linux
-dist: trusty
+dist: xenial
 language: php
 
 php:
-- 7.1
-- 7.2
-- 7.3
-- 7.4
+  - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
 
 env:
   global:
-    DOCKER_IMAGE: 104corp/eloquent-generator
-
-matrix:
-  allow_failures:
-  - php: nightly
+    - COMPOSER_MEMORY_LIMIT=-1
+    - DOCKER_IMAGE=104corp/eloquent-generator
 
 services:
-- docker
-- mysql
-- postgresql
+  - docker
+  - mysql
+  - postgresql
 
 branches:
   only:
-  - master
-  - /^\d+\.\d+\.\d+$/
+    - master
+    - /^\d+\.\d+\.\d+$/
 
 before_install:
-# Prepare MySQL schema
-- mysql < ./tests/Fixture/mysql.sql
-- mysql -e "SET PASSWORD = PASSWORD('password');"
-# Prepare Sqlite schema
-- sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
-# Prepare postgresql
-- psql -U postgres -d postgres -f tests/Fixture/postgres.sql
+  # Prepare MySQL schema
+  - mysql < ./tests/Fixture/mysql.sql
+  - mysql -e "SET PASSWORD = PASSWORD('password');"
+  # Prepare Sqlite schema
+  - sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
+  # Prepare postgresql
+  - psql -U postgres -d postgres -f tests/Fixture/postgres.sql
 
 install:
-- COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist
-# Bump the version
-- ./scripts/bump-version bump ${TRAVIS_BRANCH}
+  - composer install --prefer-dist
+  # Bump the version
+  - ./scripts/bump-version bump ${TRAVIS_BRANCH}
 
 script:
-- php vendor/bin/phpcs
-- php vendor/bin/phpunit --coverage-clover=coverage.xml
-- php eloquent-generator --config-file=tests/Fixture/database.php
-- make clean eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
+  - php vendor/bin/phpcs
+  - php vendor/bin/phpunit --coverage-clover=coverage.xml
+  - php eloquent-generator --config-file=tests/Fixture/database.php
+  - make clean eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
 
 after_success:
-- if [[ "7.1" == "${TRAVIS_PHP_VERSION}" ]]; then bash <(curl -s https://codecov.io/bash) ; fi
-- |
-  if [[ "7.1" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]]; then
-    make image
-    docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
-    docker push ${DOCKER_IMAGE}
-  fi
+  - if [[ "7.1" == "${TRAVIS_PHP_VERSION}" ]]; then bash <(curl -s https://codecov.io/bash) ; fi
+  - |
+    if [[ "7.1" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]]; then
+      make image
+      docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+      docker push ${DOCKER_IMAGE}
+    fi
 
 before_deploy:
-- docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
-- docker push ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
+  - docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
+  - docker push ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
 
 cache:
   directories:
-  - $HOME/.composer/cache/files
-  - vendor
-  - composer.phar
+    - $HOME/.composer/cache/files
+    - vendor
+    - composer.phar
 
 deploy:
   provider: releases
