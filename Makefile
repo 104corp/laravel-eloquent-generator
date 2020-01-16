@@ -9,7 +9,7 @@ TARGETS:=ci style test coverage
 
 # ------------------------------------------------------------------------------
 
-all: clean ci eloquent-generator.phar
+all: clean  test eloquent-generator.phar
 
 clean:
 	@echo ">>> Clean artifacts ..."
@@ -22,6 +22,15 @@ clean-all: clean
 	@rm -f ./composer.phar
 	@rm -rf ./vendor
 
+check:
+	php vendor/bin/phpcs
+
+coverage: test
+	@if [ "`uname`" = "Darwin" ]; then open build/coverage/index.html; fi
+
+test: check
+	phpdbg -qrr vendor/bin/phpunit
+
 sqlite:
 	@sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
 
@@ -30,32 +39,17 @@ container:
 	@docker-compose up -d
 	@docker-compose logs -f
 
-eloquent-generator.phar: composer.phar
+eloquent-generator.phar:
 	@echo ">>> Building phar ..."
-	@php composer.phar install --no-dev --optimize-autoloader
+	@composer install --no-dev --optimize-autoloader --quiet
 	@./scripts/bump-version bump ${VERSION}
 	@php -d phar.readonly=off ./scripts/build
 	@chmod +x eloquent-generator.phar
 	@echo ">>> Build phar finished."
+	@composer install --dev --quiet
 
 install:
 	mv eloquent-generator.phar ${INSTALL_PATH}
 
 image:
 	docker build --build-arg VERSION=${VERSION} --tag ${DOCKER_IMAGE} .
-
-vendor: composer.phar
-	@php composer.phar install --prefer-dist
-
-composer.phar:
-	@curl -sS https://getcomposer.org/installer | php
-
-$(TARGETS): .dapper
-	@./.dapper $@
-
-.dapper:
-	@echo ">>> Downloading dapper ..."
-	@curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > .dapper.tmp
-	@chmod +x .dapper.tmp
-	@./.dapper.tmp -v
-	@mv .dapper.tmp .dapper
