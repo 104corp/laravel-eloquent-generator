@@ -11,21 +11,24 @@ class PrimaryKeyGenerator
      * @param array $fields
      * @return string
      */
-    public function generate(IndexGenerator $indexGenerator, $fields)
+    public function generate(IndexGenerator $indexGenerator, $fields): string
     {
-        $fieldsWithPk = array_filter($fields, function ($attr) use ($indexGenerator) {
+        $fieldsWithPk = array_filter($fields, static function ($attr) use ($indexGenerator) {
             $indexAttr = $indexGenerator->getIndex($attr['field']);
             return isset($indexAttr->type) && 'primary' === $indexAttr->type;
         });
 
-        $pks = array_values(array_map(function ($attr) {
-            return $attr['field'];
-        }, $fieldsWithPk));
+        $pks = array_values(array_map(
+            static function ($attr) {
+                return $attr['field'];
+            },
+            $fieldsWithPk
+        ));
 
         return $this->buildArrayCode($pks);
     }
 
-    protected function buildArrayCode(array $pks)
+    protected function buildArrayCode(array $pks): string
     {
         if (count($pks) !== 1) {
             return 'null';

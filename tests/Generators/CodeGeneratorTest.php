@@ -32,7 +32,7 @@ class CodeGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCorrectFieldAndClassAndConnection()
+    public function shouldReturnCorrectFieldAndClassAndConnection(): void
     {
         $schemaGeneratorMock = $this->createSchemaGeneratorMock([
             'field_a' => 'integer',
@@ -66,7 +66,7 @@ class CodeGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCorrectContentWithConnectionNamespace()
+    public function shouldReturnCorrectContentWithConnectionNamespace(): void
     {
         $schemaGeneratorMock = $this->createSchemaGeneratorMock();
         $indexGeneratorMock = $this->createIndexGeneratorMock();
@@ -86,7 +86,7 @@ class CodeGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCorrectContentWithoutConnectionNamespace()
+    public function shouldReturnCorrectContentWithoutConnectionNamespace(): void
     {
         $schemaGeneratorMock = $this->createSchemaGeneratorMock();
         $indexGeneratorMock = $this->createIndexGeneratorMock();

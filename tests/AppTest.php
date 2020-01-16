@@ -16,7 +16,7 @@ class AppTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyStringWhenConfigIsEmptyArray()
+    public function shouldReturnEmptyStringWhenConfigIsEmptyArray(): void
     {
         $commandWithBasePath = new GenerateCommand();
         $commandWithBasePath->setBasePath($this->root->url());

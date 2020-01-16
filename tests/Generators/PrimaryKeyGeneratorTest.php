@@ -34,7 +34,7 @@ class PrimaryKeyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnNullWhenSchemaHasNoPrimaryKey()
+    public function shouldReturnNullWhenSchemaHasNoPrimaryKey(): void
     {
         $indexGeneratorMock = \Mockery::mock(IndexGenerator::class);
         $indexGeneratorMock->shouldReceive('getIndex')
@@ -50,7 +50,7 @@ class PrimaryKeyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnFieldNameWhenSchemaHasOnePrimaryKey()
+    public function shouldReturnFieldNameWhenSchemaHasOnePrimaryKey(): void
     {
         $obj = new \stdClass();
         $obj->type = 'primary';
@@ -69,7 +69,7 @@ class PrimaryKeyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnNullWhenSchemaHasManyPrimaryKey()
+    public function shouldReturnNullWhenSchemaHasManyPrimaryKey(): void
     {
         $obj = new \stdClass();
         $obj->type = 'primary';

@@ -15,7 +15,7 @@ class PropertyGeneratorTest extends TestCase
      */
     private $target;
 
-    public function defaultFields()
+    public function defaultFields(): array
     {
         return [
             ['int', $this->createFieldStub('whatever', 'smallInteger')],
@@ -47,7 +47,7 @@ class PropertyGeneratorTest extends TestCase
      * @test
      * @dataProvider defaultFields
      */
-    public function shouldReturnCorrectTypeWithDefaultFields($exceptedType, $property)
+    public function shouldReturnCorrectTypeWithDefaultFields($exceptedType, $property): void
     {
         $excepted = "{$exceptedType} {$property['field']}";
 
@@ -57,7 +57,7 @@ class PropertyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnMixedWhenTypeIsNotFound()
+    public function shouldReturnMixedWhenTypeIsNotFound(): void
     {
         $property = $this->createFieldStub('whatever', 'unknown');
 
@@ -69,7 +69,7 @@ class PropertyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnNullWordWhenDecoratorOfTypeHasNullable()
+    public function shouldReturnNullWordWhenDecoratorOfTypeHasNullable(): void
     {
         $property = $this->createFieldStub('whatever', 'unknown', [
             'decorators' => [
@@ -85,7 +85,7 @@ class PropertyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCommentWordWhenDecoratorOfTypeHasMysqlComment()
+    public function shouldReturnCommentWordWhenDecoratorOfTypeHasMysqlComment(): void
     {
         $exceptedComment = 'some-comment';
 
@@ -103,7 +103,7 @@ class PropertyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveTailSpace()
+    public function shouldRemoveTailSpace(): void
     {
         $property = $this->createFieldStub('whatever', 'unknown', [
             'decorators' => [
@@ -119,7 +119,7 @@ class PropertyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCommentWordWhenDecoratorOfTypeHasAnotherComment()
+    public function shouldReturnCommentWordWhenDecoratorOfTypeHasAnotherComment(): void
     {
         $exceptedComment = 'comment-something';
 
@@ -137,7 +137,7 @@ class PropertyGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnMappingWithNewPropertyWhenSetNewMapping()
+    public function shouldReturnMappingWithNewPropertyWhenSetNewMapping(): void
     {
         $exceptedType = 'propertyType';
 

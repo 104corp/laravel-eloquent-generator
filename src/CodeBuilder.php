@@ -51,7 +51,7 @@ class CodeBuilder
     /**
      * @return array [filepath => code]
      */
-    public function build()
+    public function build(): array
     {
         $connections = array_keys($this->connections);
 
@@ -64,7 +64,7 @@ class CodeBuilder
      * @param array $connections
      * @return static
      */
-    public function setConnections(array $connections)
+    public function setConnections(array $connections): CodeBuilder
     {
         $this->connections = $connections;
         $this->withConnectionNamespace = count($connections) > 1;
@@ -77,7 +77,7 @@ class CodeBuilder
      * @param string $namespace
      * @return static
      */
-    public function setNamespace($namespace)
+    public function setNamespace($namespace): CodeBuilder
     {
         $this->namespace = $namespace;
 
@@ -89,7 +89,7 @@ class CodeBuilder
      * @param string $table
      * @return string
      */
-    private function createRelativePath($connection, $table)
+    private function createRelativePath($connection, $table): string
     {
         if ($this->withConnectionNamespace) {
             return '/' . Str::studly($connection) . '/' . Str::studly($table) . '.php';

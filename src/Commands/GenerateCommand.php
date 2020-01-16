@@ -69,7 +69,7 @@ class GenerateCommand extends Command
             );
     }
 
-    private function buildCode(CodeBuilder $codeBuilder, $namespace)
+    private function buildCode(CodeBuilder $codeBuilder, $namespace): array
     {
         return $codeBuilder->setConnections($this->connections)
             ->setNamespace($namespace)
@@ -96,11 +96,11 @@ class GenerateCommand extends Command
      * @param int $count
      * @return \Closure
      */
-    private function createProgressBarCallback(OutputInterface $output, $count)
+    private function createProgressBarCallback(OutputInterface $output, $count): callable
     {
         $progressBar = new ProgressBar($output, $count);
 
-        return function () use ($progressBar) {
+        return static function () use ($progressBar) {
             $progressBar->advance();
         };
     }
@@ -109,9 +109,9 @@ class GenerateCommand extends Command
      * @param OutputInterface $output
      * @return \Closure
      */
-    private function createProgressRawCallback(OutputInterface $output)
+    private function createProgressRawCallback(OutputInterface $output): callable
     {
-        return function ($filePath) use ($output) {
+        return static function ($filePath) use ($output) {
             $output->writeln("Writing {$filePath} ...");
         };
     }
@@ -120,9 +120,9 @@ class GenerateCommand extends Command
      * @param string $path
      * @return string
      */
-    private function normalizePath($path)
+    private function normalizePath($path): string
     {
-        if ($path{0} !== '/') {
+        if ($path[0] !== '/') {
             $path = $this->basePath() . '/' . $path;
         }
 

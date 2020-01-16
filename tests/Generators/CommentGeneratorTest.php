@@ -32,7 +32,7 @@ class CommentGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCorrectContent()
+    public function shouldReturnCorrectContent(): void
     {
         $property = $this->createFieldsStub([
             'field_a' => 'integer',
@@ -53,7 +53,7 @@ class CommentGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyStringWhenNoField()
+    public function shouldReturnEmptyStringWhenNoField(): void
     {
         $this->assertSame('', $this->target->generate([]));
     }

@@ -39,7 +39,7 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyStringWhenConfigIsEmptyArray()
+    public function shouldReturnEmptyStringWhenConfigIsEmptyArray(): void
     {
         $output = new BufferedOutput();
         $this->target->run(new ArrayInput([]), $output);
@@ -50,7 +50,7 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnWhenConfigHasSqlite()
+    public function shouldReturnWhenConfigHasSqlite(): void
     {
         $sqliteDb = $this->createSqliteInBuildPath();
 
@@ -83,7 +83,7 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnWhenConfigHasSqliteWithProgressArg()
+    public function shouldReturnWhenConfigHasSqliteWithProgressArg(): void
     {
         $sqliteDb = $this->createSqliteInBuildPath();
 
@@ -118,7 +118,7 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyStringWhenConfigIsEmptyArrayWithProgressBar()
+    public function shouldReturnEmptyStringWhenConfigIsEmptyArrayWithProgressBar(): void
     {
         $this->container->make('db');
 
@@ -133,7 +133,7 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyStringWhenConfigIsEmptySqlite()
+    public function shouldReturnEmptyStringWhenConfigIsEmptySqlite(): void
     {
         $this->putConfigFileWithVfs([
             'test_sqlite' => [
@@ -153,7 +153,7 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEmptyStringWhenConfigIsEmptySqliteAndSpecifyTheSqliteConnection()
+    public function shouldReturnEmptyStringWhenConfigIsEmptySqliteAndSpecifyTheSqliteConnection(): void
     {
         $this->putConfigFileWithVfs([
             'test_sqlite' => [
@@ -176,8 +176,9 @@ class GenerateCommandTest extends TestCase
 
     /**
      * @test
+     * @covers \Corp104\Eloquent\Generator\Commands\Concerns\Environment
      */
-    public function shouldLoadEnvWhenEnvIsExist()
+    public function shouldLoadEnvWhenEnvIsExist(): void
     {
         // Clean env before test
         putenv('TEST_FOR_DOT_ENV');
@@ -199,12 +200,10 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionWhenConnectionConfigIsNotArray()
+    public function shouldThrowExceptionWhenConnectionConfigIsNotArray(): void
     {
-        $this->setExpectedException(
-            \RuntimeException::class,
-            'Connections config is not an array'
-        );
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Connections config is not an array');
 
         $this->putConfigFileWithVfs([
             'connections' => 'notArray',
@@ -216,12 +215,10 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionWhenConnectionConfigHasNoConnectionsKey()
+    public function shouldThrowExceptionWhenConnectionConfigHasNoConnectionsKey(): void
     {
-        $this->setExpectedException(
-            \RuntimeException::class,
-            "The key 'connections' is not set in config file"
-        );
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("The key 'connections' is not set in config file");
 
         $this->putRawFileWithVfs(
             '<?php return ' . var_export([], true) . ';',
@@ -234,12 +231,10 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionWhenConnectionSpecifiedIsNotFound()
+    public function shouldThrowExceptionWhenConnectionSpecifiedIsNotFound(): void
     {
-        $this->setExpectedException(
-            \RuntimeException::class,
-            'unknown'
-        );
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('unknown');
 
         $argWithUnknownConnection = [
             '--connection' => 'unknown',

@@ -46,7 +46,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    protected function createContainer($config = '/config/database.php')
+    protected function createContainer($config = '/config/database.php'): Container
     {
         $container = new Container();
 
@@ -69,7 +69,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param array $addition
      * @return array
      */
-    protected function createFieldStub($field, $type, array $addition = [])
+    protected function createFieldStub($field, $type, array $addition = []): array
     {
         return array_merge([
             'field' => $field,
@@ -81,7 +81,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param array $fields [field_name => $type]
      * @return array
      */
-    protected function createFieldsStub(array $fields)
+    protected function createFieldsStub(array $fields): array
     {
         return collect($fields)->map(function ($type, $field) {
             return $this->createFieldStub($field, $type);
@@ -92,7 +92,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param bool $returnPrimary
      * @return IndexGenerator
      */
-    protected function createIndexGeneratorMock($returnPrimary = false)
+    protected function createIndexGeneratorMock($returnPrimary = false): IndexGenerator
     {
         $obj = new \stdClass();
 
@@ -112,7 +112,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param array $tables
      * @return SchemaGenerator
      */
-    protected function createSchemaGeneratorMock(array $fields = [], array $tables = [])
+    protected function createSchemaGeneratorMock(array $fields = [], array $tables = []): SchemaGenerator
     {
         $mock = Mockery::mock(SchemaGenerator::class);
         $mock->shouldReceive('getFields')
@@ -127,7 +127,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @return PrimaryKeyGenerator
      */
-    protected function createPrimaryKeyGeneratorNullStub()
+    protected function createPrimaryKeyGeneratorNullStub(): PrimaryKeyGenerator
     {
         $mock = Mockery::mock(PrimaryKeyGenerator::class);
         $mock->shouldReceive('generate')
@@ -140,7 +140,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $connection
      * @return \Illuminate\Database\Schema\Builder
      */
-    protected function createSchemaBuilder($connection)
+    protected function createSchemaBuilder($connection): \Illuminate\Database\Schema\Builder
     {
         return $this->container->make('db')->connection($connection)->getSchemaBuilder();
     }
@@ -148,7 +148,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @return string
      */
-    protected function createSqliteInBuildPath()
+    protected function createSqliteInBuildPath(): string
     {
         $filename = getcwd() . '/build/sqlite/test.db';
         $dirname = dirname($filename);
@@ -170,7 +170,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $path
      * @param array $config
      */
-    protected function putConfigFileWithVfs(array $config = [], $path = '/config/database.php')
+    protected function putConfigFileWithVfs(array $config = [], $path = '/config/database.php'): void
     {
         if (!array_key_exists('connections', $config)) {
             $config = ['connections' => $config];
@@ -185,7 +185,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $code
      * @param string $path
      */
-    protected function putRawFileWithVfs($code, $path)
+    protected function putRawFileWithVfs($code, $path): void
     {
         (new CodeWriter())
             ->setOverwrite(true)

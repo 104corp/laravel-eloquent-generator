@@ -34,7 +34,6 @@ Thumbs.db
 # Composer files
 /vendor
 /composer.phar
-/composer.lock
 
 # Build files
 /build

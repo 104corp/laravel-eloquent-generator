@@ -4,13 +4,10 @@ dist: trusty
 language: php
 
 php:
-- 5.5
-- 5.6
-- 7.0
 - 7.1
 - 7.2
 - 7.3
-- nightly
+- 7.4
 
 env:
   global:
@@ -51,9 +48,9 @@ script:
 - make clean eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
 
 after_success:
-- if [[ "5.5" == "${TRAVIS_PHP_VERSION}" ]]; then bash <(curl -s https://codecov.io/bash) ; fi
+- if [[ "7.1" == "${TRAVIS_PHP_VERSION}" ]]; then bash <(curl -s https://codecov.io/bash) ; fi
 - |
-  if [[ "7.3" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]]; then
+  if [[ "7.1" == "${TRAVIS_PHP_VERSION}" && "false" == "${TRAVIS_PULL_REQUEST}" ]]; then
     make image
     docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
     docker push ${DOCKER_IMAGE}
@@ -76,4 +73,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    php: 5.5
+    php: 7.1

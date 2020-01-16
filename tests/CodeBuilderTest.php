@@ -11,7 +11,7 @@ class CodeBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnKeyIsOnlyTableNameWithSingleDatabase()
+    public function shouldReturnKeyIsOnlyTableNameWithSingleDatabase(): void
     {
         $schemaGeneratorMock = $this->createSchemaGeneratorMock([], [
             'SomeTable',
@@ -33,7 +33,7 @@ class CodeBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnKeyIsOnlyTableNameWithMultiDatabase()
+    public function shouldReturnKeyIsOnlyTableNameWithMultiDatabase(): void
     {
         $schemaGeneratorMock1 = $this->createSchemaGeneratorMock([], [
             'SomeTable1',

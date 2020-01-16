@@ -14,11 +14,13 @@ class Resolver
      * @param array $connections
      * @return SchemaGenerator[]
      */
-    public function resolveSchemaGenerators(array $connections)
+    public function resolveSchemaGenerators(array $connections): array
     {
-        return collect($connections)->map(function ($config, $connection) {
-            return new SchemaGenerator($connection, false, false);
-        })->toArray();
+        return collect($connections)->map(
+            static function ($config, $connection) {
+                return new SchemaGenerator($connection, false, false);
+            }
+        )->toArray();
     }
 
     /**
@@ -28,7 +30,7 @@ class Resolver
      * @param string $table
      * @return IndexGenerator
      */
-    public function resolveIndexGenerator($connection, $table)
+    public function resolveIndexGenerator($connection, $table): IndexGenerator
     {
         $schema = DatabaseManager::connection($connection)->getDoctrineConnection();
 

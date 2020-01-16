@@ -28,7 +28,7 @@ class App extends Application
         $this->setDefaultCommand('eloquent-generator', true);
     }
 
-    public function bootstrap(Container $container)
+    public function bootstrap(Container $container): void
     {
         (new Bootstrapper())->bootstrap($container);
     }

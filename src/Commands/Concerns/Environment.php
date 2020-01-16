@@ -2,6 +2,8 @@
 
 namespace Corp104\Eloquent\Generator\Commands\Concerns;
 
+use Dotenv\Dotenv;
+
 trait Environment
 {
     /**
@@ -12,15 +14,15 @@ trait Environment
     /**
      * @return string
      */
-    protected function basePath()
+    protected function basePath(): string
     {
-        return null === $this->basePath ? getcwd() : $this->basePath;
+        return $this->basePath ?? getcwd();
     }
 
     /**
      * @param string $basePath
      */
-    public function setBasePath($basePath)
+    public function setBasePath($basePath): void
     {
         $this->basePath = $basePath;
     }
@@ -28,12 +30,12 @@ trait Environment
     /**
      * @param string $envFile
      */
-    protected function loadDotEnv($envFile)
+    protected function loadDotEnv($envFile): void
     {
         if (is_file($envFile)) {
             $file = basename($envFile);
             $path = dirname($envFile);
-            (new \Dotenv\Dotenv($path, $file))->load();
+            (Dotenv::create($path, $file))->load();
         }
     }
 }

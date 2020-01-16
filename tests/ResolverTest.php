@@ -33,7 +33,7 @@ class ResolverTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenResolveSchemaGeneratorsWithSqliteConnection()
+    public function shouldBeOkayWhenResolveSchemaGeneratorsWithSqliteConnection(): void
     {
         $this->putConfigFileWithVfs([
             'test_sqlite' => [
@@ -52,7 +52,7 @@ class ResolverTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenResolveIndexGeneratorWithSqliteConnection()
+    public function shouldBeOkayWhenResolveIndexGeneratorWithSqliteConnection(): void
     {
         $this->putConfigFileWithVfs([
             'test_sqlite' => [

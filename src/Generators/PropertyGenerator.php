@@ -34,10 +34,9 @@ class PropertyGenerator
      * @param array $columnProperties
      * @return string
      */
-    public function generate(array $columnProperties)
+    public function generate(array $columnProperties): string
     {
-        $type = isset($this->mapping[$columnProperties['type']]) ?
-            $this->mapping[$columnProperties['type']] : 'mixed';
+        $type = $this->mapping[$columnProperties['type']] ?? 'mixed';
         $field = $columnProperties['field'];
 
         $modelProperty = "{$type} {$field}";
@@ -50,7 +49,7 @@ class PropertyGenerator
     /**
      * @return array
      */
-    public function getMapping()
+    public function getMapping(): array
     {
         return $this->mapping;
     }
@@ -59,7 +58,7 @@ class PropertyGenerator
      * @param string $type
      * @param string $propertyType
      */
-    public function setMapping($type, $propertyType)
+    public function setMapping(string $type, string $propertyType): void
     {
         $this->mapping[$type] = $propertyType;
     }
@@ -68,7 +67,7 @@ class PropertyGenerator
      * @param array $decorators
      * @return bool
      */
-    private function resolveNullable(array $decorators)
+    private function resolveNullable(array $decorators): bool
     {
         return in_array('nullable', $decorators, true);
     }
@@ -77,11 +76,13 @@ class PropertyGenerator
      * @param array $decorators
      * @return null|string
      */
-    private function resolveComment(array $decorators)
+    private function resolveComment(array $decorators): ?string
     {
-        $key = collect($decorators)->search(function ($item) {
-            return false !== strpos($item, 'comment');
-        });
+        $key = collect($decorators)->search(
+            static function ($item) {
+                return false !== strpos($item, 'comment');
+            }
+        );
 
         if (false === $key) {
             return null;
@@ -99,9 +100,9 @@ class PropertyGenerator
      * @param string $modelProperty
      * @return string
      */
-    private function resolveDecorators(array $property, $modelProperty)
+    private function resolveDecorators(array $property, string $modelProperty): string
     {
-        $decorators = isset($property['decorators']) ? $property['decorators'] : null;
+        $decorators = $property['decorators'] ?? null;
 
         if (empty($decorators)) {
             return $modelProperty;

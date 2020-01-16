@@ -2,8 +2,6 @@
 
 namespace Corp104\Eloquent\Generator;
 
-use Symfony\Component\Console\Output\OutputInterface;
-
 class CodeWriter
 {
     /**
@@ -21,7 +19,7 @@ class CodeWriter
      * @param string $pathPrefix
      * @param null|callable $progressCallback
      */
-    public function generate($code, $pathPrefix, $progressCallback = null)
+    public function generate($code, $pathPrefix, $progressCallback = null): void
     {
         if (is_callable($code)) {
             $code = $code();
@@ -44,7 +42,7 @@ class CodeWriter
      * @param bool $overwrite
      * @return static
      */
-    public function setOverwrite($overwrite)
+    public function setOverwrite($overwrite): CodeWriter
     {
         $this->overwrite = (bool)$overwrite;
 
@@ -56,7 +54,7 @@ class CodeWriter
      * @param string $filePath
      * @param string $pathPrefix
      */
-    private function writeCode($code, $filePath, $pathPrefix)
+    private function writeCode($code, $filePath, $pathPrefix): void
     {
         $fullPath = $pathPrefix . '/' . $filePath;
 

@@ -13,7 +13,7 @@ Laravel Eloquent Generator
 
 ## System Requirement
 
-* PHP 5.5+
+* PHP 7.2+
 * PDO driver
 
 The code generated can use in following Laravel version:

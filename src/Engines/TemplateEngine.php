@@ -2,9 +2,9 @@
 
 namespace Corp104\Eloquent\Generator\Engines;
 
-use Illuminate\View\Engines\EngineInterface;
+use Illuminate\Contracts\View\Engine;
 
-class TemplateEngine implements EngineInterface
+class TemplateEngine implements Engine
 {
     public function get($path, array $data = [])
     {
@@ -16,7 +16,7 @@ class TemplateEngine implements EngineInterface
      * @param array $data
      * @return string
      */
-    private function compile($content, array $data)
+    private function compile($content, array $data): string
     {
         foreach ($data as $key => $value) {
             $content = str_replace("{{ ${key} }}", $value, $content);
@@ -29,7 +29,7 @@ class TemplateEngine implements EngineInterface
      * @param array $data
      * @return array
      */
-    private function filterData(array $data)
+    private function filterData(array $data): array
     {
         unset($data['__env'], $data['app']);
 

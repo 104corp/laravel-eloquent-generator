@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
 
 class Bootstrapper
 {
-    public function bootstrap(Container $container)
+    public function bootstrap(Container $container): void
     {
         Facade::setFacadeApplication($container);
 

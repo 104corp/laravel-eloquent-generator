@@ -17,7 +17,7 @@ trait DatabaseConnection
      * @param Container $container
      * @param string $configFile
      */
-    protected function prepareConnection(Container $container, $configFile)
+    protected function prepareConnection(Container $container, $configFile): void
     {
         $this->connections = $this->normalizeConnectionConfig($configFile);
 
@@ -37,7 +37,7 @@ trait DatabaseConnection
     /**
      * @param null|string $connection
      */
-    protected function filterConnection($connection = null)
+    protected function filterConnection($connection = null): void
     {
         if (null === $connection) {
             return;
@@ -56,7 +56,7 @@ trait DatabaseConnection
      * @param string $configFile
      * @return array
      */
-    protected function normalizeConnectionConfig($configFile)
+    protected function normalizeConnectionConfig($configFile): array
     {
         $config = Config::load([
             $configFile,
