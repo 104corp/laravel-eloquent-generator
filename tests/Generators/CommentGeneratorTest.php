@@ -3,6 +3,7 @@
 namespace Tests\Generators;
 
 use Corp104\Eloquent\Generator\Generators\CommentGenerator;
+use LaravelBridge\Scratch\Application as LaravelBridge;
 use Tests\TestCase;
 
 /**
@@ -19,7 +20,7 @@ class CommentGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->container->make(CommentGenerator::class);
+        $this->target = LaravelBridge::getInstance()->make(CommentGenerator::class);
     }
 
     protected function tearDown()

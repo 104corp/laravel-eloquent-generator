@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Container\Container;
+use Corp104\Eloquent\Generator\App;
+use LaravelBridge\Scratch\Application as LaravelBridge;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-Container::setInstance(new Container());
-
-$app = new \Corp104\Eloquent\Generator\App();
+$app = new App(LaravelBridge::getInstance());
 $app->run();

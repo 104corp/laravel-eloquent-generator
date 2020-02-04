@@ -2,7 +2,7 @@
 
 namespace Corp104\Eloquent\Generator;
 
-use Illuminate\Database\Capsule\Manager as DatabaseManager;
+use Illuminate\Support\Facades\DB;
 use Xethron\MigrationsGenerator\Generators\IndexGenerator;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
@@ -32,7 +32,7 @@ class Resolver
      */
     public function resolveIndexGenerator($connection, $table): IndexGenerator
     {
-        $schema = DatabaseManager::connection($connection)->getDoctrineConnection();
+        $schema = DB::connection($connection)->getDoctrineConnection();
 
         return new IndexGenerator(
             $table,

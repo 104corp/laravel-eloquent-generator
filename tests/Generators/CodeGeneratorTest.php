@@ -3,6 +3,7 @@
 namespace Tests\Generators;
 
 use Corp104\Eloquent\Generator\Generators\CodeGenerator;
+use LaravelBridge\Scratch\Application as LaravelBridge;
 use Tests\TestCase;
 
 /**
@@ -19,7 +20,7 @@ class CodeGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->container->make(CodeGenerator::class);
+        $this->target = LaravelBridge::getInstance()->make(CodeGenerator::class);
     }
 
     protected function tearDown()

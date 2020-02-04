@@ -2,12 +2,12 @@
 
 namespace Corp104\Eloquent\Generator;
 
-use Illuminate\Container\Container;
+use LaravelBridge\Scratch\Application as LaravelBridge;
 use Symfony\Component\Console\Application;
 
 class App extends Application
 {
-    public function __construct()
+    public function __construct(LaravelBridge $container)
     {
         $version = 'dev-master';
 
@@ -17,19 +17,10 @@ class App extends Application
 
         parent::__construct('Laravel Eloquent Generator', $version);
 
-        $container = Container::getInstance();
-
-        $this->bootstrap($container);
-
         $this->addCommands([
             $container->make(Commands\GenerateCommand::class),
         ]);
 
         $this->setDefaultCommand('eloquent-generator', true);
-    }
-
-    public function bootstrap(Container $container): void
-    {
-        (new Bootstrapper())->bootstrap($container);
     }
 }

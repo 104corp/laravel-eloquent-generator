@@ -2,11 +2,12 @@
 
 namespace Tests;
 
-use Corp104\Eloquent\Generator\Bootstrapper;
 use Corp104\Eloquent\Generator\CodeWriter;
 use Corp104\Eloquent\Generator\Commands\Concerns\DatabaseConnection;
 use Corp104\Eloquent\Generator\Generators\PrimaryKeyGenerator;
+use Corp104\Eloquent\Generator\Providers\EngineProvider;
 use Illuminate\Container\Container;
+use LaravelBridge\Scratch\Application as LaravelBridge;
 use Mockery;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
@@ -16,11 +17,6 @@ use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     use DatabaseConnection;
-
-    /**
-     * @var Container
-     */
-    protected $container;
 
     /**
      * @var vfsStreamDirectory
@@ -34,31 +30,27 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->root = vfsStream::setup();
 
         $this->putConfigFileWithVfs();
-
-        $this->container = $this->createContainer();
     }
 
     protected function tearDown()
     {
-        $this->container = null;
         $this->root = null;
 
         parent::tearDown();
     }
 
-    protected function createContainer($config = '/config/database.php'): Container
+    protected function createContainer($config = '/config/database.php'): LaravelBridge
     {
-        $container = new Container();
+        $container = new LaravelBridge();
 
-        (new Bootstrapper())->bootstrap($container);
+        $container->setupDatabase($this->normalizeConnectionConfig($this->root->url() . $config))
+            ->setupView(__DIR__ . '/../src/templates', $this->root->url() . '/cache');
 
-        $this->prepareConnection(
-            $container,
-            $this->root->url() . $config
-        );
+        (new EngineProvider($container))->register();
 
         $container->instance(PrimaryKeyGenerator::class, $this->createPrimaryKeyGeneratorNullStub());
-        Container::setInstance($container);
+
+        $container->bootstrap();
 
         return $container;
     }
@@ -137,12 +129,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @param Container $container
      * @param string $connection
      * @return \Illuminate\Database\Schema\Builder
      */
-    protected function createSchemaBuilder($connection): \Illuminate\Database\Schema\Builder
+    protected function createSchemaBuilder(Container $container, $connection): \Illuminate\Database\Schema\Builder
     {
-        return $this->container->make('db')->connection($connection)->getSchemaBuilder();
+        return $container->make('db')->connection($connection)->getSchemaBuilder();
     }
 
     /**

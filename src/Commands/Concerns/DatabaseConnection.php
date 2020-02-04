@@ -2,7 +2,7 @@
 
 namespace Corp104\Eloquent\Generator\Commands\Concerns;
 
-use Illuminate\Contracts\Container\Container;
+use LaravelBridge\Scratch\Application as LaravelBridge;
 use Noodlehaus\Config;
 use RuntimeException;
 
@@ -14,24 +14,14 @@ trait DatabaseConnection
     protected $connections;
 
     /**
-     * @param Container $container
+     * @param LaravelBridge $container
      * @param string $configFile
      */
-    protected function prepareConnection(Container $container, $configFile): void
+    protected function prepareConnection(LaravelBridge $container, $configFile): void
     {
         $this->connections = $this->normalizeConnectionConfig($configFile);
 
-        $container->singleton('db', function () {
-            $capsule = new \Illuminate\Database\Capsule\Manager();
-
-            foreach ($this->connections as $connectionName => $setting) {
-                $capsule->addConnection($setting, $connectionName);
-            }
-
-            $capsule->setAsGlobal();
-
-            return $capsule;
-        });
+        $container->setupDatabase($this->connections);
     }
 
     /**
