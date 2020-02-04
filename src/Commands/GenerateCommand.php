@@ -4,7 +4,8 @@ namespace Corp104\Eloquent\Generator\Commands;
 
 use Corp104\Eloquent\Generator\CodeBuilder;
 use Corp104\Eloquent\Generator\CodeWriter;
-use Illuminate\Container\Container;
+use Corp104\Eloquent\Generator\Providers\EngineProvider;
+use LaravelBridge\Scratch\Application as LaravelBridge;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +16,18 @@ class GenerateCommand extends Command
 {
     use Concerns\DatabaseConnection;
     use Concerns\Environment;
+
+    /**
+     * @var LaravelBridge
+     */
+    private $container;
+
+    public function __construct(LaravelBridge $container, string $name = null)
+    {
+        parent::__construct($name);
+
+        $this->container = $container;
+    }
 
     protected function configure()
     {
@@ -44,22 +57,26 @@ class GenerateCommand extends Command
             $this->normalizePath($env)
         );
 
-        $container = Container::getInstance();
-
         $this->prepareConnection(
-            $container,
+            $this->container,
             $this->normalizePath($configFile)
         );
+
+        $this->container->setupView(__DIR__ . '/../templates', __DIR__ . '/../templates');
+
+        (new EngineProvider($this->container))->register();
+
+        $this->container->bootstrap();
 
         $this->filterConnection($connection);
 
         /** @var CodeBuilder $codeBuilder */
-        $codeBuilder = $container->make(CodeBuilder::class);
+        $codeBuilder = $this->container->make(CodeBuilder::class);
 
         $buildCode = $this->buildCode($codeBuilder, $namespace);
 
         /** @var CodeWriter $codeWriter */
-        $codeWriter = $container->make(CodeWriter::class);
+        $codeWriter = $this->container->make(CodeWriter::class);
 
         $codeWriter->setOverwrite($overwrite)
             ->generate(

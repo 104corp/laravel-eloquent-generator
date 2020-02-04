@@ -4,7 +4,6 @@ namespace Tests;
 
 use Corp104\Eloquent\Generator\App;
 use Corp104\Eloquent\Generator\Commands\GenerateCommand;
-use Illuminate\Container\Container;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -18,17 +17,16 @@ class AppTest extends TestCase
      */
     public function shouldReturnEmptyStringWhenConfigIsEmptyArray(): void
     {
-        $commandWithBasePath = new GenerateCommand();
+        $container = $this->createContainer();
+
+        $commandWithBasePath = new GenerateCommand($container);
         $commandWithBasePath->setBasePath($this->root->url());
 
-        $container = $this->createContainer();
         $container->instance(GenerateCommand::class, $commandWithBasePath);
-
-        Container::setInstance($container);
 
         $output = new BufferedOutput();
 
-        $target = new App();
+        $target = new App($container);
         $target->setAutoExit(false);
         $target->run(new ArrayInput([]), $output);
 

@@ -39,11 +39,14 @@ class ResolverTest extends TestCase
             'test_sqlite' => [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
-            ]
+            ],
         ]);
 
         $this->createContainer();
-        $actual = $this->target->resolveSchemaGenerators($this->connections);
+
+        $actual = $this->target->resolveSchemaGenerators(
+            $this->normalizeConnectionConfig($this->root->url() . '/config/database.php')
+        );
 
         $this->assertArrayHasKey('test_sqlite', $actual);
         $this->assertInstanceOf(SchemaGenerator::class, $actual['test_sqlite']);
@@ -58,10 +61,11 @@ class ResolverTest extends TestCase
             'test_sqlite' => [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
-            ]
+            ],
         ]);
 
         $this->createContainer();
+
         $actual = $this->target->resolveIndexGenerator('test_sqlite', 'someTable');
 
         $this->assertInstanceOf(IndexGenerator::class, $actual);

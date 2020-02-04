@@ -25,7 +25,7 @@ class GenerateCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->container->make(GenerateCommand::class);
+        $this->target = new GenerateCommand($this->createContainer());
         $this->target->setBasePath($this->root->url());
     }
 
@@ -58,15 +58,14 @@ class GenerateCommandTest extends TestCase
             'test_sqlite_for_progress_raw' => [
                 'driver' => 'sqlite',
                 'database' => $sqliteDb,
-            ]
+            ],
         ]);
 
-        $this->createContainer();
-
-        $this->createSchemaBuilder('test_sqlite_for_progress_raw')->create('table_a', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-        });
+        $this->createSchemaBuilder($this->createContainer(), 'test_sqlite_for_progress_raw')
+            ->create('table_a', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+            });
 
         $output = new BufferedOutput();
         $this->target->run(new ArrayInput([]), $output);
@@ -91,15 +90,14 @@ class GenerateCommandTest extends TestCase
             'test_sqlite_for_progress_bar' => [
                 'driver' => 'sqlite',
                 'database' => $sqliteDb,
-            ]
+            ],
         ]);
 
-        $this->createContainer();
-
-        $this->createSchemaBuilder('test_sqlite_for_progress_bar')->create('table_a', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-        });
+        $this->createSchemaBuilder($this->createContainer(), 'test_sqlite_for_progress_bar')
+            ->create('table_a', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+            });
 
         $output = new BufferedOutput();
         $this->target->run(new ArrayInput([
@@ -120,8 +118,6 @@ class GenerateCommandTest extends TestCase
      */
     public function shouldReturnEmptyStringWhenConfigIsEmptyArrayWithProgressBar(): void
     {
-        $this->container->make('db');
-
         $output = new BufferedOutput();
         $this->target->run(new ArrayInput([
             '--progress' => null,
@@ -139,10 +135,8 @@ class GenerateCommandTest extends TestCase
             'test_sqlite' => [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
-            ]
+            ],
         ]);
-
-        $this->container->make('db');
 
         $output = new BufferedOutput();
         $this->target->run(new ArrayInput([]), $output);
@@ -159,10 +153,8 @@ class GenerateCommandTest extends TestCase
             'test_sqlite' => [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
-            ]
+            ],
         ]);
-
-        $this->container->make('db');
 
         $argWithSqliteConnection = [
             '--connection' => 'test_sqlite',
