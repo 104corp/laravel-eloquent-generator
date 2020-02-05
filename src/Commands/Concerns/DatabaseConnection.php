@@ -2,43 +2,28 @@
 
 namespace Corp104\Eloquent\Generator\Commands\Concerns;
 
-use LaravelBridge\Scratch\Application as LaravelBridge;
 use Noodlehaus\Config;
 use RuntimeException;
 
 trait DatabaseConnection
 {
     /**
-     * @var array
-     */
-    protected $connections;
-
-    /**
-     * @param LaravelBridge $container
-     * @param string $configFile
-     */
-    protected function prepareConnection(LaravelBridge $container, $configFile): void
-    {
-        $this->connections = $this->normalizeConnectionConfig($configFile);
-
-        $container->setupDatabase($this->connections);
-    }
-
-    /**
+     * @param array $connections
      * @param null|string $connection
+     * @return array
      */
-    protected function filterConnection($connection = null): void
+    protected function filterConnection(array $connections, $connection = null): array
     {
         if (null === $connection) {
-            return;
+            return $connections;
         }
 
-        if (empty($this->connections[$connection])) {
+        if (empty($connections[$connection])) {
             throw new \RuntimeException("Connection '{$connection}' is not found in config file");
         }
 
-        $this->connections = [
-            $connection => $this->connections[$connection],
+        return [
+            $connection => $connections[$connection],
         ];
     }
 
