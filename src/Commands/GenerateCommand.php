@@ -57,23 +57,24 @@ class GenerateCommand extends Command
             $this->normalizePath($env)
         );
 
-        $this->prepareConnection(
-            $this->container,
-            $this->normalizePath($configFile)
-        );
+        // Resolve connection config
+        $connections = $this->normalizeConnectionConfig($this->normalizePath($configFile));
 
-        $this->container->setupView(__DIR__ . '/../templates', __DIR__ . '/../templates');
+        // Filter connection if presented
+        $connections = $this->filterConnection($connections, $connection);
+
+        $this->container
+            ->setupDatabase($connections)
+            ->setupView(__DIR__ . '/../templates', __DIR__ . '/../templates');
 
         (new EngineProvider($this->container))->register();
 
         $this->container->bootstrap();
 
-        $this->filterConnection($connection);
-
         /** @var CodeBuilder $codeBuilder */
         $codeBuilder = $this->container->make(CodeBuilder::class);
 
-        $buildCode = $this->buildCode($codeBuilder, $namespace);
+        $buildCode = $this->buildCode($codeBuilder, $connections, $namespace);
 
         /** @var CodeWriter $codeWriter */
         $codeWriter = $this->container->make(CodeWriter::class);
@@ -86,9 +87,15 @@ class GenerateCommand extends Command
             );
     }
 
-    private function buildCode(CodeBuilder $codeBuilder, $namespace): array
+    /**
+     * @param CodeBuilder $codeBuilder
+     * @param array $connections
+     * @param $namespace
+     * @return array
+     */
+    private function buildCode(CodeBuilder $codeBuilder, array $connections, $namespace): array
     {
-        return $codeBuilder->setConnections($this->connections)
+        return $codeBuilder->setConnections($connections)
             ->setNamespace($namespace)
             ->build();
     }
