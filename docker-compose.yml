@@ -5,7 +5,7 @@ services:
     container_name: mysql
     hostname: mysql
     volumes:
-    - ./tests/Fixture/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
+    - ./tests/Fixtures/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
     ports:
     - 3306:3306
     environment:
@@ -16,7 +16,7 @@ services:
     container_name: postgres
     hostname: postgres
     volumes:
-    - ./tests/Fixture/postgres.sql:/docker-entrypoint-initdb.d/postgres.sql
+    - ./tests/Fixtures/postgres.sql:/docker-entrypoint-initdb.d/postgres.sql
     ports:
     - 5432:5432
     environment:

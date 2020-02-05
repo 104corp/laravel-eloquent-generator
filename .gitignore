@@ -41,7 +41,7 @@ Thumbs.db
 eloquent-generator.phar
 
 # Tesing files
-/tests/Fixture/sqlite.db
+/tests/Fixtures/sqlite.db
 
 # Version files
 /src/Version.php

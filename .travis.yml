@@ -25,12 +25,12 @@ branches:
 
 before_install:
   # Prepare MySQL schema
-  - mysql < ./tests/Fixture/mysql.sql
+  - mysql < ./tests/Fixtures/mysql.sql
   - mysql -e "SET PASSWORD = PASSWORD('password');"
   # Prepare Sqlite schema
-  - sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
+  - sqlite3 tests/Fixtures/sqlite.db < tests/Fixtures/sqlite.sql
   # Prepare postgresql
-  - psql -U postgres -d postgres -f tests/Fixture/postgres.sql
+  - psql -U postgres -d postgres -f tests/Fixtures/postgres.sql
 
 install:
   - composer install --prefer-dist
@@ -40,7 +40,7 @@ install:
 script:
   - php vendor/bin/phpcs
   - php vendor/bin/phpunit --coverage-clover=coverage.xml
-  - php eloquent-generator --config-file=tests/Fixture/database.php
+  - php eloquent-generator --config-file=tests/Fixtures/database.php
   - make clean eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
 
 after_success:

@@ -32,7 +32,7 @@ test: check
 	phpdbg -qrr vendor/bin/phpunit
 
 sqlite:
-	@sqlite3 tests/Fixture/sqlite.db < tests/Fixture/sqlite.sql
+	@sqlite3 tests/Fixtures/sqlite.db < tests/Fixtures/sqlite.sql
 
 container:
 	@docker-compose down -v
