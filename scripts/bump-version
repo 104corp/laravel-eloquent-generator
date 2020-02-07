@@ -18,7 +18,7 @@ namespace Corp104\Eloquent\Generator;
 
 class Version
 {
-    const VERSION = 'VERSION_PLACEHOLDER';
+    public const VERSION = 'VERSION_PLACEHOLDER';
 }
 
 EOL;
