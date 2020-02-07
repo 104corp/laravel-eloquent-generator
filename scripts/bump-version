@@ -58,4 +58,5 @@ EOL;
 
 $app = new Application();
 $app->add(new Bump());
+$app->setDefaultCommand('bump');
 $app->run();

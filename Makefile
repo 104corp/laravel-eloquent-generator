@@ -42,7 +42,7 @@ container:
 eloquent-generator.phar:
 	@echo ">>> Building phar ..."
 	@composer install --no-dev --optimize-autoloader --quiet
-	@./scripts/bump-version bump ${VERSION}
+	@./scripts/bump-version ${VERSION}
 	@php -d phar.readonly=off ./scripts/build
 	@chmod +x eloquent-generator.phar
 	@echo ">>> Build phar finished."

@@ -35,7 +35,7 @@ before_install:
 install:
   - composer install --prefer-dist
   # Bump the version
-  - ./scripts/bump-version bump ${TRAVIS_BRANCH}
+  - ./scripts/bump-version ${TRAVIS_BRANCH}
 
 script:
   - php vendor/bin/phpcs
