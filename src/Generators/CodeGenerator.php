@@ -57,7 +57,7 @@ class CodeGenerator
         $withConnectionNamespace = false
     ) {
         if ($withConnectionNamespace) {
-            $namespace = $namespace . '\\' . ucfirst($connection);
+            $namespace .= '\\' . ucfirst($connection);
         }
 
         $fields = $this->buildFields($schemaGenerator, $table);

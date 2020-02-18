@@ -2,6 +2,8 @@
 
 namespace Corp104\Eloquent\Generator\Generators;
 
+use Illuminate\Support\Facades\Log;
+
 class CommentGenerator
 {
     /**
@@ -30,7 +32,7 @@ class CommentGenerator
         $comment = '/**' . PHP_EOL;
 
         foreach ($fields as $property) {
-            $modelProperty = $this->typeGenerator->generate($property);
+            $modelProperty = $this->filterComment($this->typeGenerator->generate($property));
 
             $comment .= " * @property {$modelProperty}" . PHP_EOL;
         }
@@ -38,5 +40,14 @@ class CommentGenerator
         $comment .= ' */';
 
         return $comment;
+    }
+
+    private function filterComment(string $generate): string
+    {
+        $generate = str_replace(["\r\n", "\r"], "\n", $generate);
+
+        $generate = str_replace("\n", "\n *             ", $generate);
+
+        return $generate;
     }
 }
