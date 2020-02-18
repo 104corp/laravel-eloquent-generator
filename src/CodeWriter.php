@@ -15,17 +15,13 @@ class CodeWriter
     private $progress = 0;
 
     /**
-     * @param array|callable $code Array or callable which should return array like [filePath => code]
+     * @param iterable $buildCode Array or callable which should return array like [filePath => code]
      * @param string $pathPrefix
      * @param null|callable $progressCallback
      */
-    public function generate($code, $pathPrefix, $progressCallback = null): void
+    public function generate(iterable $buildCode, $pathPrefix, $progressCallback = null): void
     {
-        if (is_callable($code)) {
-            $code = $code();
-        }
-
-        collect($code)->each(function ($code, $filePath) use ($pathPrefix, $progressCallback) {
+        foreach ($buildCode as $filePath => $code) {
             if (null !== $progressCallback) {
                 $progressCallback($filePath, $this->progress);
             }
@@ -33,7 +29,7 @@ class CodeWriter
             $this->progress++;
 
             $this->writeCode($code, $filePath, $pathPrefix);
-        });
+        }
 
         $this->progress = 0;
     }

@@ -9,6 +9,7 @@ use Corp104\Eloquent\Generator\Providers\EngineProvider;
 use Illuminate\Container\Container;
 use LaravelBridge\Scratch\Application as LaravelBridge;
 use Mockery;
+use Monolog\Logger;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use Psr\Log\NullLogger;

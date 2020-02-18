@@ -57,17 +57,15 @@ class CodeBuilder
     }
 
     /**
-     * @return array [filepath => code]
+     * @return iterable [filepath => code]
      */
-    public function build(): array
+    public function build(): iterable
     {
-        $connections = array_keys($this->connections);
-
-        return collect($connections)->flatMap(function ($connection) {
+        foreach (array_keys($this->connections) as $connection) {
             $this->logger->info("Start build connection '$connection' ...");
 
-            return $this->transferDatabaseToCode($connection);
-        })->toArray();
+            yield from $this->transferDatabaseToCode($connection);
+        }
     }
 
     /**
@@ -110,32 +108,29 @@ class CodeBuilder
 
     /**
      * @param string $connection
-     * @return mixed
+     * @return iterable
      */
-    private function transferDatabaseToCode($connection)
+    private function transferDatabaseToCode($connection): iterable
     {
         $schemaGenerator = $this->schemaGenerators[$connection];
 
-        return collect($schemaGenerator->getTables())
-            ->reduce(function ($carry, $table) use ($connection, $schemaGenerator) {
-                $relativePath = $this->createRelativePath($connection, $table);
+        foreach ($schemaGenerator->getTables() as $table) {
+            $relativePath = $this->createRelativePath($connection, $table);
 
-                $this->logger->info("Generate model '$relativePath' ...");
+            $this->logger->info("Generate model '$relativePath' ...");
 
-                $indexGenerator = $this->resolver->resolveIndexGenerator($connection, $table);
+            $indexGenerator = $this->resolver->resolveIndexGenerator($connection, $table);
 
-                $code = $this->codeGenerator->generate(
-                    $schemaGenerator,
-                    $indexGenerator,
-                    $this->namespace,
-                    $connection,
-                    $table,
-                    $this->withConnectionNamespace
-                );
+            $code = $this->codeGenerator->generate(
+                $schemaGenerator,
+                $indexGenerator,
+                $this->namespace,
+                $connection,
+                $table,
+                $this->withConnectionNamespace
+            );
 
-                $carry[$relativePath] = $code;
-
-                return $carry;
-            }, []);
+            yield $relativePath => $code;
+        }
     }
 }

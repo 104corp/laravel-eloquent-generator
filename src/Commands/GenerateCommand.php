@@ -2,12 +2,12 @@
 
 namespace Corp104\Eloquent\Generator\Commands;
 
+use Closure;
 use Corp104\Eloquent\Generator\CodeBuilder;
 use Corp104\Eloquent\Generator\CodeWriter;
 use Illuminate\Support\Facades\Log;
 use LaravelBridge\Scratch\Application as LaravelBridge;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -86,7 +86,7 @@ class GenerateCommand extends Command
      * @param $namespace
      * @return array
      */
-    private function buildCode(CodeBuilder $codeBuilder, array $connections, $namespace): array
+    private function buildCode(CodeBuilder $codeBuilder, array $connections, $namespace): iterable
     {
         return $codeBuilder->setConnections($connections)
             ->setNamespace($namespace)
@@ -94,7 +94,7 @@ class GenerateCommand extends Command
     }
 
     /**
-     * @return \Closure
+     * @return Closure
      */
     private function createProgressCallback(): callable
     {

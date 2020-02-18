@@ -69,27 +69,6 @@ class CodeWriterTest extends TestCase
     /**
      * @test
      */
-    public function shouldWriteCodeWhenCallGenerateWithCallable()
-    {
-        $url = $this->root->url() . '/whatever';
-        $filePath = 'whatever.php';
-
-        $exceptedPath = $url . '/' . $filePath;
-        $exceptedCode = 'whatever-code';
-
-        $this->target->generate(function () use ($filePath, $exceptedCode) {
-            return [
-                $filePath => $exceptedCode,
-            ];
-        }, $url);
-
-        $this->assertTrue(is_file($exceptedPath));
-        $this->assertSame($exceptedCode, file_get_contents($exceptedPath));
-    }
-
-    /**
-     * @test
-     */
     public function shouldOverwriteExistCodeWhenSetOverwriteIsTrue()
     {
         $exceptedOld = 'old-code';

@@ -40,7 +40,7 @@ install:
 script:
   - php vendor/bin/phpcs
   - php vendor/bin/phpunit --coverage-clover=coverage.xml
-  - php eloquent-generator --config-file=tests/Fixtures/database.php
+  - php eloquent-generator -vv --config-file=tests/Fixtures/database.php
   - make clean eloquent-generator.phar VERSION=${TRAVIS_BRANCH}
 
 after_success:
