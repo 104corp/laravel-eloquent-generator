@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   mysql:
-    image: percona:5.6
+    image: mysql:8
     container_name: mysql
     hostname: mysql
     volumes:

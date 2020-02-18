@@ -4,11 +4,14 @@ namespace Corp104\Eloquent\Generator\Commands;
 
 use Corp104\Eloquent\Generator\CodeBuilder;
 use Corp104\Eloquent\Generator\CodeWriter;
+use Illuminate\Log\LogManager;
+use Illuminate\Support\Facades\Log;
 use LaravelBridge\Scratch\Application as LaravelBridge;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command
@@ -26,6 +29,11 @@ class GenerateCommand extends Command
         parent::__construct($name);
 
         $this->container = $container;
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->container->setupLogger('laravel-eloquent-generator', new ConsoleLogger($output));
     }
 
     protected function configure()
@@ -127,7 +135,8 @@ class GenerateCommand extends Command
     private function createProgressRawCallback(OutputInterface $output): callable
     {
         return static function ($filePath) use ($output) {
-            $output->writeln("Writing {$filePath} ...");
+
+            Log::info("Writing '$filePath' ...");
         };
     }
 

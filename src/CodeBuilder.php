@@ -4,6 +4,7 @@ namespace Corp104\Eloquent\Generator;
 
 use Corp104\Eloquent\Generator\Generators\CodeGenerator;
 use Illuminate\Support\Str;
+use Psr\Log\LoggerInterface;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
 class CodeBuilder
@@ -39,13 +40,20 @@ class CodeBuilder
     private $withConnectionNamespace;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param CodeGenerator $codeGenerator
      * @param Resolver $resolver
+     * @param LoggerInterface $logger
      */
-    public function __construct(CodeGenerator $codeGenerator, Resolver $resolver)
+    public function __construct(CodeGenerator $codeGenerator, Resolver $resolver, LoggerInterface $logger)
     {
         $this->codeGenerator = $codeGenerator;
         $this->resolver = $resolver;
+        $this->logger = $logger;
     }
 
     /**
@@ -56,6 +64,8 @@ class CodeBuilder
         $connections = array_keys($this->connections);
 
         return collect($connections)->flatMap(function ($connection) {
+            $this->logger->info("Start build connection '$connection' ...");
+
             return $this->transferDatabaseToCode($connection);
         })->toArray();
     }
@@ -109,6 +119,8 @@ class CodeBuilder
         return collect($schemaGenerator->getTables())
             ->reduce(function ($carry, $table) use ($connection, $schemaGenerator) {
                 $relativePath = $this->createRelativePath($connection, $table);
+
+                $this->logger->info("Generate model '$relativePath' ...");
 
                 $indexGenerator = $this->resolver->resolveIndexGenerator($connection, $table);
 

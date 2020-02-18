@@ -7,6 +7,7 @@ use Corp104\Eloquent\Generator\Commands\GenerateCommand;
 use Illuminate\Database\Schema\Blueprint;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 use Tests\TestCase;
 
 /**
@@ -67,12 +68,12 @@ class GenerateCommandTest extends TestCase
                 $table->string('name');
             });
 
-        $output = new BufferedOutput();
+        $output = new BufferedOutput(OutputInterface::VERBOSITY_VERY_VERBOSE);
         $this->target->run(new ArrayInput([]), $output);
 
         $actual = $output->fetch();
 
-        $this->assertContains('Writing', $actual);
+        $this->assertContains('Generate', $actual);
         $this->assertContains('TableA.php', $actual);
 
         // Tear down temp database

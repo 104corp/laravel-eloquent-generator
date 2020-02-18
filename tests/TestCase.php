@@ -11,6 +11,7 @@ use LaravelBridge\Scratch\Application as LaravelBridge;
 use Mockery;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use Psr\Log\NullLogger;
 use Xethron\MigrationsGenerator\Generators\IndexGenerator;
 use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
 
@@ -44,7 +45,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $container = new LaravelBridge();
 
         $container->setupDatabase($this->normalizeConnectionConfig($this->root->url() . $config))
-            ->setupView(__DIR__ . '/../src/templates', $this->root->url() . '/cache');
+            ->setupView(__DIR__ . '/../src/templates', $this->root->url() . '/cache')
+            ->setupLogger('tester', new NullLogger());
 
         (new EngineProvider($container))->register();
 

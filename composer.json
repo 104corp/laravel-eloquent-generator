@@ -13,6 +13,7 @@
         "hassankhan/config": "^1.0",
         "illuminate/database": "^5.8",
         "illuminate/events": "^5.8",
+        "illuminate/log": "^5.8",
         "illuminate/view": "^5.8",
         "laravel-bridge/scratch": "^0.4",
         "mikey179/vfsstream": "^1.6",
