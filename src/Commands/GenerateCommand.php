@@ -4,7 +4,6 @@ namespace Corp104\Eloquent\Generator\Commands;
 
 use Corp104\Eloquent\Generator\CodeBuilder;
 use Corp104\Eloquent\Generator\CodeWriter;
-use Illuminate\Log\LogManager;
 use Illuminate\Support\Facades\Log;
 use LaravelBridge\Scratch\Application as LaravelBridge;
 use Symfony\Component\Console\Command\Command;
@@ -47,8 +46,7 @@ class GenerateCommand extends Command
             ->addOption('--connection', null, InputOption::VALUE_REQUIRED, 'Connection name will only build', null)
             ->addOption('--output-dir', null, InputOption::VALUE_REQUIRED, 'Relative path with getcwd()', 'build')
             ->addOption('--namespace', null, InputOption::VALUE_REQUIRED, 'Namespace prefix', 'App')
-            ->addOption('--overwrite', null, InputOption::VALUE_NONE, 'Overwrite the exist file')
-            ->addOption('--progress', null, InputOption::VALUE_NONE, 'Use progress bar');
+            ->addOption('--overwrite', null, InputOption::VALUE_NONE, 'Overwrite the exist file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -79,11 +77,7 @@ class GenerateCommand extends Command
         $codeWriter = $this->container->make(CodeWriter::class);
 
         $codeWriter->setOverwrite($overwrite)
-            ->generate(
-                $buildCode,
-                $this->normalizePath($outputDir),
-                $this->createProgressCallback($input, $output, $buildCode)
-            );
+            ->generate($buildCode, $this->normalizePath($outputDir), $this->createProgressCallback());
     }
 
     /**
@@ -100,42 +94,11 @@ class GenerateCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param array $buildCode
-     * @return null
-     */
-    private function createProgressCallback(InputInterface $input, OutputInterface $output, $buildCode)
-    {
-        $progress = $input->getOption('progress');
-
-        return $progress
-            ? $this->createProgressBarCallback($output, count($buildCode))
-            : $this->createProgressRawCallback($output);
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @param int $count
      * @return \Closure
      */
-    private function createProgressBarCallback(OutputInterface $output, $count): callable
+    private function createProgressCallback(): callable
     {
-        $progressBar = new ProgressBar($output, $count);
-
-        return static function () use ($progressBar) {
-            $progressBar->advance();
-        };
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @return \Closure
-     */
-    private function createProgressRawCallback(OutputInterface $output): callable
-    {
-        return static function ($filePath) use ($output) {
-
+        return static function ($filePath) {
             Log::info("Writing '$filePath' ...");
         };
     }

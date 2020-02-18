@@ -83,53 +83,6 @@ class GenerateCommandTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnWhenConfigHasSqliteWithProgressArg(): void
-    {
-        $sqliteDb = $this->createSqliteInBuildPath();
-
-        $this->putConfigFileWithVfs([
-            'test_sqlite_for_progress_bar' => [
-                'driver' => 'sqlite',
-                'database' => $sqliteDb,
-            ],
-        ]);
-
-        $this->createSchemaBuilder($this->createContainer(), 'test_sqlite_for_progress_bar')
-            ->create('table_a', function (Blueprint $table) {
-                $table->increments('id');
-                $table->string('name');
-            });
-
-        $output = new BufferedOutput();
-        $this->target->run(new ArrayInput([
-            '--progress' => null,
-        ]), $output);
-
-        $actual = $output->fetch();
-
-        $this->assertContains('1/1', $actual);
-        $this->assertContains('100%', $actual);
-
-        // Tear down temp database
-        unlink($sqliteDb);
-    }
-
-    /**
-     * @test
-     */
-    public function shouldReturnEmptyStringWhenConfigIsEmptyArrayWithProgressBar(): void
-    {
-        $output = new BufferedOutput();
-        $this->target->run(new ArrayInput([
-            '--progress' => null,
-        ]), $output);
-
-        $this->assertSame('', $output->fetch());
-    }
-
-    /**
-     * @test
-     */
     public function shouldReturnEmptyStringWhenConfigIsEmptySqlite(): void
     {
         $this->putConfigFileWithVfs([
