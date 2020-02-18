@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "253d61b8d456ea43c3a6d4ae4568b948",
+    "content-hash": "fcbd9439c3dddc44d91f23c165e7ffe2",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -774,16 +774,16 @@
         },
         {
             "name": "laravel-bridge/scratch",
-            "version": "v0.2.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-bridge/scratch.git",
-                "reference": "8af310185579546edfc59b152c752dbc9db17a85"
+                "reference": "dfc09da297b3420c5406679eb42da855e8abcfc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-bridge/scratch/zipball/8af310185579546edfc59b152c752dbc9db17a85",
-                "reference": "8af310185579546edfc59b152c752dbc9db17a85",
+                "url": "https://api.github.com/repos/laravel-bridge/scratch/zipball/dfc09da297b3420c5406679eb42da855e8abcfc1",
+                "reference": "dfc09da297b3420c5406679eb42da855e8abcfc1",
                 "shasum": ""
             },
             "require": {
@@ -796,6 +796,7 @@
                 "illuminate/database": "^5.6 | ^6",
                 "illuminate/filesystem": "^5.6 | ^6",
                 "illuminate/http": "^5.6 | ^6",
+                "illuminate/log": "^5.6 | ^6",
                 "illuminate/pagination": "^5.6 | ^6",
                 "illuminate/translation": "^5.6 | ^6",
                 "illuminate/view": "^5.6 | ^6",
@@ -830,7 +831,7 @@
             "keywords": [
                 "laravel"
             ],
-            "time": "2020-02-15T03:18:00+00:00"
+            "time": "2020-02-18T05:44:52+00:00"
         },
         {
             "name": "mikey179/vfsstream",

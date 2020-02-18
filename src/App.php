@@ -18,7 +18,7 @@ class App extends Application
         parent::__construct('Laravel Eloquent Generator', $version);
 
         $this->addCommands([
-            $container->make(Commands\GenerateCommand::class),
+            new Commands\GenerateCommand($container),
         ]);
 
         $this->setDefaultCommand('eloquent-generator', true);

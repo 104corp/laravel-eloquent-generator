@@ -4,7 +4,6 @@ namespace Corp104\Eloquent\Generator\Commands;
 
 use Corp104\Eloquent\Generator\CodeBuilder;
 use Corp104\Eloquent\Generator\CodeWriter;
-use Corp104\Eloquent\Generator\Providers\EngineProvider;
 use LaravelBridge\Scratch\Application as LaravelBridge;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -57,24 +56,16 @@ class GenerateCommand extends Command
             $this->normalizePath($env)
         );
 
-        // Resolve connection config
+        // Normalize connection config
         $connections = $this->normalizeConnectionConfig($this->normalizePath($configFile));
 
         // Filter connection if presented
-        $connections = $this->filterConnection($connections, $connection);
-
-        $this->container
-            ->setupDatabase($connections)
-            ->setupView(__DIR__ . '/../templates', __DIR__ . '/../templates');
-
-        (new EngineProvider($this->container))->register();
-
-        $this->container->bootstrap();
+        $this->container['config']['database.connections'] = $this->filterConnection($connections, $connection);
 
         /** @var CodeBuilder $codeBuilder */
         $codeBuilder = $this->container->make(CodeBuilder::class);
 
-        $buildCode = $this->buildCode($codeBuilder, $connections, $namespace);
+        $buildCode = $this->buildCode($codeBuilder, $this->container['config']['database.connections'], $namespace);
 
         /** @var CodeWriter $codeWriter */
         $codeWriter = $this->container->make(CodeWriter::class);

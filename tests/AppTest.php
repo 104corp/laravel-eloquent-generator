@@ -28,8 +28,8 @@ class AppTest extends TestCase
 
         $target = new App($container);
         $target->setAutoExit(false);
-        $target->run(new ArrayInput([]), $output);
+        $target->run(new ArrayInput(['--version' => null]), $output);
 
-        $this->assertSame('', $output->fetch());
+        $this->assertStringContainsString('Laravel Eloquent Generator', $output->fetch());
     }
 }
