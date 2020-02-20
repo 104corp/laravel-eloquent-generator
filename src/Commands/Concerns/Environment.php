@@ -7,27 +7,6 @@ use Dotenv\Dotenv;
 trait Environment
 {
     /**
-     * @var string
-     */
-    protected $basePath;
-
-    /**
-     * @return string
-     */
-    protected function basePath(): string
-    {
-        return $this->basePath ?? getcwd();
-    }
-
-    /**
-     * @param string $basePath
-     */
-    public function setBasePath($basePath): void
-    {
-        $this->basePath = $basePath;
-    }
-
-    /**
      * @param string $envFile
      */
     protected function loadDotEnv($envFile): void

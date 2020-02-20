@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2964692e34c1a63d52c9b375a0359ed2",
+    "content-hash": "a0da1021c827070a154ddbff4b45337a",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -923,6 +923,52 @@
             "description": "Virtual file system to mock the real file system in unit tests.",
             "homepage": "http://vfs.bovigo.org/",
             "time": "2019-10-30T15:31:00+00:00"
+        },
+        {
+            "name": "mileschou/codegener",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MilesChou/codegener.git",
+                "reference": "bcecb3ba8be34605243b66fbbc328646a5cfec07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MilesChou/codegener/zipball/bcecb3ba8be34605243b66fbbc328646a5cfec07",
+                "reference": "bcecb3ba8be34605243b66fbbc328646a5cfec07",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "^5.6 | ^6",
+                "php": ">=7.1",
+                "psr/log": "^1.1"
+            },
+            "require-dev": {
+                "illuminate/container": "^5.6 | ^6",
+                "mikey179/vfsstream": "^1.6",
+                "phpstan/phpstan": "^0.11.8",
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MilesChou\\Codegener\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MilesChou",
+                    "email": "jangconan@gmail.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "The helper for generate code.",
+            "time": "2020-02-21T06:54:19+00:00"
         },
         {
             "name": "monolog/monolog",

@@ -100,10 +100,10 @@ class CodeBuilder
     private function createRelativePath($connection, $table): string
     {
         if ($this->withConnectionNamespace) {
-            return '/' . Str::studly($connection) . '/' . Str::studly($table) . '.php';
+            return Str::studly($connection) . '/' . Str::studly($table) . '.php';
         }
 
-        return '/' . Str::studly($table) . '.php';
+        return Str::studly($table) . '.php';
     }
 
     /**

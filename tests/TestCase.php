@@ -2,14 +2,14 @@
 
 namespace Tests;
 
-use Corp104\Eloquent\Generator\CodeWriter;
 use Corp104\Eloquent\Generator\Commands\Concerns\DatabaseConnection;
 use Corp104\Eloquent\Generator\Generators\PrimaryKeyGenerator;
 use Corp104\Eloquent\Generator\Providers\EngineProvider;
 use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
 use LaravelBridge\Scratch\Application as LaravelBridge;
+use MilesChou\Codegener\Writer;
 use Mockery;
-use Monolog\Logger;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use Psr\Log\NullLogger;
@@ -166,7 +166,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $path
      * @param array $config
      */
-    protected function putConfigFileWithVfs(array $config = [], $path = '/config/database.php'): void
+    protected function putConfigFileWithVfs(array $config = [], $path = 'config/database.php'): void
     {
         if (!array_key_exists('connections', $config)) {
             $config = ['connections' => $config];
@@ -181,12 +181,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param string $code
      * @param string $path
      */
-    protected function putRawFileWithVfs($code, $path): void
+    protected function putRawFileWithVfs(string $code, string $path): void
     {
-        (new CodeWriter())
-            ->setOverwrite(true)
-            ->generate([
-                $path => $code,
-            ], $this->root->url());
+        (new Writer(new Filesystem(), new NullLogger()))
+            ->setBasePath($this->root->url())
+            ->write($path, $code, true);
     }
 }

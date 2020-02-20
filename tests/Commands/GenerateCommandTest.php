@@ -2,9 +2,11 @@
 
 namespace Tests\Commands;
 
-use Corp104\Eloquent\Generator\CodeWriter;
 use Corp104\Eloquent\Generator\Commands\GenerateCommand;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Filesystem\Filesystem;
+use MilesChou\Codegener\Writer;
+use Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -131,9 +133,9 @@ class GenerateCommandTest extends TestCase
 
         $excepted = 'bar';
 
-        (new CodeWriter())->generate([
-            '/.env' => 'TEST_FOR_DOT_ENV=bar',
-        ], $this->root->url());
+        (new Writer(new Filesystem(), new NullLogger()))
+            ->setBasePath($this->root->url())
+            ->write('.env', 'TEST_FOR_DOT_ENV=bar');
 
         $this->target->run(new ArrayInput([]), new BufferedOutput());
 
@@ -168,7 +170,7 @@ class GenerateCommandTest extends TestCase
 
         $this->putRawFileWithVfs(
             '<?php return ' . var_export([], true) . ';',
-            '/config/database.php'
+            'config/database.php'
         );
 
         $this->target->run(new ArrayInput([]), new BufferedOutput());

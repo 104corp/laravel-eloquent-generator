@@ -2,11 +2,10 @@
 
 namespace Corp104\Eloquent\Generator\Commands;
 
-use Closure;
 use Corp104\Eloquent\Generator\CodeBuilder;
-use Corp104\Eloquent\Generator\CodeWriter;
-use Illuminate\Support\Facades\Log;
 use LaravelBridge\Scratch\Application as LaravelBridge;
+use MilesChou\Codegener\Traits\Path;
+use MilesChou\Codegener\Writer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,6 +16,7 @@ class GenerateCommand extends Command
 {
     use Concerns\DatabaseConnection;
     use Concerns\Environment;
+    use Path;
 
     /**
      * @var LaravelBridge
@@ -58,12 +58,10 @@ class GenerateCommand extends Command
         $namespace = $input->getOption('namespace');
         $overwrite = $input->getOption('overwrite');
 
-        $this->loadDotEnv(
-            $this->normalizePath($env)
-        );
+        $this->loadDotEnv($this->formatPath($env));
 
         // Normalize connection config
-        $connections = $this->normalizeConnectionConfig($this->normalizePath($configFile));
+        $connections = $this->normalizeConnectionConfig($this->formatPath($configFile));
 
         // Filter connection if presented
         $this->container['config']['database.connections'] = $this->filterConnection($connections, $connection);
@@ -73,11 +71,11 @@ class GenerateCommand extends Command
 
         $buildCode = $this->buildCode($codeBuilder, $this->container['config']['database.connections'], $namespace);
 
-        /** @var CodeWriter $codeWriter */
-        $codeWriter = $this->container->make(CodeWriter::class);
+        /** @var Writer $writer */
+        $writer = $this->container->make(Writer::class);
+        $writer->setBasePath($this->formatPath($outputDir));
 
-        $codeWriter->setOverwrite($overwrite)
-            ->generate($buildCode, $this->normalizePath($outputDir), $this->createProgressCallback());
+        $writer->writeMass($buildCode, $overwrite);
     }
 
     /**
@@ -91,28 +89,5 @@ class GenerateCommand extends Command
         return $codeBuilder->setConnections($connections)
             ->setNamespace($namespace)
             ->build();
-    }
-
-    /**
-     * @return Closure
-     */
-    private function createProgressCallback(): callable
-    {
-        return static function ($filePath) {
-            Log::info("Writing '$filePath' ...");
-        };
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    private function normalizePath($path): string
-    {
-        if ($path[0] !== '/') {
-            $path = $this->basePath() . '/' . $path;
-        }
-
-        return $path;
     }
 }

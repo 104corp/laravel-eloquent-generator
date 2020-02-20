@@ -27,7 +27,7 @@ class CodeBuilderTest extends TestCase
             ->setConnections(['whatever' => []])
             ->build();
 
-        $this->assertArrayHasKey('/SomeTable.php', iterator_to_array($actual));
+        $this->assertArrayHasKey('SomeTable.php', iterator_to_array($actual));
     }
 
     /**
@@ -58,8 +58,8 @@ class CodeBuilderTest extends TestCase
 
         $array = iterator_to_array($actual);
 
-        $this->assertArrayHasKey('/SomeConnection1/SomeTable1.php', $array);
-        $this->assertArrayHasKey('/SomeConnection2/SomeTable2.php', $array);
+        $this->assertArrayHasKey('SomeConnection1/SomeTable1.php', $array);
+        $this->assertArrayHasKey('SomeConnection2/SomeTable2.php', $array);
     }
 
     private function createContainerWithResolverMock(array $schemaGenerators)
