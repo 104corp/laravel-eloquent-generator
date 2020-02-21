@@ -168,10 +168,7 @@ class GenerateCommandTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("The key 'connections' is not set in config file");
 
-        $this->putRawFileWithVfs(
-            '<?php return ' . var_export([], true) . ';',
-            'config/database.php'
-        );
+        $this->putRawFileWithVfs([]);
 
         $this->target->run(new ArrayInput([]), new BufferedOutput());
     }

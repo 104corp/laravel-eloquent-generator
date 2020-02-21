@@ -172,17 +172,17 @@ class TestCase extends \PHPUnit\Framework\TestCase
             $config = ['connections' => $config];
         }
 
-        $code = '<?php return ' . var_export($config, true) . ';';
-
-        $this->putRawFileWithVfs($code, $path);
+        $this->putRawFileWithVfs($config, $path);
     }
 
     /**
-     * @param string $code
+     * @param array $config
      * @param string $path
      */
-    protected function putRawFileWithVfs(string $code, string $path): void
+    protected function putRawFileWithVfs(array $config, $path = 'config/database.php'): void
     {
+        $code = '<?php return ' . var_export($config, true) . ';';
+
         (new Writer(new Filesystem(), new NullLogger()))
             ->setBasePath($this->root->url())
             ->write($path, $code, true);
