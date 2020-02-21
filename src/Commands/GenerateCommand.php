@@ -73,9 +73,8 @@ class GenerateCommand extends Command
 
         /** @var Writer $writer */
         $writer = $this->container->make(Writer::class);
-        $writer->setBasePath($this->formatPath($outputDir));
-
-        $writer->writeMass($buildCode, $overwrite);
+        $writer->appendBasePath($outputDir)
+            ->writeMass($buildCode, $overwrite);
     }
 
     /**
