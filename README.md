@@ -51,7 +51,7 @@ cd /path/to/your-laravel-project
 eloquent-generator
 ```
 
-It's will generate model code into `build` directory, use the `--output-dir` option can change output dir. If want to change namespace, use the `--namespace` option.
+It's will generate model code into `generated` directory, use the `--output-dir` option can change output dir. If want to change namespace, use the `--namespace` option.
 
 In the other framework but using Eloquent ORM library, you must provide config file like laravel project.
 
