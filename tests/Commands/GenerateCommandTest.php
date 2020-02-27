@@ -8,7 +8,9 @@ use Illuminate\Filesystem\Filesystem;
 use MilesChou\Codegener\Writer;
 use Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tests\TestCase;
 
@@ -19,24 +21,14 @@ use Tests\TestCase;
  */
 class GenerateCommandTest extends TestCase
 {
-    /**
-     * @var GenerateCommand
-     */
-    private $target;
-
     protected function setUp()
     {
         parent::setUp();
 
-        $this->target = new GenerateCommand($this->createContainer());
-        $this->target->setBasePath($this->root->url());
-    }
+        $command = new GenerateCommand($this->createContainer());
+        $command->setBasePath($this->root->url());
 
-    protected function tearDown()
-    {
-        $this->target = null;
-
-        parent::tearDown();
+        $this->app->add($command);
     }
 
     /**
@@ -45,7 +37,7 @@ class GenerateCommandTest extends TestCase
     public function shouldReturnEmptyStringWhenConfigIsEmptyArray(): void
     {
         $output = new BufferedOutput();
-        $this->target->run(new ArrayInput([]), $output);
+        $this->app->run(new ArrayInput([]), $output);
 
         $this->assertSame('', $output->fetch());
     }
@@ -71,7 +63,12 @@ class GenerateCommandTest extends TestCase
             });
 
         $output = new BufferedOutput(OutputInterface::VERBOSITY_VERY_VERBOSE);
-        $this->target->run(new ArrayInput([]), $output);
+
+        $this->app->get('eloquent-generator')
+            ->getContainer()
+            ->setupLogger('laravel-eloquent-generator', new ConsoleLogger($output), true);
+
+        $this->app->run(new ArrayInput([]), $output);
 
         $actual = $output->fetch();
 
@@ -95,7 +92,7 @@ class GenerateCommandTest extends TestCase
         ]);
 
         $output = new BufferedOutput();
-        $this->target->run(new ArrayInput([]), $output);
+        $this->app->run(new ArrayInput([]), $output);
 
         $this->assertSame('', $output->fetch());
     }
@@ -117,7 +114,7 @@ class GenerateCommandTest extends TestCase
         ];
 
         $output = new BufferedOutput();
-        $this->target->run(new ArrayInput($argWithSqliteConnection), $output);
+        $this->app->run(new ArrayInput($argWithSqliteConnection), $output);
 
         $this->assertSame('', $output->fetch());
     }
@@ -137,7 +134,7 @@ class GenerateCommandTest extends TestCase
             ->setBasePath($this->root->url())
             ->write('.env', 'TEST_FOR_DOT_ENV=bar');
 
-        $this->target->run(new ArrayInput([]), new BufferedOutput());
+        $this->app->run(new ArrayInput([]), new NullOutput());
 
         $this->assertSame($excepted, getenv('TEST_FOR_DOT_ENV'));
 
@@ -157,7 +154,7 @@ class GenerateCommandTest extends TestCase
             'connections' => 'notArray',
         ]);
 
-        $this->target->run(new ArrayInput([]), new BufferedOutput());
+        $this->app->run(new ArrayInput([]), new NullOutput());
     }
 
     /**
@@ -170,7 +167,7 @@ class GenerateCommandTest extends TestCase
 
         $this->putRawFileWithVfs([]);
 
-        $this->target->run(new ArrayInput([]), new BufferedOutput());
+        $this->app->run(new ArrayInput([]), new NullOutput());
     }
 
     /**
@@ -185,6 +182,6 @@ class GenerateCommandTest extends TestCase
             '--connection' => 'unknown',
         ];
 
-        $this->target->run(new ArrayInput($argWithUnknownConnection), new BufferedOutput());
+        $this->app->run(new ArrayInput($argWithUnknownConnection), new NullOutput());
     }
 }

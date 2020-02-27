@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0da1021c827070a154ddbff4b45337a",
+    "content-hash": "7752b423fe87abc472b9e6b24173b151",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -370,6 +370,57 @@
                 "yml"
             ],
             "time": "2018-08-22T14:18:52+00:00"
+        },
+        {
+            "name": "illuminate/console",
+            "version": "v5.8.36",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/console.git",
+                "reference": "e6e4708e6c6baaf92120848e885855ab3d76f30f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/console/zipball/e6e4708e6c6baaf92120848e885855ab3d76f30f",
+                "reference": "e6e4708e6c6baaf92120848e885855ab3d76f30f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.8.*",
+                "illuminate/support": "5.8.*",
+                "php": "^7.1.3",
+                "symfony/console": "^4.2",
+                "symfony/process": "^4.2"
+            },
+            "suggest": {
+                "dragonmantank/cron-expression": "Required to use scheduling component (^2.0).",
+                "guzzlehttp/guzzle": "Required to use the ping methods on schedules (^6.0).",
+                "illuminate/filesystem": "Required to use the generator command (5.8.*)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Console\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Console package.",
+            "homepage": "https://laravel.com",
+            "time": "2019-08-12T13:08:28+00:00"
         },
         {
             "name": "illuminate/container",
@@ -819,16 +870,16 @@
         },
         {
             "name": "laravel-bridge/scratch",
-            "version": "v0.4.1",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-bridge/scratch.git",
-                "reference": "e8a508454b5cb61dc1db5543bda4ccbd4cae7f88"
+                "reference": "a0d2c2538ef06c01ef46109920751be96c0daaf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-bridge/scratch/zipball/e8a508454b5cb61dc1db5543bda4ccbd4cae7f88",
-                "reference": "e8a508454b5cb61dc1db5543bda4ccbd4cae7f88",
+                "url": "https://api.github.com/repos/laravel-bridge/scratch/zipball/a0d2c2538ef06c01ef46109920751be96c0daaf2",
+                "reference": "a0d2c2538ef06c01ef46109920751be96c0daaf2",
                 "shasum": ""
             },
             "require": {
@@ -839,6 +890,7 @@
             "require-dev": {
                 "ext-pdo": "*",
                 "illuminate/database": "^5.6 | ^6",
+                "illuminate/events": "^5.6 | ^6",
                 "illuminate/filesystem": "^5.6 | ^6",
                 "illuminate/http": "^5.6 | ^6",
                 "illuminate/log": "^5.6 | ^6",
@@ -876,7 +928,7 @@
             "keywords": [
                 "laravel"
             ],
-            "time": "2020-02-18T06:20:29+00:00"
+            "time": "2020-02-27T16:49:42+00:00"
         },
         {
             "name": "mikey179/vfsstream",
@@ -926,16 +978,16 @@
         },
         {
             "name": "mileschou/codegener",
-            "version": "v1.0.0",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MilesChou/codegener.git",
-                "reference": "bcecb3ba8be34605243b66fbbc328646a5cfec07"
+                "reference": "a04684d1f5b9eec0384c09116cedc5af98c832d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MilesChou/codegener/zipball/bcecb3ba8be34605243b66fbbc328646a5cfec07",
-                "reference": "bcecb3ba8be34605243b66fbbc328646a5cfec07",
+                "url": "https://api.github.com/repos/MilesChou/codegener/zipball/a04684d1f5b9eec0384c09116cedc5af98c832d4",
+                "reference": "a04684d1f5b9eec0384c09116cedc5af98c832d4",
                 "shasum": ""
             },
             "require": {
@@ -968,7 +1020,7 @@
                 }
             ],
             "description": "The helper for generate code.",
-            "time": "2020-02-21T06:54:19+00:00"
+            "time": "2020-02-21T09:09:44+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1663,6 +1715,55 @@
                 "shim"
             ],
             "time": "2020-01-13T11:15:53+00:00"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v4.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "f5697ab4cb14a5deed7473819e63141bf5352c36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/f5697ab4cb14a5deed7473819e63141bf5352c36",
+                "reference": "f5697ab4cb14a5deed7473819e63141bf5352c36",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2020-01-09T09:50:08+00:00"
         },
         {
             "name": "symfony/service-contracts",

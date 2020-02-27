@@ -5,6 +5,7 @@ namespace Tests;
 use Corp104\Eloquent\Generator\Commands\Concerns\DatabaseConnection;
 use Corp104\Eloquent\Generator\Generators\PrimaryKeyGenerator;
 use Corp104\Eloquent\Generator\Providers\EngineProvider;
+use Illuminate\Console\Application;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use LaravelBridge\Scratch\Application as LaravelBridge;
@@ -25,9 +26,16 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $root;
 
+    /**
+     * @var Application
+     */
+    protected $app;
+
     protected function setUp()
     {
         parent::setUp();
+
+        $this->app = $this->createApplication();
 
         $this->root = vfsStream::setup();
 
@@ -36,9 +44,16 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function tearDown()
     {
+        $this->app = null;
+
         $this->root = null;
 
         parent::tearDown();
+    }
+
+    protected function createApplication(): Application
+    {
+        return require dirname(__DIR__) . '/bootstrap/app.php';
     }
 
     protected function createContainer($config = '/config/database.php'): LaravelBridge
@@ -46,8 +61,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $container = new LaravelBridge();
 
         $container->setupDatabase($this->normalizeConnectionConfig($this->root->url() . $config))
-            ->setupView(__DIR__ . '/../src/templates', $this->root->url() . '/cache')
-            ->setupLogger('tester', new NullLogger());
+            ->setupView(__DIR__ . '/../src/templates', $this->root->url() . '/cache');
 
         (new EngineProvider($container))->register();
 

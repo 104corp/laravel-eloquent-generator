@@ -17,18 +17,9 @@ class AppTest extends TestCase
      */
     public function shouldReturnEmptyStringWhenConfigIsEmptyArray(): void
     {
-        $container = $this->createContainer();
-
-        $commandWithBasePath = new GenerateCommand($container);
-        $commandWithBasePath->setBasePath($this->root->url());
-
-        $container->instance(GenerateCommand::class, $commandWithBasePath);
-
         $output = new BufferedOutput();
 
-        $target = new App($container);
-        $target->setAutoExit(false);
-        $target->run(new ArrayInput(['--version' => null]), $output);
+        $this->app->run(new ArrayInput(['--version' => null]), $output);
 
         $this->assertStringContainsString('Laravel Eloquent Generator', $output->fetch());
     }

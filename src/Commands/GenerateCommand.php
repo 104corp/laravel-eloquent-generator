@@ -9,7 +9,6 @@ use MilesChou\Codegener\Writer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command
@@ -30,9 +29,12 @@ class GenerateCommand extends Command
         $this->container = $container;
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    /**
+     * @return LaravelBridge
+     */
+    public function getContainer(): LaravelBridge
     {
-        $this->container->setupLogger('laravel-eloquent-generator', new ConsoleLogger($output));
+        return $this->container;
     }
 
     protected function configure()
@@ -41,7 +43,6 @@ class GenerateCommand extends Command
 
         $this->setName('eloquent-generator')
             ->setDescription('Generate Eloquent models')
-            ->addOption('--env', null, InputOption::VALUE_REQUIRED, '.env file', '.env')
             ->addOption('--config-file', null, InputOption::VALUE_REQUIRED, 'Config file', 'config/database.php')
             ->addOption('--connection', null, InputOption::VALUE_REQUIRED, 'Connection name will only build', null)
             ->addOption('--output-dir', null, InputOption::VALUE_REQUIRED, 'Relative path with getcwd()', 'generated')
@@ -58,7 +59,7 @@ class GenerateCommand extends Command
         $namespace = $input->getOption('namespace');
         $overwrite = $input->getOption('overwrite');
 
-        $this->loadDotEnv($this->formatPath($env));
+        $this->loadDotEnv($this->formatPath($env) . '/.env');
 
         // Normalize connection config
         $connections = $this->normalizeConnectionConfig($this->formatPath($configFile));
